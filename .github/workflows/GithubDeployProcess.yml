@@ -13,8 +13,8 @@ jobs:
             - name: VALIDATE PACKAGE
               run: | 
                 echo force://${{secrets.CLI_APP}}::${{secrets.USER_TOKEN}}@${{secrets.SF_URL}} >> config/auth.txt
-                sfdx force:auth:sfdxurl:store -f config/auth.txt -s -a MyOrg
-                sfdx force:org:create -f config/project-scratch-def.json -a CIOrg -s -v MyOrg
-                sfdx force:source:push -u CIOrg
-                sfdx force:apex:test:run -l RunLocalTests -u CIOrg -c -r human -w 2 --verbose
-                sfdx force:org:delete -u CIOrg -p
+                sf force:auth:sfdxurl:store -f config/auth.txt -s -a MyOrg
+                sf force:org:create -f config/project-scratch-def.json -a CIOrg -s -v MyOrg
+                sf force:source:push -u CIOrg
+                sf force:apex:test:run -l RunLocalTests -u CIOrg -c -r human -w 2 --verbose
+                sf force:org:delete -u CIOrg -p
