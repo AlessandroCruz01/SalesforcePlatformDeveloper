@@ -16,5 +16,5 @@ jobs:
                 sf org login sfdx-url --sfdx-url-file config/auth.txt --set-default --alias MyOrg
                 sf org create scratch --definition-file config/project-scratch-def.json --alias CIOrg --set-default --target-dev-hub MyOrg
                 sf project deploy start --target-org CIOrg
-                sf apex run test --target-org CIOrg --test-level RunLocalTests --wait 2 --result-format human --code-coverage --verbose
+                sf apex run test --target-org CIOrg --test-level RunLocalTests --wait 2 --result-format human --code-coverage
                 sf org delete scratch --target-org CIOrg --no-prompt
