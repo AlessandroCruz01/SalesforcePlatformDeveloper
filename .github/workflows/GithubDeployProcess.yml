@@ -1,44 +1,37 @@
-name: Deploy to Scratch Org
-
-on:
-  push:
-    branches:
-      - main
+name: GitHubDeployProcess
+on: 
+    push: 
+        branches: [master]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+    CI:
+        runs-on: ubuntu-latest
+        container: 
+            image: salesforce/cli:2.79.0-full
+        steps:
+            - uses: actions/checkout@v4
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+            - name: TESTING
+              run: | 
+                echo force://${{secrets.CLI_APP}}::${{secrets.USER_TOKEN}}@${{secrets.SF_URL}} >> config/auth.txt
+                sf org login sfdx-url --sfdx-url-file config/auth.txt --set-default --alias MyOrg
+                sf org create scratch --definition-file config/project-scratch-def.json --alias CIOrg --set-default --target-dev-hub MyOrg
+                sf project deploy start --target-org CIOrg
+                sf apex run test --target-org CIOrg --test-level RunLocalTests --wait 2 --result-format human --code-coverage
+                sf org delete scratch --target-org CIOrg --no-prompt
+    
+    CD:
+        needs: [CI]
+        runs-on: ubuntu-latest
+        container: 
+            image: salesforce/cli:2.79.0-full
+        steps:
+            - uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+            - name: DEPLOY
+              run: |
+                    echo force://${{secrets.CLI_APP}}::${{secrets.USER_TOKEN}}@${{secrets.SF_URL}} >> config/auth.txt
+                    sf org login sfdx-url --sfdx-url-file config/auth.txt --set-default --alias MyOrg
+                    sf force:source:deploy -p "force-app/main/default" -u MyOrg -w 2 --verbose
 
-      - name: Install Salesforce CLI
-        run: npm install --global sf
-
-      - name: Authenticate Dev Hub using SFDX URL
-        run: |
-          echo force://${{ secrets.CLI_APP }}::${{ secrets.USER_TOKEN }}@${{ secrets.SF_URL }} >> config/auth.txt
-          sf org login sfdx-url --sfdx-url-file config/auth.txt --set-default --alias MyOrg
-
-      - name: Create Scratch Org
-        run: |
-          sf org create scratch --definition-file config/project-scratch-def.json --alias CIOrg --set-default --target-dev-hub MyOrg
-
-      - name: Deploy Source
-        run: |
-          sf project deploy start --target-org CIOrg
-
-      - name: Run Apex Tests
-        run: |
-          sf apex run test --target-org CIOrg --test-level RunLocalTests --wait 10 --result-format human --code-coverage --verbose
-
-      - name: Delete Scratch Org
-        if: always()  # Garante que a org será deletada mesmo se o teste falhar
-        run: |
-          sf org delete scratch --target-org CIOrg --no-prompt
+            
