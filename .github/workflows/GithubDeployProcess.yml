@@ -32,6 +32,6 @@ jobs:
               run: |
                     echo force://${{secrets.CLI_APP}}::${{secrets.USER_TOKEN}}@${{secrets.SF_URL}} >> config/auth.txt
                     sf org login sfdx-url --sfdx-url-file config/auth.txt --set-default --alias MyOrg
-                    sf force:source:deploy -p "force-app/main/default" -u MyOrg -w 2 --verbose
+                    sf project deploy start --source-dir "force-app/main/default" --target-org MyOrg --wait 2 --verbose
 
             
