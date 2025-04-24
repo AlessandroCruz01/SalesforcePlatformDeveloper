@@ -13,8 +13,8 @@ jobs:
             - name: VALIDATE PACKAGE
               run: | 
                 echo force://${{secrets.CLI_APP}}::${{secrets.USER_TOKEN}}@${{secrets.SF_URL}} >> config/auth.txt
-                sf force:auth:sfdxurl:store -f config/auth.txt -s -a MyOrg
-                sf force:org:create -f config/project-scratch-def.json -a CIOrg -s -v MyOrg
-                sf force:source:push -u CIOrg
-                sf force:apex:test:run -l RunLocalTests -u CIOrg -c -r human -w 2 --verbose
-                sf force:org:delete -u CIOrg -p
+                sf org login sfdx-url --sfdx-url-file config/auth.txt --set-default --alias MyOrg
+                sf org create scratch --definition-file config/project-scratch-def.json --alias CIOrg --set-default --target-dev-hub MyOrg
+                sf project deploy start --target-org CIOrg
+                sf apex run test --target-org CIOrg --test-level RunLocalTests --wait 2 --result-format human --code-coverage --verbose
+                sf org delete scratch --target-org CIOrg --no-prompt
