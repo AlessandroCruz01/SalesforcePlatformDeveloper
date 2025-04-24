@@ -13,6 +13,7 @@ jobs:
             - name: VALIDATE PACKAGE
               run: | 
                 echo force://${{secrets.CLI_APP}}::${{secrets.USER_TOKEN}}@${{secrets.SF_URL}} >> config/auth.txt
+                sudo npm install @salesforce/cli@2.64.8 --global
                 sf force:auth:sfdxurl:store -f config/auth.txt -s -a MyOrg
                 sf force:org:create -f config/project-scratch-def.json -a CIOrg -s -v MyOrg
                 sf force:source:push -u CIOrg
