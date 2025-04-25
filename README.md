@@ -15,7 +15,7 @@
 
 ***-[Listas:](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_list.htm#apex_System_List_deepClone)***
 *Uma lista é uma coleção ordenada de elementos que funciona quase do mesmo jeito qeu uma matriz tradicional. No entanto, o Apex não oferece suporte a matrizes como coleções, apenas listas. Você pode entretanto usar o qe é conhecido como "**Notação de matriz**" para fazer referência a itens específicos em uma lista usando colchetes, [].*
-*Vamos passar pelos principais métodos do List*
+*Vamos passar pelos principais métodos do List:*
 
     1 - add(listElement)
         Adds an element to the end of the list.
