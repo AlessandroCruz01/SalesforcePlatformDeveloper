@@ -45,8 +45,72 @@ public with sharing class CollectionList {
             System.debug('myIntegers.contains(1) ' + result);
 
             // public List<Object> deepClone(Boolean preserveId, Boolean preserveReadonlyTimestamps, Boolean preserveAutonumber)
+            Account[] a1 = new Account[]{
+                new Account(Name='acc1', BillingCity='Rio Branco'),
+                new Account(Name='acc2')
+            };
 
+            Account[] a2 = a1.deepClone(); // Clona os registros de forma total.
 
+            // public Boolean equals(List list2)
+            Boolean isEqual = a1.equals(a2); // Serve para avaliar duas listas parar verificar se são iguais, retornando true ou false.
+            System.debug('Lista a1 ' + a1);
+            System.debug('Lista a2 ' + a2);
+            System.debug('É igual? ' + isEqual);
 
+            // public Object get(Integer index)
+            System.debug(a1.get(0)); // Serve para retornar o valor do item no indicie.
+
+            // public Schema.SObjectType getSObjectType()
+            System.debug('SObjectType' + a1.getSObjectType()); // Retorna o SObjectType de uma lista.;
+
+            // public Integer hashCode()
+            System.debug('HashCode ' + a1.hashCode()); // Retorna o HashCode de uma lista.
+
+            // public Integer indexOf(Object listElement)
+            System.debug('IndexOf ' + listInt.indexOf(2)); // Retorna o primeiro index de um elemento.
+
+            // public Boolean isEmpty()
+            System.debug(listInt.isEmpty()); // Retorna true se a lista estiver vazia.
+
+            // public Object remove(Integer index)
+            listInt.remove(0);
+
+            // public Void set(Integer index, Object listElement)
+            listInt.set(0, 1); // Define o index informado com o elemento informado.;
+            System.debug('listInt ' + listInt);
+
+            // public Integer size()
+            System.debug('Tamanho da lista ' + listInt.size());
+
+            // public Void sort()
+            listInt.sort();
+            System.debug('Sort ' + listInt);
+
+            // public String toString()
+            System.debug('toString ' + listInt.toString());
+    }
+
+    // public Iterator iterator()
+    public class CustomIterator implements Iterator<Account>{
+        private List<Account> lAccount;
+        private Integer currentIndex;
+
+        public CustomIterator(List<Account> lAccount){
+            this.lAccount = lAccount;
+            this.currentIndex = 0;
+        }
+
+        public Boolean hasNext(){
+            return currentIndex < lAccount.size();
+        }
+
+        public Account next(){
+            if(currentIndex < lAccount.size()){
+                return lAccount[currentIndex++];
+            }else{
+                throw new NoSuchElementException('Iterator has no more elements.');
+            }
+        }
     }
 }

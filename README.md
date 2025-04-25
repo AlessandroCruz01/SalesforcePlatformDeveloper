@@ -53,7 +53,66 @@
         # Parâmetros: Um elemento qualquer (Object);
 
     8 - deepClone(preserveId, preserveReadonlyTimestamps, preserveAutonumber)
+        Makes a duplicate copy of a list of sObject records, including the sObject records themselves.
+        # Sintaxe: public List<Object> deepClone(Boolean preserveId, Boolean preserveReadonlyTimestamps, Boolean preserveAutonumber)
+        # Parâmetros:   * preserveId - Parâmetro boolean opcional que é marcado por padrão como "false". Esse parâmetro serve para indicar se o Id dos elementos da lista clonada vão ser preservadas, ou seja, quando marcada como "true" o Id será mantido na lista copiada.
+                        * preserveReadonlyTimestamps - Parâmetro boolean opcional marcado por padrão como "false". Indica para que os campos read-only, por exemplo "CreatedDate" sejam preservados nos itens duplicados.
+                        * preserveAutonumber - Parâmetro boolean opcional marcado por padrão como como "false". Que serve para indicar se os campos de numeração automática serão preservados.
+    
+    9 - equals(list2)
+        Compares this list with the specified list and returns true if both lists are equal; otherwise, returns false.
+        # Sintaxe: public Boolean equals(List list2)
+        # Parâmetros:   * list2 - Parâmetro do tipo List obrigatório.
 
+    10 - get(index)
+        Returns the list element stored at the specified index
+        # Sintaxe: public Object get(Integer index)
+        # Parâmetros:   * index - Parâmetro do tipo inteiro que serve para referenciar uma indicie da lista e retorna o valor.
+
+    11 - getSObjectType()
+        Returns the token of the sObject type that makes up a list of sObjects.
+        # Sintaxe: public Schema.SObjectType getSObjectType()
+
+    12 - hashCode()
+        Returns the hashcode corresponding to this list and its contents.
+        # Sintaxe: public Integer hashCode()
+
+    13 - indexOf(listElement)
+        Returns the index of the first occurrence of the specified element in this list. If this list does not contain the element, returns -1.
+        # Sintaxe: public Integer indexOf(Object listElement)
+        # Parâmetros: Elemento Any que será buscado dentro da lista de destino.
+
+    14 - isEmpty()
+        Returns true if the list has zero elements.
+        # Sintaxe: public Boolean isEmpty()
+
+    15 - iterator()
+        Returns an instance of an iterator for this list.
+        # Sintaxe: public Iterator iterator()
+        ## Important: From the returned iterator, you can use the iterable methods hasNext and next to iterate through the list. Você não precisa implementar o iterável interface para usar o iterável métodos 
+
+    16 - remove(index)
+        Removes the list element stored at the specified index, returning the element that was removed.
+        # Sintaxe: public Object remove(Integer index)
+        # Parâmetros:   * Index da lista para remover o elemento.
+
+    17 - set(index, listElement)
+        Sets the specified value for the element at the given index.
+        # Sintaxe: public Void set(Integer index, Object listElement)
+        # Parâmetros:   * index da lista para adicionar o elemento.
+                        * listElement elemento para ser adicionado no indicie acima.
+    
+    18 - size()
+        Returns the number of elements in the list.
+        # Sintaxe: public Integer size()
+
+    19 - sort()
+        Sorts the items in the list in ascending order.
+        # Sintaxe: public Void sort()
+
+    20 - toString()
+        Returns the string representation of the list.
+        # Sintaxe: public String toString()
 
  **Seguimos para o arquivo** [CollectionList.cls](./force-app/main/default/classes/CollectionList.cls)
     
