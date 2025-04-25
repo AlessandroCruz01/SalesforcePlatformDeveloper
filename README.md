@@ -115,4 +115,75 @@
         # Sintaxe: public String toString()
 
  **Seguimos para o arquivo** [CollectionList.cls](./force-app/main/default/classes/CollectionList.cls)
+
+ ***-[Conjuntos (Set):](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_set.htm)***
+*Um conjunto é uma coleção desordenada de elementos que NÃO contém dados duplicados. Um conjunto geralmente é utilizado para armazenar valores de Id, porque esses valores são sempre únicos. Então é comum o uso do SET como parte de uma cláusula WHERE de uma consulta SOQL. Veremos agora os principais métodos do SET, os quais vários acabam sendo iguais aos métodos da lista:*
+
+    1 - add(setElement)
+        Adds an element to the set if it is not already present.
+        - public Boolean add(Object setElement)
+        - Parâmetros:   * Elemento do tipo Object ( Any ) que ainda nao exista no conjunto;
     
+    2 - addAll(fromList)
+        Adds all of the elements in the specified list to the set if they are not already present.
+        - public Boolean addAll(List<Object> fromList)
+        - Parâmetros:   * Elemento do tipo List de elementos, será salvo apenas os itens que ainda nao existem no conjunto;
+
+    3 - addAll(fromSet)
+        Adds all of the elements in the specified set to the set that calls the method if they are not already present.
+        - public Boolean addAll(Set<Object> fromSet)
+        - Parâmetros:   * Elemento do tipo Set de elementos, será salvo apenas os itens que ainda não existem no conjunto;
+
+    4 - clear()
+        Removes all of the elements from the set.
+        - public Void clear()
+
+    5 - clone()
+        Makes a duplicate copy of the set. No caso do Set, tem uma diferença com relação a List, onde aqui, de fato, são clonados todos os elementos independentes em outro espaço de memória. Ou seja, um não afeta o outro.
+        - public Set<Object> clone()
+    
+    6 - contains(setElement)
+        Returns true if the set contains the specified element.
+        - public Boolean contains(Object setElement)
+        - Parâmetros: Elemento qualquer (Object) para buscar dentro do Set;
+    
+    7 - containsAll(toCompare)
+        Returns true if the set contains all of the elements in the specified list. The list must be of the same type as the set that calls the method.
+        - public Boolean containsAll(List<Object> listToCompare)
+        - Parâmetros: Elemento do Tipo List ou Set de elementos.
+    
+    8 - equals(set2)
+        Compares this set with the specified set and returns true if both sets are equal; otherwise, returns false.
+        - public Boolean equals(Set<Object> set2)
+        - Parâmetros: Set de elementos
+
+    9 - hashCode()
+        Returns the hashcode corresponding to this set and its contents.
+        - public Integer hashCode()
+
+    10 - isEmpty()
+        Returns true if the set has zero elements.
+        - public Boolean isEmpty()
+    
+    11 - remove(setElement)
+        Removes the specified element from the set if it is present.
+        - public Boolean remove(Object setElement)
+    
+    12 - removeAll(offElementsToRemove)
+        Removes the elements in the specified list from the set if they are present.
+        - public Boolean removeAll(List<Object> listOfElementsToRemove)
+        - Parâmetros: list de elementos ou Set de elementos.
+    
+    13 - retainAll(listOfElementsToRetain)
+        Retains only the elements in the original set / list that are contained in the specified set.
+        - public Boolean retainAll(List<Object> listOfElementsToRetain)
+
+    14 - size()
+        Returns the number of elements in the set (its cardinality).
+        - public Integer size()
+
+    15 - toString()
+        Returns the string representation of the set.
+        - public String toString()
+
+ **Seguimos para o arquivo** [CollectionSet.cls](./force-app/main/default/classes/CollectionSet.cls)
