@@ -254,3 +254,5 @@
     16 - values()
         Returns a list that contains all the values in the map.
         - public List<Object> values()
+
+ **Seguimos para o arquivo** [CollectionMap.cls](./force-app/main/default/classes/CollectionMap.cls)
