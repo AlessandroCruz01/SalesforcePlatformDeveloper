@@ -89,6 +89,7 @@ public with sharing class CollectionList {
 
             // public String toString()
             System.debug('toString ' + listInt.toString());
+
     }
 
     // public Iterator iterator()

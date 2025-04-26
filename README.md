@@ -115,4 +115,142 @@
         # Sintaxe: public String toString()
 
  **Seguimos para o arquivo** [CollectionList.cls](./force-app/main/default/classes/CollectionList.cls)
+
+ ***-[Conjuntos (Set):](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_set.htm)***
+*Um conjunto é uma coleção desordenada de elementos que NÃO contém dados duplicados. Um conjunto geralmente é utilizado para armazenar valores de Id, porque esses valores são sempre únicos. Então é comum o uso do SET como parte de uma cláusula WHERE de uma consulta SOQL. Veremos agora os principais métodos do SET, os quais vários acabam sendo iguais aos métodos da lista:*
+
+    1 - add(setElement)
+        Adds an element to the set if it is not already present.
+        - public Boolean add(Object setElement)
+        - Parâmetros:   * Elemento do tipo Object ( Any ) que ainda nao exista no conjunto;
     
+    2 - addAll(fromList)
+        Adds all of the elements in the specified list to the set if they are not already present.
+        - public Boolean addAll(List<Object> fromList)
+        - Parâmetros:   * Elemento do tipo List de elementos, será salvo apenas os itens que ainda nao existem no conjunto;
+
+    3 - addAll(fromSet)
+        Adds all of the elements in the specified set to the set that calls the method if they are not already present.
+        - public Boolean addAll(Set<Object> fromSet)
+        - Parâmetros:   * Elemento do tipo Set de elementos, será salvo apenas os itens que ainda não existem no conjunto;
+
+    4 - clear()
+        Removes all of the elements from the set.
+        - public Void clear()
+
+    5 - clone()
+        Makes a duplicate copy of the set. No caso do Set, tem uma diferença com relação a List, onde aqui, de fato, são clonados todos os elementos independentes em outro espaço de memória. Ou seja, um não afeta o outro.
+        - public Set<Object> clone()
+    
+    6 - contains(setElement)
+        Returns true if the set contains the specified element.
+        - public Boolean contains(Object setElement)
+        - Parâmetros: Elemento qualquer (Object) para buscar dentro do Set;
+    
+    7 - containsAll(toCompare)
+        Returns true if the set contains all of the elements in the specified list. The list must be of the same type as the set that calls the method.
+        - public Boolean containsAll(List<Object> listToCompare)
+        - Parâmetros: Elemento do Tipo List ou Set de elementos.
+    
+    8 - equals(set2)
+        Compares this set with the specified set and returns true if both sets are equal; otherwise, returns false.
+        - public Boolean equals(Set<Object> set2)
+        - Parâmetros: Set de elementos
+
+    9 - hashCode()
+        Returns the hashcode corresponding to this set and its contents.
+        - public Integer hashCode()
+
+    10 - isEmpty()
+        Returns true if the set has zero elements.
+        - public Boolean isEmpty()
+    
+    11 - remove(setElement)
+        Removes the specified element from the set if it is present.
+        - public Boolean remove(Object setElement)
+    
+    12 - removeAll(offElementsToRemove)
+        Removes the elements in the specified list from the set if they are present.
+        - public Boolean removeAll(List<Object> listOfElementsToRemove)
+        - Parâmetros: list de elementos ou Set de elementos.
+    
+    13 - retainAll(listOfElementsToRetain)
+        Retains only the elements in the original set / list that are contained in the specified set.
+        - public Boolean retainAll(List<Object> listOfElementsToRetain)
+
+    14 - size()
+        Returns the number of elements in the set (its cardinality).
+        - public Integer size()
+
+    15 - toString()
+        Returns the string representation of the set.
+        - public String toString()
+
+ **Seguimos para o arquivo** [CollectionSet.cls](./force-app/main/default/classes/CollectionSet.cls)
+
+  ***-[Mapas (Map):](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_map.htm)***
+*Um mapa é uma coleção de pares **chave-valor**. Cada chave se relaciona a um único valor. Um mapa é útil quando é necessário encontrar algo rapidamente pela chave. Seguimos para os principais métodos do Map:*
+
+    1 - clear()
+        Removes all of the key-value mappings from the map.
+        - Removes all of the key-value mappings from the map.
+
+    2 - clone()
+        Makes a duplicate copy of the map. No contexto de Maps, temos o mesmo cenário das listas onde ao usar o clone, é feito apenas o clone da referência na memória e não o clone independente dos elementos.
+        - public Map<Object, Object> clone()
+
+    3 - containsKey(key)
+        Returns true if the map contains a mapping for the specified key.
+        - public Boolean containsKey(Object key)
+
+    4 - deepClone()
+        Makes a duplicate copy of a map, including sObject records if this is a map with sObject record values.
+        - public Map<Object, Object> deepClone()
+
+    5 - equals(map2)
+        Compares this map with the specified map and returns true if both maps are equal; otherwise, returns false.
+        - public Boolean equals(Map map2)
+
+    6 - get(key)
+        Returns the value to which the specified key is mapped, or null if the map contains no value for this key.
+        - public Object get(Object key)
+    
+    7 - getSObjectType()
+        Returns the token of the sObject type that makes up the map values.
+        - public Schema.SObjectType getSObjectType()
+    
+    8 - hashCode()
+        Returns the hashcode corresponding to this map.
+        - public Integer hashCode()
+    
+    9 - isEmpty()
+        Returns true if the map has zero key-value pairs.
+        - public Boolean isEmpty()
+    
+    10 - keySet()
+        Returns a set that contains all of the keys in the map.
+        - public Set<Object> keySet()
+    
+    11 - put(key, value)
+        Associates the specified value with the specified key in the map.
+        - public Object put(Object key, Object value)
+  
+    12 - putAll(fromMap)
+        Copies all of the mappings from the specified map to the original map.
+        - public Void putAll(Map fromMap)
+    
+    13 - remove(key)
+        Removes the mapping for the specified key from the map, if present, and returns the corresponding value.
+        - public Object remove(Key key)
+
+    14 - size()
+        Returns the number of key-value pairs in the map.
+        - public Integer size()
+
+    15 - toString()
+        Returns the string representation of the map.
+        - public String toString()
+  
+    16 - values()
+        Returns a list that contains all the values in the map.
+        - public List<Object> values()
