@@ -187,3 +187,70 @@
         - public String toString()
 
  **Seguimos para o arquivo** [CollectionSet.cls](./force-app/main/default/classes/CollectionSet.cls)
+
+  ***-[Mapas (Map):](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_map.htm)***
+*Um mapa é uma coleção de pares **chave-valor**. Cada chave se relaciona a um único valor. Um mapa é útil quando é necessário encontrar algo rapidamente pela chave. Seguimos para os principais métodos do Map:*
+
+    1 - clear()
+        Removes all of the key-value mappings from the map.
+        - Removes all of the key-value mappings from the map.
+
+    2 - clone()
+        Makes a duplicate copy of the map. No contexto de Maps, temos o mesmo cenário das listas onde ao usar o clone, é feito apenas o clone da referência na memória e não o clone independente dos elementos.
+        - public Map<Object, Object> clone()
+
+    3 - containsKey(key)
+        Returns true if the map contains a mapping for the specified key.
+        - public Boolean containsKey(Object key)
+
+    4 - deepClone()
+        Makes a duplicate copy of a map, including sObject records if this is a map with sObject record values.
+        - public Map<Object, Object> deepClone()
+
+    5 - equals(map2)
+        Compares this map with the specified map and returns true if both maps are equal; otherwise, returns false.
+        - public Boolean equals(Map map2)
+
+    6 - get(key)
+        Returns the value to which the specified key is mapped, or null if the map contains no value for this key.
+        - public Object get(Object key)
+    
+    7 - getSObjectType()
+        Returns the token of the sObject type that makes up the map values.
+        - public Schema.SObjectType getSObjectType()
+    
+    8 - hashCode()
+        Returns the hashcode corresponding to this map.
+        - public Integer hashCode()
+    
+    9 - isEmpty()
+        Returns true if the map has zero key-value pairs.
+        - public Boolean isEmpty()
+    
+    10 - keySet()
+        Returns a set that contains all of the keys in the map.
+        - public Set<Object> keySet()
+    
+    11 - put(key, value)
+        Associates the specified value with the specified key in the map.
+        - public Object put(Object key, Object value)
+  
+    12 - putAll(fromMap)
+        Copies all of the mappings from the specified map to the original map.
+        - public Void putAll(Map fromMap)
+    
+    13 - remove(key)
+        Removes the mapping for the specified key from the map, if present, and returns the corresponding value.
+        - public Object remove(Key key)
+
+    14 - size()
+        Returns the number of key-value pairs in the map.
+        - public Integer size()
+
+    15 - toString()
+        Returns the string representation of the map.
+        - public String toString()
+  
+    16 - values()
+        Returns a list that contains all the values in the map.
+        - public List<Object> values()
