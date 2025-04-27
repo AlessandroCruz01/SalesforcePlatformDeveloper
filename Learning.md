@@ -75,7 +75,7 @@
     - **Share**	Objeto de controle de compartilhamento manual.
     - **ChangeEvent**	Representação de evento de mudanças (CDC - Change Data Capture).
   
-- ### Todos os tipos de campos personalizados
+- ### Todos os tipos de campos
   O Salesforce oferece uma variedade de tipos de campos com dados diferentes, vamos passar por todos eles para entender melhor cada um deles:
 
   ✨ *Campos automatizados:*
@@ -107,3 +107,16 @@
   - ***Texto (criptografado)***: *Permite que os usuários insiram qualquer combinação de letras e números e os armazenem em formato criptografado.*
   - ***URL***: *Permite que os usuários insiram qualquer endereço válido de site da Web. Quando os usuários clicam no campo, o URL é aberto em uma janela separada do navegador.*
 
+- ### Relacionamento de Objetos
+  Existe dois tipos principais de relacionamentos de objeto: *Pesquisa ( Lookup )* e *Mestre e Detalhes ( Mester Details )*.
+
+  ***Relacionamento de Pesquisa***: Pensemos em um exemplo simples de relacionamento, no caso Conta para Contato. Um relacionamento de pesquisa basicamente vincula dois objetos para que seja possível "pesquisar" um dos objetos nos itens relacionados do outro objeto.
+  O Relacionamento de pesquisa podem ser de *1-1* e *1-N*. No exemplo que citamos, uma conta pode ter vários contatos, ou seja, *1-N*.
+
+  ***Relacionamento entre Mestre e Detalhes***: Os relacionamentos de pesquisa são bastantes casuais, já os **relacionamentos entre mestre e detalhes** são mais estritos. Nesse tipo de relacionamento, um objeto é o mestre e o outro, o detalhe. O Objeto mestre controla determinados comportamentos do objeto detalhe, por exemplo, quem pode ver os dados do detalhe.
+  - Exemplo: *Suponha que o dono de uma propriedade deseja retirar seu imóvel do mercado. A empresa não desejaria manter as ofertas feitas pelo imóvel. Com um relacionamento entre mestre e detalhes entre Propriedades e Oferta, você pode excluir o imóvel e todas as ofertas associadas do sistema.*
+
+  Normalmente, usa-se relacionamento de pesquisa quando os objetos só estão relacionados em algumas situações. ÁS vezes, o contato está associado a uma conta específica, mas, outras vezes, ele é apenas um contato. Os objetos nos relacionamentos de pesquisa funcionam como objetos independentes e têm suas guias próprias na interface do usuário.
+  No Relacionamento de **Mestre e Detalhes**, o objeto detalhe não funciona independentemente. Ele depende bastante do mestre. Na verdade, se um registro mestre é excluído, todos os registros de detalhe também são excluídos.
+
+  Existe ainda um terceiro tipo de relacionamento chamado *relacionamento hierárquico*. Os relacionamentos hierárquicos são um tipo especial de relacionamento de pesquisa. A principal diferença entre os dois é que os relacionamentos hierárquicos **somente estão disponíveis no objeto Usuário**. Você pode usá-los para criar cadeias de gerenciamento de usuários.
