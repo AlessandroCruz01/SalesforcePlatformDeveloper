@@ -256,3 +256,8 @@
         - public List<Object> values()
 
  **Seguimos para o arquivo** [CollectionMap.cls](./force-app/main/default/classes/CollectionMap.cls)
+ 
+----------
+
+**Finalizado esta primeira parte, seguiremos para o curso da SouForce, onde as aulas estão presentes em:**
+* 👉 [Learning.md](./Learning.md)
