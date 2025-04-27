@@ -74,3 +74,36 @@
     - **Feed**:	Objeto de Chatter/feed relacionado ao objeto.
     - **Share**	Objeto de controle de compartilhamento manual.
     - **ChangeEvent**	Representação de evento de mudanças (CDC - Change Data Capture).
+  
+- ### Todos os tipos de campos personalizados
+  O Salesforce oferece uma variedade de tipos de campos com dados diferentes, vamos passar por todos eles para entender melhor cada um deles:
+
+  ✨ *Campos automatizados:*
+  - ***Formula***: *Campo somente leitura que deriva seu valor de uma fórmula definida por você. O campo de fórmula é atualizado quando qualquer um dos campos de origem é alterado.*
+  - ***Numeração automática ( Auto Number )***: *Número sequencial gerado pelo sistema que usa o formato de exibição definido por você. Este número aumenta automaticamente a cada novo registro.*
+  - ***Resumo de totalização ( Roll-Up Summary )***: *Campo somente leitura que exibe a soma, o valor mínimo ou máximo de um campo em uma lista relacionada ou o número de registros de todos os registros listados em uma lista relacionada. Obs: **Campo somente leitura que exibe a soma, o valor mínimo ou máximo de um campo em uma lista relacionada ou o número de registros de todos os registros listados em uma lista relacionada.***
+  
+  ✨ *Campos de relacionamento:*
+  - ***Relacionamento de consulta externa ( External Lookup Relationship )***: *Cria um relacionamento que vincula este objeto a um objeto externo cujos dados são armazenados fora da organização do Salesforce.*
+  - ***Relacionamento de pesquisa ( Lookup Relationship )***: *Cria um relacionamento que vincula este objeto a outro. No campo de relacionamento, os usuários podem clicar em um ícone de pesquisa para selecionar um valor de uma lista pop-up. O outro objeto é a origem dos valores na lista.*
+
+  ✨ *Tipos de dados:*
+  - ***Área de Texto rich text ( Text Area (Rich) )***: *Permitir que os usuários insiram um texto formatado, adicionem imagens e links. Até 131.072 caracteres em linhas separadas.*
+  - ***Área de texto ( Text Area )***: *Permite que os usuários insiram até 255 caracteres em linhas separadas.*
+  - ***Área de texto (longo) ( Text Area (Long) )***: *Permitir que os usuários insiram até 131.072 caracteres em linhas separadas.*
+  - ***Caixa de seleção ( Checkbox )***: *Permite que os usuários selecionem um valor Verdadeiro (marcado) ou Falso (desmarcado).*
+  - ***Data ( Date )***: *Permite que os usuários digitem ou selecionem uma data em um calendário pop-up.*
+  - ***Data/Hora ( Date/Time )***: *Permite que os usuários insiram uma data e hora ou selecionem uma data em um calendário pop-up. Quando os usuários clicam em uma data no menu pop-up, a data e a hora atual são inseridas no campo Data/Hora.*
+  - ***Email***: *Permite que os usuários insiram um endereço de email, que é validado para garantir o formato correto. Se este campo for especificado para um contato ou lead, os usuários podem escolher o endereço ao clicar em Enviar um email. Observe que endereços de email personalizados não podem ser usados para emails em massa*
+  - ***Hora ( Time )***: *Permite aos usuários inserir um horário local. Por exemplo, "2:40 PM", "14:40", "14:40:00" e "14:40:50.600" são todos horários válidos para esse campo.*
+  - ***Lista de opções ( Picklist )***: *Permite que os usuários selecionem um valor em uma lista definida por você.*
+  - ***Lista de opções (seleção múltipla) ( Picklist (Multi-Select) )***: *Permite que os usuários selecionem vários valores de uma lista definida por você.*
+  - ***Localização geográfica ( Geolocation )***: *Permite que os usuários definam localizações. Inclui componentes de latitude e longitude e pode ser usado para calcular distância.*
+  - ***Moeda ( Currency )***: *Permite que os usuários insiram um valor em dólar ou em outra moeda, e formata automaticamente o campo como valor de moeda. Isso pode ser útil se você exportar dados para o Excel ou outra planilha*
+  - ***Número***: *Permite que os usuários insiram qualquer número. Zeros iniciais são removidos.*
+  - ***Porcentagem***: *Permite que os usuários insiram um número percentual, por exemplo '10', e adiciona automaticamente o sinal de porcentagem ao número.*
+  - ***Telefone***: *Permite que os usuários insiram qualquer número de telefone. O número é automaticamente formatado como número de telefone.*
+  - ***Texto***: *Permite que os usuários digitem qualquer combinação de letras e números.*
+  - ***Texto (criptografado)***: *Permite que os usuários insiram qualquer combinação de letras e números e os armazenem em formato criptografado.*
+  - ***URL***: *Permite que os usuários insiram qualquer endereço válido de site da Web. Quando os usuários clicam no campo, o URL é aberto em uma janela separada do navegador.*
+
