@@ -120,3 +120,8 @@
   No Relacionamento de **Mestre e Detalhes**, o objeto detalhe não funciona independentemente. Ele depende bastante do mestre. Na verdade, se um registro mestre é excluído, todos os registros de detalhe também são excluídos.
 
   Existe ainda um terceiro tipo de relacionamento chamado *relacionamento hierárquico*. Os relacionamentos hierárquicos são um tipo especial de relacionamento de pesquisa. A principal diferença entre os dois é que os relacionamentos hierárquicos **somente estão disponíveis no objeto Usuário**. Você pode usá-los para criar cadeias de gerenciamento de usuários.
+
+- ### Modelos de importação de dados
+  - ***Data Import Wizard***: Ferramenta Default do Salesforce com certas limitações de objetos. A lista apresentada no momento da importação é basicamente tudo o que ele suporta.
+  - ***Data loader UI***: O data loader é uma ferramenta de importação e exportação muito mais poderosa que o Data Import.
+  - ***Inspector***: É uma extensão poderosa capaz de executar queries SOQL, imports, exports e muito mais.
