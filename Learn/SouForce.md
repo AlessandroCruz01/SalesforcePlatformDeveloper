@@ -147,4 +147,19 @@
 
 - ### Objetos, Modificadores, Apex Class e Sharing
   - ***O que é Orientação a objeto?***: *Um objeto é basicamente algo do mundo real com suas características, por exemplo: um carro. Um carro é um tipo de objeto, onde, cada carro tem suas características próprias, ou seja, tem uma cor, tem numero de portas, tem ano, modelo. No caso do mundo da programação, tornamos um objeto em uma classe, onde terá seus parâmetros (Atributos) e suas ações (Métodos), por exemplo, acelerar, frear. Toda classe tem um construtor que é basicamente o primeiro método chamado quando a classe é instanciada.*
-    - Siga para o arquivo - [WhatIsObject.cls](../force-app/main/default/classes/WhatIsObject.cls)****
+    - *Siga para o arquivo - [WhatIsObject.cls](../force-app/main/default/classes/WhatIsObject.cls)*
+
+  *Após o entendimento do que é um objeto e como é criada uma classe, seguimos para os demais pontos:*
+  
+  - ***Classes***
+
+  - ***Modificadores***:
+    - ***Private***:
+    - ***Protected***:
+    - ***Public***:
+    - ***Global***:
+
+  - ***Sharing***:
+    - ***With Sharing***:
+    - ***Without Sharing***:
+    - ***Inherited Sharing***:
