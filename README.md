@@ -260,4 +260,4 @@
 ----------
 
 **Finalizado esta primeira parte, seguiremos para o curso da SouForce, onde as aulas estão presentes em:**
-* 👉 [Learning.md](./Learning.md)
+* 👉 [Learning.md](./Learn/SouForce.md)

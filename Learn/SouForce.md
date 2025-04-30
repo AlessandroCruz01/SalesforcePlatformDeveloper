@@ -125,3 +125,26 @@
   - ***Data Import Wizard***: Ferramenta Default do Salesforce com certas limitações de objetos. A lista apresentada no momento da importação é basicamente tudo o que ele suporta.
   - ***Data loader UI***: O data loader é uma ferramenta de importação e exportação muito mais poderosa que o Data Import.
   - ***Inspector***: É uma extensão poderosa capaz de executar queries SOQL, imports, exports e muito mais.
+  
+## Capítulo 03 - POO com Apex
+- ### O que é POO?
+  - *A POO é mais muito mais que uum mero **paradigma** de programação, é uma filosofia que se infiltra na estrutura de cada software.*
+    *Pense que estamos construindo um quebra-cabeças e, ao invés de peças aleatórias, cada peça é uma miniatura perfeitamente formada de uma parte do mundo real - um carro, uma casa, uma arvore... Essa é a essência da **Programação Orientada a Objetos (POO)**: uma maneira de programar que imita o mundo real.*
+    *Na POO, cada "peça" do seu software é um objeto, um pacote autocontido de dados e os respectivos métodos responsáveis por manipular esses dados.*
+
+  - ***Principais Fundamentos e paradigmas***: *Os pilares da POO incluem quatro conceitos-chave: **Encapsulamento**, **Herança**, **Abstração**, **Polimorfismo**. Vamos ver cada ponto e o que cada um significa:*
+    - ***Encapsulamento***: *Protege os dados dentro de um objeto.*
+    - ***Herança***: *É justamente através dela que um objeto herda as propriedades e métodos de outro, promovendo a reutilização de código e a criação de hierarquias de objetos.*
+    - ***Abstração***: *Facilita a modelagem de objetos complexos ao expor apenas os detalhes relevantes e escondendo implementações específicas.*
+    - ***Polimorfismo***: *Refere-se à capacidade de um método de assumir diferentes formas de comportamento, o que proporciona o tratamento de objetos de diferentes classes como objetos de uma classe.*
+
+  - ***Benefícios da POO***: *A **Programação Orientada a Objetos** oferece uma série de benefícios e vantagens responsáveis por justificar seu reconhecimento e adoção em diversos setores da indústria de software:*
+    - ***Reutilização de Código***: *A POO promove a reutilização de código de formas quue outros paradigmas não conseguem replicar ou igualar. Através do mecanismo de **herança**, por exemplo, novas classes criadas sobre as existentes, estendendo e customizando funcionalidades sem que o código existente precise ser reescrito.*
+    - ***Modularidade***: *Cada POO é uma entidade autônoma com suas próprias propriedades e comportamentos.*
+    - ***Colaboração Eficiente***: *Em grandes equipes, diferentes grupos podem trabalhar em módulos separados sem interferir no trabalho uns dos outros.*
+  
+  - ***Classes e objetos***: *As **classes** atuam como moldes para a criação de **objetos**, e cada classe define os atributos (propriedades) e comportamentos (métodos) que os objetos criados a partir dela possuirão.*
+
+- ### Objetos, Modificadores, Apex Class e Sharing
+  - ***O que é Orientação a objeto?***: *Um objeto é basicamente algo do mundo real com suas características, por exemplo: um carro. Um carro é um tipo de objeto, onde, cada carro tem suas características próprias, ou seja, tem uma cor, tem numero de portas, tem ano, modelo. No caso do mundo da programação, tornamos um objeto em uma classe, onde terá seus parâmetros (Atributos) e suas ações (Métodos), por exemplo, acelerar, frear. Toda classe tem um construtor que é basicamente o primeiro método chamado quando a classe é instanciada.*
+    - Siga para o arquivo - [WhatIsObject.cls](../force-app/main/default/classes/WhatIsObject.cls)****
