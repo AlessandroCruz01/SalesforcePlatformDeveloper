@@ -150,16 +150,43 @@
     - *Siga para o arquivo - [WhatIsObject.cls](../force-app/main/default/classes/WhatIsObject.cls)*
 
   *Após o entendimento do que é um objeto e como é criada uma classe, seguimos para os demais pontos:*
-  
-  - ***Classes***
 
-  - ***Modificadores***:
+  ![POO](https://dhg1h5j42swfq.cloudfront.net/2023/07/22122822/image-314.png)
+  
+  - ***Classes***:
+    *uma classe é m plano, objetos são baseados em classes. Uma classe define um conjunto de características e comportamentos comuns a todos os objetos.*
+    *Pense numa flor. Ela tem características, como: cor, altura e comportamentos, como: crescer e murchar.*
+    *As classes são declaradas usando quatro partes: o **Modificador de acesso**, a palavra-chave **Class**, o nome da classe e o corpo da classe delimitado por **{}**.*
+    ```java
+    public class Flower {
+      // Body of Class
+    }
+    ```
+  - ***Classes no Contexto do Apex***:
+    *O Apex é uma linguagem de programação que usa sintaxe similar a do Java e funciona como procedimentos armazenados no banco de dados. O Apex permite que os desenvolvedores adicionem lógica de negócio a eventos de sistema, tais como cliques, botões, atualizações de registros.*
+    *Assim como em Java, vocÇe pode criar classes no Apex. Uma classe é modelo ou projeto a partir do qual os objetos são criados. Um **objeto é uma instância da classe**.*
+
+  ![Class](https://postimg.cc/py9nMM7W)
+
+    *Antes de seguirmos para os detalhamentos da estrutura da classe, vamos mostrar um exemplo de uma classe seguindo um objeto "Televisão", vamos para o arquivo:* ***[WhatIsClass.cls](../force-app/main/default/classes/WhatIsClass.cls)**.*
+
+  - ***Modificadores***: *Um **modificador de acesso** é uma palavra-chave em uma declaração de método ouu classe. O modificador de acesso determina qual outro código do apex pode ver e usar a classe ou o método. Seguimos para o detalhamento dos modificadores de acesso:*
+
+    - ***Public***: *O modificador de acesso **public** estão disponíveis para todas as classes do Apex dentro da Org*
+      - ✨ **[ClassPublic.cls](../force-app/main/default/classes/ClassPublic.cls)**
     - ***Private***:
-    - ***Protected***:
-    - ***Public***:
+      - ✨ **[ClassPrivate.cls](../force-app/main/default/classes/ClassPrivate.cls)**
     - ***Global***:
+      - ✨ **[ClassGlobal.cls](../force-app/main/default/classes/ClassGlobal.cls)**
+    - ***Protected***:
+      - ✨ **[ClassProtected.cls](../force-app/main/default/classes/ClassProtected.cls)**
 
   - ***Sharing***:
+
     - ***With Sharing***:
     - ***Without Sharing***:
     - ***Inherited Sharing***:
+
+  - ***Construtor***:
+
+  - ***Métodos***
