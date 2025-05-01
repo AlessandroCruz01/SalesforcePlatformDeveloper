@@ -1,12 +1,11 @@
 /**
- * @description       : 
- * @last modified on  : 04-30-2025
+ * @description       : Modificador de Acesso - Public
+ * @last modified on  : 05-01-2025
  * @last modified by  : Alessandro Souza
- * @about             : Modificador de Acesso - Public
 **/
 
-public with sharing class ClassPublic {
+public class ClassPublic {
     public ClassPublic() {
-
+        // Conteúdo da Classe
     }
 }

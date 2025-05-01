@@ -166,20 +166,32 @@
     *O Apex é uma linguagem de programação que usa sintaxe similar a do Java e funciona como procedimentos armazenados no banco de dados. O Apex permite que os desenvolvedores adicionem lógica de negócio a eventos de sistema, tais como cliques, botões, atualizações de registros.*
     *Assim como em Java, vocÇe pode criar classes no Apex. Uma classe é modelo ou projeto a partir do qual os objetos são criados. Um **objeto é uma instância da classe**.*
 
-  ![Class](https://postimg.cc/py9nMM7W)
+    ![Class](https://i.postimg.cc/CM7CDFsq/class-Struture.png)
 
     *Antes de seguirmos para os detalhamentos da estrutura da classe, vamos mostrar um exemplo de uma classe seguindo um objeto "Televisão", vamos para o arquivo:* ***[WhatIsClass.cls](../force-app/main/default/classes/WhatIsClass.cls)**.*
 
-  - ***Modificadores***: *Um **modificador de acesso** é uma palavra-chave em uma declaração de método ouu classe. O modificador de acesso determina qual outro código do apex pode ver e usar a classe ou o método. Seguimos para o detalhamento dos modificadores de acesso:*
+  - ***[Modificadores](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_access_modifiers.htm)***: *Um **modificador de acesso** é uma palavra-chave em uma declaração de método, atributo ou classe. O modificador de acesso determina qual outro código do apex pode ver e usar a classe ou o método. Seguimos para o detalhamento dos modificadores de acesso:*
 
-    - ***Public***: *O modificador de acesso **public** estão disponíveis para todas as classes do Apex dentro da Org*
+    - ***Public***: *A classe, atributo ou método pode ser acessada de qualquer outra classe no mesmo namespace ou em namespaces diferente*
       - ✨ **[ClassPublic.cls](../force-app/main/default/classes/ClassPublic.cls)**
-    - ***Private***:
+
+    - ***Private***: *A classe, atributo ou método só pode ser acessada por outras classes na mesma unidade de código (classe pai). Este modificador de acesso é o padrão e significa que o método ou variável é acessível apenas dentro da classe Apex na qual está definido. Se você não especificar um modificador de acesso, o método ou variável será **privado**. Também é importante citar que apenas a classe interna será definida como privada, já que a classe pai deve ser public.*
       - ✨ **[ClassPrivate.cls](../force-app/main/default/classes/ClassPrivate.cls)**
-    - ***Global***:
+
+    - ***Global***: *A classe pode ser acessada de qualquer outro aplicativo no Salesforce ou por meio de chamadas RESTfull. Isso significa que o método ou variável pode ser usado por qualquer código Apex que tenha acesso à classe, não apenas o código Apex no mesmo aplicativo. Este modificador de acesso deve ser usado para qualquer método que precise ser referenciado fora do aplicativo, seja na API SOAP ou por outro código Apex. Se você declarar um método ou variável como **global**, você também deve declarar a classe que o contém como **global**. No caso da classe global pode ser definida na classe pai como global.*
       - ✨ **[ClassGlobal.cls](../force-app/main/default/classes/ClassGlobal.cls)**
-    - ***Protected***:
+
+    - ***Protected***: *A classe é acessível por outras classes na mesma unidade de código e por classes que estendem essa classe. Isso significa que o método ou variável é visível para quaisquer classes internas na classe Apex definidora e para as classes que estendem a classe Apex definidora. Você só pode usar este modificador de acesso para métodos de instância e variáveis ​​de membro. Esta configuração é estritamente mais permissiva do que a configuração padrão (privada), assim como em Java.*
       - ✨ **[ClassProtected.cls](../force-app/main/default/classes/ClassProtected.cls)**
+      - *Como entendemos, os métodos **protected** só podem ser acessíveis dentro da mesma unidade de código ou em classes que estendem essa classe. No caso temos o exemplo de uma classe filha que estende a classe criada acima:*
+      ```java
+      public class ClassProtectedChild extends ClassProtected {
+        public ClassProtectedChild(){
+          makeSound();
+        }
+      }
+      ```
+      - *Perceba que já é possível chamar o método assinado como protected utilizando o extends.*
 
   - ***Sharing***:
 
