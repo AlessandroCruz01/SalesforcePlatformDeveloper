@@ -208,6 +208,27 @@
       - **Virtual**: *Declara que esta classe permite extensões e substituições. Você não pode substituir um método pela palavra-chave **Override**, a menos que a classe tenha sido definido como virtual.*
       - **Abstrata**: *Declara que esta classe contém métodos abstratos, ou seja, métodos que possuem **apenas** sua assinatura declarada e nenhum corpo definido.*
 
-  - ***Construtor***:
+  - ***Construtor***: *O construtor é o primeiro método invocado quando uma classe é instanciada, ou seja, quando um objeto é criado a partir do **blueprint** da classe. O construtor **pode ou não** ser declarado, quando uma classe é instanciada caso não haja um construtor declarado, o próprio apex cria um construtor público sem parâmetros e sem retorno. A sintaxe de um construtor é semelhante a um método, mas difere de uma definição de método pois não possui um tipo de retorno explícito e não é herdado pelo objeto criado a partir dele.*
+    - ✨ **[Constructor.cls](../force-app/main/default/classes/Constructor.cls)**
 
-  - ***Métodos***
+  - ***Métodos***: *Os métodos são definidos dentro de uma classe. Um método descreve os comportamentos herdados por objetos da classe. Uma classe pode ter um ou mais métodos. Voltando ao exemplo da flor, citada anteriormente, uma flor pode crescer (grow), Polinizar (pollinate), etc...*
+    ![MethodStructure](https://i.postimg.cc/qv5GzrHT/Method.png)
+  *Como indicado acima, um método tem a estrutura de **Modificador**, que vimos anteriormente, seguido pela palavra-chave opcional **static**, que torna o método possível de ser chamado a partir do operador ponto (.), seguido pelo tipo de retorno, o nome do método, em seguida entre () os parâmetros que podem ou não serem definidas, em seguida o corpo do método. Vejamos:*
+
+    - ***Static***: *É utilizado para definir **variáveis**, **métodos** e **blocos de inicialização** de classe que pertencem à classe em sí, e não a uma instância especifica da classe (Um objeto). Isso significa que existe apenas uma cópia da variável ou método para toda a classe, independentemente de quantas instâncias da classe sejam criadas.*
+      - ✨ **[StaticClass.cls](../force-app/main/default/classes/StaticClass.cls)**
+      *No caso do **Método** quando definida como **static** significa que o método pertence á classe e não á instância. Ou seja, para ser executada, é necessário chamar a classe seguido . e o nome do método. `StaticClass.increaseCount();`.*
+      *No caso de uma **Variável**, quando definida como **static** significa que a variável é **compartilhada** entre todas as instâncias da classe. Ou seja, é única para todas as instancias e todas apontam para o mesmo espaço de memória.*
+      *No bloco de execução, um trecho de código é executado **automaticamente uma única vez quando a classe é carregada pela primeira vez** na execução do código. Ele executa uma única vez por transação.*
+
+    - ***Retorno***: *Indica o tipo de retorno da classe. Quando indicado o tipo de retorno, a palavra-chave `return` se torna obrigatório a menos que o tipo de retorno seja **void**. Vejamos os tipos de retorno:* 
+      - ***Void***: *Indica que o método não retorna nenhum valor.*
+      - ***Boolean***: *Retorna um valor true ou false*
+      - ***Tipos primitivos***: *Retorna valores primitivos como **double**, **integer**,**long**, atc...*
+      - ***Objetos Personalizados***: *Os métodos podem retornar instâncias de objetos personalizados definidos pelo usuário.*
+      - ***Conjuntos de Elementos***: *Podem retornar **List**, **Set** ou **Map** de elementos.*
+      - ***Registros Objetos Padrão***: *Podem retornar registros de objetos padrão ou personalizados.*
+      - ***Enumeradores (Enums)***: *Pode retornar valores de um conjunto de valores Enums*
+      - ***Instancias de Classes***: *Os métodos também podem retornar instancias de classes que podem encapsular dados e lógica.*
+      - ***Tipos de Erro***: *Em casos onde um método pode falhar, ele pode retornar um tipo de erro personalizado.*
+      ✨ **[MethodsReturnType.cls](../force-app/main/default/classes/MethodsReturnType.cls)**
