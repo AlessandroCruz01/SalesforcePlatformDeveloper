@@ -147,7 +147,7 @@
 
 - ### Objetos, Modificadores, Apex Class e Sharing
   - ***O que é Orientação a objeto?***: *Um objeto é basicamente algo do mundo real com suas características, por exemplo: um carro. Um carro é um tipo de objeto, onde, cada carro tem suas características próprias, ou seja, tem uma cor, tem numero de portas, tem ano, modelo. No caso do mundo da programação, tornamos um objeto em uma classe, onde terá seus parâmetros (Atributos) e suas ações (Métodos), por exemplo, acelerar, frear. Toda classe tem um construtor que é basicamente o primeiro método chamado quando a classe é instanciada.*
-    - *Siga para o arquivo - [WhatIsObject.cls](../force-app/main/default/classes/WhatIsObject.cls)*
+    - ✨ *Siga para o arquivo - [WhatIsObject.cls](../force-app/main/default/classes/WhatIsObject.cls)*
 
   *Após o entendimento do que é um objeto e como é criada uma classe, seguimos para os demais pontos:*
 
@@ -183,7 +183,7 @@
 
     - ***Protected***: *A classe é acessível por outras classes na mesma unidade de código e por classes que estendem essa classe. Isso significa que o método ou variável é visível para quaisquer classes internas na classe Apex definidora e para as classes que estendem a classe Apex definidora. Você só pode usar este modificador de acesso para métodos de instância e variáveis ​​de membro. Esta configuração é estritamente mais permissiva do que a configuração padrão (privada), assim como em Java.*
       - ✨ **[ClassProtected.cls](../force-app/main/default/classes/ClassProtected.cls)**
-      - *Como entendemos, os métodos **protected** só podem ser acessíveis dentro da mesma unidade de código ou em classes que estendem essa classe. No caso temos o exemplo de uma classe filha que estende a classe criada acima:*
+      *Como entendemos, os métodos **protected** só podem ser acessíveis dentro da mesma unidade de código ou em classes que estendem essa classe. No caso temos o exemplo de uma classe filha que estende a classe criada acima:*
       ```java
       public class ClassProtectedChild extends ClassProtected {
         public ClassProtectedChild(){
@@ -191,13 +191,22 @@
         }
       }
       ```
-      - *Perceba que já é possível chamar o método assinado como protected utilizando o extends.*
+      *Perceba que já é possível chamar o método assinado como protected utilizando o extends.*
 
-  - ***Sharing***:
+  - ***Sharing***: *O conceito de **"Sharing"** em classes do Apex do Salesforce refere-se ao controle de acesso ao dados em nível de código. Isso é particularmente importante em ambientes multiusuários, onde, diferentes usuários podem ter diferentes níveis de acesso aos dados. O Salesforce oferece três configurações de compartilhamento principais que podem ser aplicadas a classes do Apex, são respectivamente **"with sharing"**,**"without sharing"**,**"inherited sharing"**. Vejamos cada um deles:*
 
-    - ***With Sharing***:
-    - ***Without Sharing***:
-    - ***Inherited Sharing***:
+    - ***With Sharing***: *Este é o padrão quando uma classe nao declara o modificador de compartilhamento, no caso esta assinatura significa que o código **respeitará as configurações acesso de registros do Salesforce**, garantindo que o usuário que ativar a **trigger** e chamar esta classe, somente poderá acessar os dados os quais **tem permissão**.*
+      - ✨ **[WithSharingClass.cls](../force-app/main/default/classes/WithSharingClass.cls)**
+
+    - ***Without Sharing***: *Ao contrário do **With Sharing**, ao declarar uma classe com a assinatura **Without Sharing**, o código dentro dessa classe ignorará completamente as regras de compartilhamento do Salesforce a irá acessar todos os registros, independentemente das permissões do usuário que está executando o código.*
+      - ✨ **[WithoutSharingClass.cls](../force-app/main/default/classes/WithoutSharingClass.cls)**
+
+    - ***Inherited Sharing***: *Quando uma classe é declarada com essa assinatura, ela herda o compartilhamento da classe pai. Isso significa que se a classe pai for declarada com a assinatura **with sharing**, a classe filha herda a assinatura do pai.*
+      - ✨ **[InheritedSharing.cls](../force-app/main/default/classes/InheritedSharingClass.cls)**
+
+    - 🚦 ***Observação:***: *Existem ainda dois tipos de modificadores especiais, que veremos com mais detalhes mais a frente. No caso, as classes **Virtuais** e classes **Abstratas**.*
+      - **Virtual**: *Declara que esta classe permite extensões e substituições. Você não pode substituir um método pela palavra-chave **Override**, a menos que a classe tenha sido definido como virtual.*
+      - **Abstrata**: *Declara que esta classe contém métodos abstratos, ou seja, métodos que possuem **apenas** sua assinatura declarada e nenhum corpo definido.*
 
   - ***Construtor***:
 
