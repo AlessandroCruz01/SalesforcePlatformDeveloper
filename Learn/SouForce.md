@@ -236,3 +236,42 @@
       - ***Parâmetros***: *Um parâmetro é uma variável que serve como um espaço reservado na memória, esperando receber um valor. Esses parâmetros quando declarados pelo método, devem ser, obrigatoriamente repassados no momento em que o método é acionado. Lembrando que os métodos ficam dentro do corpo do método, ou seja entre as `{}`*
       ✨ **[MethodParams.cls](../force-app/main/default/classes/MethodParams.cls)**
 
+- ### Interface, Virtual Class, Abstract Class
+  - ***[Interface](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_interfaces.htm)***: *Uma interface é algo parecido com uma assinatura de contrato, ou seja, todas as classes que implementarem essa interface, são **Obrigatoriamente** impostas a aplicar esses métodos indicados pela interface. Normalmente uma interface é nomeada inicialmente com o I, ou seja, caso tenhamos uma interface de pagamento, o nome seria algo parecido com: IPayment. **Uma interface tem somente dois modificadores, sendo eles: Public ou Global** e sua sintaxe é um pouco diferente das classes convencionais:*
+
+    ```java
+    public interface IPayment{
+      Decimal amount(Decimal value, Decimal valuePayment);
+    }
+    ```
+    *Perceba também que uma interface por padrão não tem um construtor e os métodos são compostos **apenas** pela estrutura de **tipo de retorno**, **nome do método** e **parâmetros de entrada**. O responsável por implementar esses métodos é a classe que implementar essa interface. Vejamos o Exemplo na prática onde:* 
+      - ✨ *Interface - [InterfaceClass.cls](../force-app/main/default/classes/InterfaceClass.cls)*
+      - ✨ *Classe filha, que implementa a interface - [InterfaceChildClass.cls](../force-app/main/default/classes/InterfaceChildClass.cls)*
+
+        - ***Obs sobre interface:***
+        - **Não tem construtor**
+        - **Não tem acesso a assinaturas de Sharing**
+        - **Não implementa os métodos, apenas indica quais devem ser implementados**
+        - **Perceba que as classes que implementam a interface, fazem uso da palavra-chave `implements`**
+        - **Classes filhas podem ter seu construtor normalmente, porém, são Obrigados a implementar os métodos indicados na interface**
+        - **A regra de negócio é definido pela filha, a Interface apenas obriga a existência daquele método, especificamente com o aquele retorno e aqueles atributos. O que será feito nas regras de negocio, nao interessa pra Interface**
+        - **Como visto acima, uma mesma classe pode implementar mais de uma interface**
+        - **Como uma interface apenas indica qual método deve ser implementado, é possível que existam diversas regras de negocio diferentes, se utilizando de uma mesma interface**
+
+    - ***Métodos sem { e }***: *Como indicamos os métodos de uma interface não tem corpo, já que quem vai implementar as regras de negócio, são as filhas.*
+
+    - ***Implements***: *O `implements` é a palavra reservada usada nas classes que implementam interfaces.*
+
+  - ***Virtual Class***
+    - ***Extends***
+    - ***Super***
+    - ***Protected***
+    - ***Override***
+
+  - ***Abstract Class***
+    - ***Métodos sem { e }***
+    - ***Métodos Internos***
+    - ***Protected***
+
+  - ***Interface vs Abstract Class***
+
