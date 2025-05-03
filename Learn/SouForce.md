@@ -221,8 +221,8 @@
       *No caso de uma **Variável**, quando definida como **static** significa que a variável é **compartilhada** entre todas as instâncias da classe. Ou seja, é única para todas as instancias e todas apontam para o mesmo espaço de memória.*
       *No bloco de execução, um trecho de código é executado **automaticamente uma única vez quando a classe é carregada pela primeira vez** na execução do código. Ele executa uma única vez por transação.*
 
-    - ***Retorno***: *Indica o tipo de retorno da classe. Quando indicado o tipo de retorno, a palavra-chave `return` se torna obrigatório a menos que o tipo de retorno seja **void**. Vejamos os tipos de retorno:* 
-      - ***Void***: *Indica que o método não retorna nenhum valor.*
+    - ***Retorno***: *Indica o tipo de retorno da classe. Quando indicado o tipo de retorno, a palavra-chave `return` se torna obrigatório a menos que o tipo de retorno seja `void`. Vejamos os tipos de retorno:* 
+      - ***Void***: *Indica que o método não retorna nenhum valor. A palavra chave **Return** não precisa ser utilizada.*
       - ***Boolean***: *Retorna um valor true ou false*
       - ***Tipos primitivos***: *Retorna valores primitivos como **double**, **integer**,**long**, atc...*
       - ***Objetos Personalizados***: *Os métodos podem retornar instâncias de objetos personalizados definidos pelo usuário.*
@@ -232,3 +232,7 @@
       - ***Instancias de Classes***: *Os métodos também podem retornar instancias de classes que podem encapsular dados e lógica.*
       - ***Tipos de Erro***: *Em casos onde um método pode falhar, ele pode retornar um tipo de erro personalizado.*
       ✨ **[MethodsReturnType.cls](../force-app/main/default/classes/MethodsReturnType.cls)**
+
+      - ***Parâmetros***: *Um parâmetro é uma variável que serve como um espaço reservado na memória, esperando receber um valor. Esses parâmetros quando declarados pelo método, devem ser, obrigatoriamente repassados no momento em que o método é acionado. Lembrando que os métodos ficam dentro do corpo do método, ou seja entre as `{}`*
+      ✨ **[MethodParams.cls](../force-app/main/default/classes/MethodParams.cls)**
+
