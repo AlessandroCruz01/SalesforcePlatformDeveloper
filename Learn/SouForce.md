@@ -162,13 +162,23 @@
       // Body of Class
     }
     ```
-  - ***Classes no Contexto do Apex***:
+  - ***[Classes no Contexto do Apex](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_defining.htm)***:
     *O Apex é uma linguagem de programação que usa sintaxe similar a do Java e funciona como procedimentos armazenados no banco de dados. O Apex permite que os desenvolvedores adicionem lógica de negócio a eventos de sistema, tais como cliques, botões, atualizações de registros.*
     *Assim como em Java, vocÇe pode criar classes no Apex. Uma classe é modelo ou projeto a partir do qual os objetos são criados. Um **objeto é uma instância da classe**.*
 
     ![Class](https://i.postimg.cc/CM7CDFsq/class-Struture.png)
 
     *Antes de seguirmos para os detalhamentos da estrutura da classe, vamos mostrar um exemplo de uma classe seguindo um objeto "Televisão", vamos para o arquivo:* ***[WhatIsClass.cls](../force-app/main/default/classes/WhatIsClass.cls)**.*
+
+    ```java
+    private | public | global // Modificador de Acesso
+    [virtual | abstract] // Tipo da classe
+    [with sharing | without sharing] // Regra de compartilhamento
+    class ClassName [implements InterfaceNameList] [extends ClassName] 
+    { 
+    // The body of the class
+    }
+    ```
 
   - ***[Modificadores](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_access_modifiers.htm)***: *Um **modificador de acesso** é uma palavra-chave em uma declaração de método, atributo ou classe. O modificador de acesso determina qual outro código do apex pode ver e usar a classe ou o método. Seguimos para o detalhamento dos modificadores de acesso:*
 
@@ -192,6 +202,8 @@
       }
       ```
       *Perceba que já é possível chamar o método assinado como protected utilizando o extends.*
+  
+  - ***Tipos de Classes (Opcional)***: *Existem dois tipos de classes que tem propósitos diferentes das classes padrão. Sendo as classes **Virtual**, **Abstract** e **Interfaces**.*
 
   - ***[Sharing](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_bulk_sharing_creating_with_apex.htm)***: *O conceito de **"Sharing"** em classes do Apex do Salesforce refere-se ao controle de acesso ao dados em nível de código. Isso é particularmente importante em ambientes multiusuários, onde, diferentes usuários podem ter diferentes níveis de acesso aos dados. O Salesforce oferece três configurações de compartilhamento principais que podem ser aplicadas a classes do Apex, são respectivamente **"with sharing"**,**"without sharing"**,**"inherited sharing"**. Vejamos cada um deles:*
 
@@ -262,11 +274,28 @@
 
     - ***Implements***: *O `implements` é a palavra reservada usada nas classes que implementam interfaces.*
 
-  - ***Virtual Class***
-    - ***Extends***
-    - ***Super***
-    - ***Protected***
-    - ***Override***
+  - ***Virtual Class***: *Uma virtual Class é semelhante a uma classe comum, porém com suas diferenças. No caso, uma classe virtual, permite que seus métodos sejam redefinidos.Esse tipo de classe **pode ou não** ter um construtor, e também pode ter assinatura de compartilhamento. Para este exemplo, vamos usar um objeto "Garrafa" para poder exemplificar o uso das classes virtuais. No caso das classes virtuais, os métodos das classes virtuais **tem obrigatoriamente que ser definido o corpo e regra de negócio**.*
+    *Para este exemplo criamos 3 classes, a classe virtual e duas filhas:*
+      - ✨ **[VirtualClass.cls](../force-app/main/default/classes/VirtualClass.cls)**
+      - ✨ **[VirtualClassFirstChild.cls](../force-app/main/default/classes/VirtualClassFirstChild.cls)**
+      - ✨ **[VirtualClassSecondChild.cls](../force-app/main/default/classes/VirtualClassSecondChild.cls)**
+  
+    - ***Extends***: *Serve para indicar que essa classe estende de uma classe virtual, ou seja, essa classe possui métodos que vem de uma classe virtual;*
+
+    - ***Super***: *Serve para executar o construtor da classe virtual.*
+  
+    - ***Override***: *Serve para modificar uma classe que ja existe na classe virtual, ou seja, ele subscreve um método que já existe.*
+
+    - ***Protected***: *O Atributo é acessível por outras classes na mesma unidade de código e por classes que estendem a classe a qual ele pertence.*
+
+    - **OBS**:
+      - *Os métodos devem ter corpo.*
+      - *As classes filhas podem ou não utilizar esses métodos*
+      - *As classes filhas podem ou não subscrever esses métodos*
+      - *O método `super();` responsável por chamar o construtor da classe virtual pode ou não ser declarado*
+
+    *Para exemplificar o uso das virtual Classes, veremos u,*
+    ✨ **[MethodsReturnType.cls](../force-app/main/default/classes/MethodsReturnType.cls)**
 
   - ***Abstract Class***
     - ***Métodos sem { e }***
@@ -274,4 +303,3 @@
     - ***Protected***
 
   - ***Interface vs Abstract Class***
-
