@@ -269,6 +269,7 @@
         - **A regra de negócio é definido pela filha, a Interface apenas obriga a existência daquele método, especificamente com o aquele retorno e aqueles atributos. O que será feito nas regras de negocio, nao interessa pra Interface**
         - **Como visto acima, uma mesma classe pode implementar mais de uma interface**
         - **Como uma interface apenas indica qual método deve ser implementado, é possível que existam diversas regras de negocio diferentes, se utilizando de uma mesma interface**
+        - **O `override` é opcional, ou seja, reescrever aquele trecho de código é opcional.**
 
     - ***Métodos sem { e }***: *Como indicamos os métodos de uma interface não tem corpo, já que quem vai implementar as regras de negócio, são as filhas.*
 
@@ -302,7 +303,6 @@
         *Para este exemplo criamos 3 classes, a classe virtual e duas filhas:*
         - ✨ **[AbstractClass.cls](../force-app/main/default/classes/AbstractClass.cls)**
         - ✨ **[AbstractClassFirstChild.cls](../force-app/main/default/classes/AbstractClassFirstChild.cls)**
-        - ✨ **[AbstractClassSecondChild.cls](../force-app/main/default/classes/AbstractClassSecondChild.cls)**
 
     - **OBS**:
       - *Os métodos podem ou não ter corpo.*
@@ -310,7 +310,20 @@
       - *As classes filhas não subscrever esses métodos.*
       - *As classes abstratas podem ou não utilizar a assinatura de compartilhamento*
       - *Essas classes não podem ser instanciadas, ou seja, não existe `new ` em uma classe abstrata.*
-      - *Nas abstracts o `override` também é obrigatório, porém no contexto de implementação dos métodos indicados no abstract*
+      - *Nas abstracts o `override` também é obrigatório, porém no contexto de implementação dos métodos indicados no abstract. Ou seja, caso haja um "contrato", a sub classe é **obrigada a reescrever aquele trecho de código, logo, usando o `override`***
       - *Caso a classe abstrata tenha um construtor, e esse construtor espere um atributo, o `super()` se torna **obrigatório**.*
   
   - ***Interface vs Abstract Class***
+    - *Como vimos, uma interface tem alguns pontos muito parecidos com as classes abstratas, porém cada uma tem suas particularidades e motivos para uso:*
+
+      - ***Interfaces***:
+        - *As interfaces são usadas para obter abstração;*
+        - *Projetado para oferecer suporte á solução dinâmica de métodos em tempo de execução;*
+        - *Ajuda a conseguir um acoplamento solto;*
+        - *Permite separar a definição de um método da hierarquia de herança;*
+
+      - ***Classe abstrata***:
+        - *As classes abstratas oferecem funcionalidades padrão para as subclasses;*
+        - *Fornece um modelo para futuras classes específicas;*
+        - *Ajuda a definir uma interface comum para suas subclasses;*
+        - *A classe abstrata permite a reutilização de código;*
