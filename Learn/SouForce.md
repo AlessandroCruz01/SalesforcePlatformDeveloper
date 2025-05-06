@@ -327,3 +327,21 @@
         - *Fornece um modelo para futuras classes específicas;*
         - *Ajuda a definir uma interface comum para suas subclasses;*
         - *A classe abstrata permite a reutilização de código;*
+ 
+- ### Encapsulamento, Herança e Polimorfismo
+  *Iremos agora rever todos estes conceitos, isso mesmo, **rever**. Pois todos os temas que passamos anteriormente era a aplicação destes conceitos na pratica. Vamos ver:*
+
+  - ***Encapsulamento***: *Encapsulamento significa ocultar os detalhes internos de uma classe, expondo apenas o que for necessário através de métodos públicos (getters e setters). Isso protege os dados e melhora a segurança e manutenção do código. Ou seja, quando aprendemos sobre os **modificadores**, estávamos também aprendendo sobre o encapsulamento. Em resumo, o encapsulamento se resume no uso de **Public**, **Protected** e **Private**.*
+    *Nós vimos esse tema na prática no exemplo da Pizza onde deixamos um dos atributos **private**, e também no exemplo da garrafa que deixamos o atributo **protected**. Ou seja, quem tinha uma instância da classe, não conseguia chegar ao atributo.*
+
+  - ***Herança***: *Herança é o mecanismo que permite que uma classe herde comportamentos (métodos) e atributos (variáveis) de outra classe. Isso promove reutilização de código e extensibilidade, já que classes filhas podem:*
+    - *Herdar código da classe pai*
+    - *Adicionar novos comportamentos*
+    - *Sobrescrever comportamentos existentes*
+    *Ou seja, herança se trata no ato de estender uma classe e tem os seguintes detalhes:*
+      - ***extends**: palavra-chave usada para herdar de outra classe*
+      - ***virtual**: a classe ou método pai deve ser marcada como virtual para permitir herança/sobrescrita*
+      - ***override**: indica que o método está sendo sobrescrito na classe filha*  
+
+  - ***Polimorfismo***: *Polimorfismo significa "muitas formas". Em POO, é a capacidade de usar uma referência de classe base (pai) para apontar para objetos de classes derivadas (filhas) e executar o comportamento adequado dependendo da instância real. Vimos com mais detalhes o polimorfismo em ação no exemplo da Pizza, onde subscrevemos um método para que ele se encaixe na nossa necessidade.*
+  
