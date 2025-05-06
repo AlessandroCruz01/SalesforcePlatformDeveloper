@@ -1,0 +1,347 @@
+# SouForce - Developer
+
+## Capítulo 01 - Além do Código
+- ### Arquitetura Multi-Tenant
+*A arquitetura Multi-Tenant é o equivalente a um condomínio com vários inquilinos no mesmo prédio. Essa analogia se refere aos servidores, onde temos várias ORGs no mesmo servidor.*
+![Arquitetura Multi Tenant](https://res.cloudinary.com/hy4kyit2a/f_auto,fl_lossy,q_70/learn/modules/starting_force_com/starting_understanding_arch/images/pt-BR/42a9c0226fae35d3349c3402b399f47e_kix.iau1cgvb69op.jpg)
+
+    Vantagens do Multi-tenant
+    - Melhor Utilização dos recursos de Hardware;
+    - Custo de Manutenção;
+    - Atualizações com mais facilidades;
+
+    Desvantagens do Multi-tenant
+    - Alta complexidade;
+    - Não permite isolar um único cliente;
+    - Baixa flexibilidade ( Sempre deve-se ter cuidados para não afetar os outros clientes );
+
+    Pontos de atenção
+    - DML - Sempre montar as DMLs da melhor forma possível;
+    - Queries - Limitações de Queries;
+    - Performance;
+
+## Capítulo 02 - Modelagem de dados (Admin)
+- ### Introdução
+    Modelagem de dados é uma forma de modelar a aparência das tabelas do banco de dados para poder ser entendida pelo ser humano. No Salesforce CRM, pensamos em *tabelas* como **objetos**, em *colunas* como **campos** e em *linhas* como **registros**
+    O Salesforce dá suporte a vários tipos de objetos diferentes. Eles podem ser objetos **padrão**, **personalizados**, **externos**, **eventos de plataforma** e **BigObjects**.
+
+- ### Introdução aos Objetos
+    **Objetos Padrão** - São aqueles objetos que vêm incluídos no Salesforce. Objetos comerciais comuns, como **Conta**, **Contato**, **Lead** e **Oportunidade**, são todos objetos padrão.
+
+    **Objetos Personalizados** - São objetos criados para armazenar informações específicas da sua empresa ou indústria.
+
+- ### Introdução aos Campos
+  Sempre há campos anexados a objetos padrões e personalizados. Seguem os diferentes tipos ( Obs: Estes campos são criados automaticamente para objetos personalizados, e já existem por padrão em objetos default ):
+
+    - Tipo de campo **Identify / Identidade**: *Um campo de **quinze (15)** caracteres que **diferencia** maiúsculas de minúsculas, ou seja, é Camel Case, e é gerado de forma automática para cada registro. É possível encontrar um ID de algum registro em sua URL.*
+      - Exemplo: *O Id de uma conta aparece da seguinte forma por exemplo: **001gK000003pStQQAU**. Onde, perceba que Id ao lado tem 18 caracteres e não somente 15 como indicado acima. Isso acontece por conta de um Checksum adicionado automaticamente pela SF que funciona para garantir a identificação do registro mesmo desconsiderando camel case. Para melhor entendimento de como funciona o Id podemos separar em blocos, da seguinte forma:*
+        - **001**: *Prefixo = Tipo de Objeto, para conta sempre será 001 para esta ORG, cada objeto tem seu próprio prefixo.*
+        - **gK000003pStQ**: *Id único deste registro dentro do objeto*
+        - **QAU**: *Adicionado apenas para formar o Id de 18 Caracteres*
+      - Observação: 
+        - *A Salesforce criou o Id de 18 caracteres para garantir a segurança nas integrações. Se compar apenas o Id de 15 caracteres em sistemas que não são Camel Case, ou seja, sistemas que não conseguem diferenciar maiúsculos e minúsculos, existe o risco de conflito.*
+        - *Existem ferramentas que convertem de 15 -> 18 e 18 -> 15 (Como fórmulas no Salesforce ou apps na AppExchange).*
+  
+    - Tipo de campo **Sistema / System**: *Campos ready only que fornecem informações sobre um registro do sistema, como a data de criação ou última alteração de um registro.*
+      - Exemplo: *CreatedDate, LastModifiedById e LastModifiedByDate*.
+
+    - Tipo de campo **Nome / Name**: *Todos os registros precisam de um nome, este campo é padrão e obrigatório tanto para objetos default quanto para objetos personalizados. E podem ter duas variações no caso de objetos personalizados. Onde podem ser um campo de texto ou auto number. Esse campo tem um limite  de **80 caracteres** e seu rótulo ( label ) é multilíngue, ou seja, tem tradução para outros idiomas. E se for auto number, não pode ser editado.*
+  
+    - Tipo de campo **Personalizado / Custom** - *Campos criados pelo admin para objetos padrão ou personalizados. Servem para armazenar informações personalizadas que não vem por padrão.*
+
+  Outra informação importante sobre os campos são seus prefixos, ou seja, suas assinaturas, por exemplo, todos os objetos e campos personalizados, tem em seu nome de API **API Name** o prefixo ***__c***, que indica que é um objeto ou um campo ***Personalizado.***. Porém existem outros que são importantes serem conhecidos. Seguimos:
+
+    - ***__c***: *Como já foi citado o **__c** serve para indicar tanto um campo personalizado, como um objeto personalizado.*
+      - Exemplo: *FavoriteAnime__c*
+
+    - ***__r***: *Serve para indicar que um campo é de relacionamento ( RelationShip ), este campo é usado nas consultas SOQL onde pode-se fazer uma busca relacionada no objeto. Este campo é associado aos campos de tipo **Lookup** ou **Master-Detail***
+      - Exemplo: *Digamos que estou em um objeto personalizado Meta__c, dentro de Meta__c tem um campo de relacionamento com campo através do campo Conta__c. Na consulta SOQL quero resgatar informações desta conta relacionada ao objeto Meta__c, com o campo de relacionamento ficaria assim: SELECT id, **Conta__r.Name** FROM Meta__c*
+
+    - ***__x***: *Serve para indicar Objetos Externos ( External Objects ), que são objetos conectados via Salesforce Connect. Ou seja, esses objetos não existem no Salesforce, são na verdade, objetos virtuais.*
+      - Exemplo: *SAP_Orders__x*
+
+    - ***__mdt***: *Custom Metadata Type, campos do tipo de metadados personalizados*
+      - Exemplo: *Payment_Settings__mdt*
+
+    - ***__e***: *Para indicar **Eventos de plataforma personalizados ( Platform Events )***
+      - Exemplo:  *Order_Created__e*
+  
+    - ***__b***: *Para indicar os campos de objetos muito grandes ou **Big Objects***
+      - Exemplo: *Archive_Log__b*
+
+  Outros sufixos importantes são:
+    - **History**:	Objeto de histórico de alterações (auditoria).
+    - **Feed**:	Objeto de Chatter/feed relacionado ao objeto.
+    - **Share**	Objeto de controle de compartilhamento manual.
+    - **ChangeEvent**	Representação de evento de mudanças (CDC - Change Data Capture).
+  
+- ### Todos os tipos de campos
+  O Salesforce oferece uma variedade de tipos de campos com dados diferentes, vamos passar por todos eles para entender melhor cada um deles:
+
+  ✨ *Campos automatizados:*
+  - ***Formula***: *Campo somente leitura que deriva seu valor de uma fórmula definida por você. O campo de fórmula é atualizado quando qualquer um dos campos de origem é alterado.*
+  - ***Numeração automática ( Auto Number )***: *Número sequencial gerado pelo sistema que usa o formato de exibição definido por você. Este número aumenta automaticamente a cada novo registro.*
+  - ***Resumo de totalização ( Roll-Up Summary )***: *Campo somente leitura que exibe a soma, o valor mínimo ou máximo de um campo em uma lista relacionada ou o número de registros de todos os registros listados em uma lista relacionada. Obs: **Campo somente leitura que exibe a soma, o valor mínimo ou máximo de um campo em uma lista relacionada ou o número de registros de todos os registros listados em uma lista relacionada.***
+  
+  ✨ *Campos de relacionamento:*
+  - ***Relacionamento de consulta externa ( External Lookup Relationship )***: *Cria um relacionamento que vincula este objeto a um objeto externo cujos dados são armazenados fora da organização do Salesforce.*
+  - ***Relacionamento de pesquisa ( Lookup Relationship )***: *Cria um relacionamento que vincula este objeto a outro. No campo de relacionamento, os usuários podem clicar em um ícone de pesquisa para selecionar um valor de uma lista pop-up. O outro objeto é a origem dos valores na lista.*
+
+  ✨ *Tipos de dados:*
+  - ***Área de Texto rich text ( Text Area (Rich) )***: *Permitir que os usuários insiram um texto formatado, adicionem imagens e links. Até 131.072 caracteres em linhas separadas.*
+  - ***Área de texto ( Text Area )***: *Permite que os usuários insiram até 255 caracteres em linhas separadas.*
+  - ***Área de texto (longo) ( Text Area (Long) )***: *Permitir que os usuários insiram até 131.072 caracteres em linhas separadas.*
+  - ***Caixa de seleção ( Checkbox )***: *Permite que os usuários selecionem um valor Verdadeiro (marcado) ou Falso (desmarcado).*
+  - ***Data ( Date )***: *Permite que os usuários digitem ou selecionem uma data em um calendário pop-up.*
+  - ***Data/Hora ( Date/Time )***: *Permite que os usuários insiram uma data e hora ou selecionem uma data em um calendário pop-up. Quando os usuários clicam em uma data no menu pop-up, a data e a hora atual são inseridas no campo Data/Hora.*
+  - ***Email***: *Permite que os usuários insiram um endereço de email, que é validado para garantir o formato correto. Se este campo for especificado para um contato ou lead, os usuários podem escolher o endereço ao clicar em Enviar um email. Observe que endereços de email personalizados não podem ser usados para emails em massa*
+  - ***Hora ( Time )***: *Permite aos usuários inserir um horário local. Por exemplo, "2:40 PM", "14:40", "14:40:00" e "14:40:50.600" são todos horários válidos para esse campo.*
+  - ***Lista de opções ( Picklist )***: *Permite que os usuários selecionem um valor em uma lista definida por você.*
+  - ***Lista de opções (seleção múltipla) ( Picklist (Multi-Select) )***: *Permite que os usuários selecionem vários valores de uma lista definida por você.*
+  - ***Localização geográfica ( Geolocation )***: *Permite que os usuários definam localizações. Inclui componentes de latitude e longitude e pode ser usado para calcular distância.*
+  - ***Moeda ( Currency )***: *Permite que os usuários insiram um valor em dólar ou em outra moeda, e formata automaticamente o campo como valor de moeda. Isso pode ser útil se você exportar dados para o Excel ou outra planilha*
+  - ***Número***: *Permite que os usuários insiram qualquer número. Zeros iniciais são removidos.*
+  - ***Porcentagem***: *Permite que os usuários insiram um número percentual, por exemplo '10', e adiciona automaticamente o sinal de porcentagem ao número.*
+  - ***Telefone***: *Permite que os usuários insiram qualquer número de telefone. O número é automaticamente formatado como número de telefone.*
+  - ***Texto***: *Permite que os usuários digitem qualquer combinação de letras e números.*
+  - ***Texto (criptografado)***: *Permite que os usuários insiram qualquer combinação de letras e números e os armazenem em formato criptografado.*
+  - ***URL***: *Permite que os usuários insiram qualquer endereço válido de site da Web. Quando os usuários clicam no campo, o URL é aberto em uma janela separada do navegador.*
+
+- ### Relacionamento de Objetos
+  Existe dois tipos principais de relacionamentos de objeto: *Pesquisa ( Lookup )* e *Mestre e Detalhes ( Mester Details )*.
+
+  ***Relacionamento de Pesquisa***: Pensemos em um exemplo simples de relacionamento, no caso Conta para Contato. Um relacionamento de pesquisa basicamente vincula dois objetos para que seja possível "pesquisar" um dos objetos nos itens relacionados do outro objeto.
+  O Relacionamento de pesquisa podem ser de *1-1* e *1-N*. No exemplo que citamos, uma conta pode ter vários contatos, ou seja, *1-N*.
+
+  ***Relacionamento entre Mestre e Detalhes***: Os relacionamentos de pesquisa são bastantes casuais, já os **relacionamentos entre mestre e detalhes** são mais estritos. Nesse tipo de relacionamento, um objeto é o mestre e o outro, o detalhe. O Objeto mestre controla determinados comportamentos do objeto detalhe, por exemplo, quem pode ver os dados do detalhe.
+  - Exemplo: *Suponha que o dono de uma propriedade deseja retirar seu imóvel do mercado. A empresa não desejaria manter as ofertas feitas pelo imóvel. Com um relacionamento entre mestre e detalhes entre Propriedades e Oferta, você pode excluir o imóvel e todas as ofertas associadas do sistema.*
+
+  Normalmente, usa-se relacionamento de pesquisa quando os objetos só estão relacionados em algumas situações. ÁS vezes, o contato está associado a uma conta específica, mas, outras vezes, ele é apenas um contato. Os objetos nos relacionamentos de pesquisa funcionam como objetos independentes e têm suas guias próprias na interface do usuário.
+  No Relacionamento de **Mestre e Detalhes**, o objeto detalhe não funciona independentemente. Ele depende bastante do mestre. Na verdade, se um registro mestre é excluído, todos os registros de detalhe também são excluídos.
+
+  Existe ainda um terceiro tipo de relacionamento chamado *relacionamento hierárquico*. Os relacionamentos hierárquicos são um tipo especial de relacionamento de pesquisa. A principal diferença entre os dois é que os relacionamentos hierárquicos **somente estão disponíveis no objeto Usuário**. Você pode usá-los para criar cadeias de gerenciamento de usuários.
+
+- ### Modelos de importação de dados
+  - ***Data Import Wizard***: Ferramenta Default do Salesforce com certas limitações de objetos. A lista apresentada no momento da importação é basicamente tudo o que ele suporta.
+  - ***Data loader UI***: O data loader é uma ferramenta de importação e exportação muito mais poderosa que o Data Import.
+  - ***Inspector***: É uma extensão poderosa capaz de executar queries SOQL, imports, exports e muito mais.
+  
+## Capítulo 03 - POO com Apex
+- ### O que é POO?
+  - *A POO é mais muito mais que uum mero **paradigma** de programação, é uma filosofia que se infiltra na estrutura de cada software.*
+    *Pense que estamos construindo um quebra-cabeças e, ao invés de peças aleatórias, cada peça é uma miniatura perfeitamente formada de uma parte do mundo real - um carro, uma casa, uma arvore... Essa é a essência da **Programação Orientada a Objetos (POO)**: uma maneira de programar que imita o mundo real.*
+    *Na POO, cada "peça" do seu software é um objeto, um pacote autocontido de dados e os respectivos métodos responsáveis por manipular esses dados.*
+
+  - ***Principais Fundamentos e paradigmas***: *Os pilares da POO incluem quatro conceitos-chave: **Encapsulamento**, **Herança**, **Abstração**, **Polimorfismo**. Vamos ver cada ponto e o que cada um significa:*
+    - ***Encapsulamento***: *Protege os dados dentro de um objeto.*
+    - ***Herança***: *É justamente através dela que um objeto herda as propriedades e métodos de outro, promovendo a reutilização de código e a criação de hierarquias de objetos.*
+    - ***Abstração***: *Facilita a modelagem de objetos complexos ao expor apenas os detalhes relevantes e escondendo implementações específicas.*
+    - ***Polimorfismo***: *Refere-se à capacidade de um método de assumir diferentes formas de comportamento, o que proporciona o tratamento de objetos de diferentes classes como objetos de uma classe.*
+
+  - ***Benefícios da POO***: *A **Programação Orientada a Objetos** oferece uma série de benefícios e vantagens responsáveis por justificar seu reconhecimento e adoção em diversos setores da indústria de software:*
+    - ***Reutilização de Código***: *A POO promove a reutilização de código de formas quue outros paradigmas não conseguem replicar ou igualar. Através do mecanismo de **herança**, por exemplo, novas classes criadas sobre as existentes, estendendo e customizando funcionalidades sem que o código existente precise ser reescrito.*
+    - ***Modularidade***: *Cada POO é uma entidade autônoma com suas próprias propriedades e comportamentos.*
+    - ***Colaboração Eficiente***: *Em grandes equipes, diferentes grupos podem trabalhar em módulos separados sem interferir no trabalho uns dos outros.*
+  
+  - ***Classes e objetos***: *As **classes** atuam como moldes para a criação de **objetos**, e cada classe define os atributos (propriedades) e comportamentos (métodos) que os objetos criados a partir dela possuirão.*
+
+- ### Objetos, Modificadores, Apex Class e Sharing
+  - ***O que é Orientação a objeto?***: *Um objeto é basicamente algo do mundo real com suas características, por exemplo: um carro. Um carro é um tipo de objeto, onde, cada carro tem suas características próprias, ou seja, tem uma cor, tem numero de portas, tem ano, modelo. No caso do mundo da programação, tornamos um objeto em uma classe, onde terá seus parâmetros (Atributos) e suas ações (Métodos), por exemplo, acelerar, frear. Toda classe tem um construtor que é basicamente o primeiro método chamado quando a classe é instanciada.*
+    - ✨ *Siga para o arquivo - [WhatIsObject.cls](../force-app/main/default/classes/WhatIsObject.cls)*
+
+  *Após o entendimento do que é um objeto e como é criada uma classe, seguimos para os demais pontos:*
+
+  ![POO](https://dhg1h5j42swfq.cloudfront.net/2023/07/22122822/image-314.png)
+  
+  - ***Classes***:
+    *uma classe é m plano, objetos são baseados em classes. Uma classe define um conjunto de características e comportamentos comuns a todos os objetos.*
+    *Pense numa flor. Ela tem características, como: cor, altura e comportamentos, como: crescer e murchar.*
+    *As classes são declaradas usando quatro partes: o **Modificador de acesso**, a palavra-chave **Class**, o nome da classe e o corpo da classe delimitado por **{}**.*
+    ```java
+    public class Flower {
+      // Body of Class
+    }
+    ```
+  - ***[Classes no Contexto do Apex](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_defining.htm)***:
+    *O Apex é uma linguagem de programação que usa sintaxe similar a do Java e funciona como procedimentos armazenados no banco de dados. O Apex permite que os desenvolvedores adicionem lógica de negócio a eventos de sistema, tais como cliques, botões, atualizações de registros.*
+    *Assim como em Java, vocÇe pode criar classes no Apex. Uma classe é modelo ou projeto a partir do qual os objetos são criados. Um **objeto é uma instância da classe**.*
+
+    ![Class](https://i.postimg.cc/CM7CDFsq/class-Struture.png)
+
+    *Antes de seguirmos para os detalhamentos da estrutura da classe, vamos mostrar um exemplo de uma classe seguindo um objeto "Televisão", vamos para o arquivo:* ***[WhatIsClass.cls](../force-app/main/default/classes/WhatIsClass.cls)**.*
+
+    ```java
+    private | public | global // Modificador de Acesso
+    [virtual | abstract] // Tipo da classe
+    [with sharing | without sharing] // Regra de compartilhamento
+    class ClassName [implements InterfaceNameList] [extends ClassName] 
+    { 
+    // The body of the class
+    }
+    ```
+
+  - ***[Modificadores](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_access_modifiers.htm)***: *Um **modificador de acesso** é uma palavra-chave em uma declaração de método, atributo ou classe. O modificador de acesso determina qual outro código do apex pode ver e usar a classe ou o método. Seguimos para o detalhamento dos modificadores de acesso:*
+
+    - ***Public***: *A classe, atributo ou método pode ser acessada de qualquer outra classe no mesmo namespace ou em namespaces diferente*
+      - ✨ **[ClassPublic.cls](../force-app/main/default/classes/ClassPublic.cls)**
+
+    - ***Private***: *A classe, atributo ou método só pode ser acessada por outras classes na mesma unidade de código (classe pai). Este modificador de acesso é o padrão e significa que o método ou variável é acessível apenas dentro da classe Apex na qual está definido. Se você não especificar um modificador de acesso, o método ou variável será **privado**. Também é importante citar que apenas a classe interna será definida como privada, já que a classe pai deve ser public.*
+      - ✨ **[ClassPrivate.cls](../force-app/main/default/classes/ClassPrivate.cls)**
+
+    - ***Global***: *A classe pode ser acessada de qualquer outro aplicativo no Salesforce ou por meio de chamadas RESTfull. Isso significa que o método ou variável pode ser usado por qualquer código Apex que tenha acesso à classe, não apenas o código Apex no mesmo aplicativo. Este modificador de acesso deve ser usado para qualquer método que precise ser referenciado fora do aplicativo, seja na API SOAP ou por outro código Apex. Se você declarar um método ou variável como **global**, você também deve declarar a classe que o contém como **global**. No caso da classe global pode ser definida na classe pai como global.*
+      - ✨ **[ClassGlobal.cls](../force-app/main/default/classes/ClassGlobal.cls)**
+
+    - ***Protected***: *A classe é acessível por outras classes na mesma unidade de código e por classes que estendem essa classe. Isso significa que o método ou variável é visível para quaisquer classes internas na classe Apex definidora e para as classes que estendem a classe Apex definidora. Você só pode usar este modificador de acesso para métodos de instância e variáveis ​​de membro. Esta configuração é estritamente mais permissiva do que a configuração padrão (privada), assim como em Java.*
+      - ✨ **[ClassProtected.cls](../force-app/main/default/classes/ClassProtected.cls)**
+      *Como entendemos, os métodos **protected** só podem ser acessíveis dentro da mesma unidade de código ou em classes que estendem essa classe. No caso temos o exemplo de uma classe filha que estende a classe criada acima:*
+      ```java
+      public class ClassProtectedChild extends ClassProtected {
+        public ClassProtectedChild(){
+          makeSound();
+        }
+      }
+      ```
+      *Perceba que já é possível chamar o método assinado como protected utilizando o extends.*
+  
+  - ***Tipos de Classes (Opcional)***: *Existem dois tipos de classes que tem propósitos diferentes das classes padrão. Sendo as classes **Virtual**, **Abstract** e **Interfaces**.*
+
+  - ***[Sharing](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_bulk_sharing_creating_with_apex.htm)***: *O conceito de **"Sharing"** em classes do Apex do Salesforce refere-se ao controle de acesso ao dados em nível de código. Isso é particularmente importante em ambientes multiusuários, onde, diferentes usuários podem ter diferentes níveis de acesso aos dados. O Salesforce oferece três configurações de compartilhamento principais que podem ser aplicadas a classes do Apex, são respectivamente **"with sharing"**,**"without sharing"**,**"inherited sharing"**. Vejamos cada um deles:*
+
+    - ***With Sharing***: *Este é o padrão quando uma classe nao declara o modificador de compartilhamento, no caso esta assinatura significa que o código **respeitará as configurações acesso de registros do Salesforce**, garantindo que o usuário que ativar a **trigger** e chamar esta classe, somente poderá acessar os dados os quais **tem permissão**.*
+      - ✨ **[WithSharingClass.cls](../force-app/main/default/classes/WithSharingClass.cls)**
+
+    - ***Without Sharing***: *Ao contrário do **With Sharing**, ao declarar uma classe com a assinatura **Without Sharing**, o código dentro dessa classe ignorará completamente as regras de compartilhamento do Salesforce a irá acessar todos os registros, independentemente das permissões do usuário que está executando o código.*
+      - ✨ **[WithoutSharingClass.cls](../force-app/main/default/classes/WithoutSharingClass.cls)**
+
+    - ***Inherited Sharing***: *Quando uma classe é declarada com essa assinatura, ela herda o compartilhamento da classe pai. Isso significa que se a classe pai for declarada com a assinatura **with sharing**, a classe filha herda a assinatura do pai.*
+      - ✨ **[InheritedSharing.cls](../force-app/main/default/classes/InheritedSharingClass.cls)**
+
+    - 🚦 ***Observação:***: *Existem ainda dois tipos de modificadores especiais, que veremos com mais detalhes mais a frente. No caso, as classes **Virtuais** e classes **Abstratas**.*
+      - **Virtual**: *Declara que esta classe permite extensões e substituições. Você não pode substituir um método pela palavra-chave **Override**, a menos que a classe tenha sido definido como virtual.*
+      - **Abstrata**: *Declara que esta classe contém métodos abstratos, ou seja, métodos que possuem **apenas** sua assinatura declarada e nenhum corpo definido.*
+
+  - ***[Construtor](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_constructors.htm)***: *O construtor é o primeiro método invocado quando uma classe é instanciada, ou seja, quando um objeto é criado a partir do **blueprint** da classe. O construtor **pode ou não** ser declarado, quando uma classe é instanciada caso não haja um construtor declarado, o próprio apex cria um construtor público sem parâmetros e sem retorno. A sintaxe de um construtor é semelhante a um método, mas difere de uma definição de método pois não possui um tipo de retorno explícito e não é herdado pelo objeto criado a partir dele.*
+    - ✨ **[Constructor.cls](../force-app/main/default/classes/Constructor.cls)**
+
+  - ***[Métodos](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_defining_methods.htm)***: *Os métodos são definidos dentro de uma classe. Um método descreve os comportamentos herdados por objetos da classe. Uma classe pode ter um ou mais métodos. Voltando ao exemplo da flor, citada anteriormente, uma flor pode crescer (grow), Polinizar (pollinate), etc...*
+    ![MethodStructure](https://i.postimg.cc/qv5GzrHT/Method.png)
+  *Como indicado acima, um método tem a estrutura de **Modificador**, que vimos anteriormente, seguido pela palavra-chave opcional **static**, que torna o método possível de ser chamado a partir do operador ponto (.), seguido pelo tipo de retorno, o nome do método, em seguida entre () os parâmetros que podem ou não serem definidas, em seguida o corpo do método. Vejamos:*
+
+    - ***Static***: *É utilizado para definir **variáveis**, **métodos** e **blocos de inicialização** de classe que pertencem à classe em sí, e não a uma instância especifica da classe (Um objeto). Isso significa que existe apenas uma cópia da variável ou método para toda a classe, independentemente de quantas instâncias da classe sejam criadas.*
+      - ✨ **[StaticClass.cls](../force-app/main/default/classes/StaticClass.cls)**
+      *No caso do **Método** quando definida como **static** significa que o método pertence á classe e não á instância. Ou seja, para ser executada, é necessário chamar a classe seguido . e o nome do método. `StaticClass.increaseCount();`.*
+      *No caso de uma **Variável**, quando definida como **static** significa que a variável é **compartilhada** entre todas as instâncias da classe. Ou seja, é única para todas as instancias e todas apontam para o mesmo espaço de memória.*
+      *No bloco de execução, um trecho de código é executado **automaticamente uma única vez quando a classe é carregada pela primeira vez** na execução do código. Ele executa uma única vez por transação.*
+
+    - ***Retorno***: *Indica o tipo de retorno da classe. Quando indicado o tipo de retorno, a palavra-chave `return` se torna obrigatório a menos que o tipo de retorno seja `void`. Vejamos os tipos de retorno:* 
+      - ***Void***: *Indica que o método não retorna nenhum valor. A palavra chave **Return** não precisa ser utilizada.*
+      - ***Boolean***: *Retorna um valor true ou false*
+      - ***Tipos primitivos***: *Retorna valores primitivos como **double**, **integer**,**long**, atc...*
+      - ***Objetos Personalizados***: *Os métodos podem retornar instâncias de objetos personalizados definidos pelo usuário.*
+      - ***Conjuntos de Elementos***: *Podem retornar **List**, **Set** ou **Map** de elementos.*
+      - ***Registros Objetos Padrão***: *Podem retornar registros de objetos padrão ou personalizados.*
+      - ***Enumeradores (Enums)***: *Pode retornar valores de um conjunto de valores Enums*
+      - ***Instancias de Classes***: *Os métodos também podem retornar instancias de classes que podem encapsular dados e lógica.*
+      - ***Tipos de Erro***: *Em casos onde um método pode falhar, ele pode retornar um tipo de erro personalizado.*
+      ✨ **[MethodsReturnType.cls](../force-app/main/default/classes/MethodsReturnType.cls)**
+
+      - ***Parâmetros***: *Um parâmetro é uma variável que serve como um espaço reservado na memória, esperando receber um valor. Esses parâmetros quando declarados pelo método, devem ser, obrigatoriamente repassados no momento em que o método é acionado. Lembrando que os métodos ficam dentro do corpo do método, ou seja entre as `{}`*
+      ✨ **[MethodParams.cls](../force-app/main/default/classes/MethodParams.cls)**
+
+- ### Interface, Virtual Class, Abstract Class
+  - ***[Interface](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_interfaces.htm)***: *Uma interface é algo parecido com uma assinatura de contrato, ou seja, todas as classes que implementarem essa interface, são **Obrigatoriamente** impostas a aplicar esses métodos indicados pela interface. Normalmente uma interface é nomeada inicialmente com o I, ou seja, caso tenhamos uma interface de pagamento, o nome seria algo parecido com: IPayment. **Uma interface tem somente dois modificadores, sendo eles: Public ou Global** e sua sintaxe é um pouco diferente das classes convencionais:*
+
+    ```java
+    public interface IPayment{
+      Decimal amount(Decimal value, Decimal valuePayment);
+    }
+    ```
+    *Perceba também que uma interface por padrão não tem um construtor e os métodos são compostos **apenas** pela estrutura de **tipo de retorno**, **nome do método** e **parâmetros de entrada**. O responsável por implementar esses métodos é a classe que implementar essa interface. Vejamos o Exemplo na prática onde:* 
+      - ✨ *Interface - [InterfaceClass.cls](../force-app/main/default/classes/InterfaceClass.cls)*
+      - ✨ *Classe filha, que implementa a interface - [InterfaceChildClass.cls](../force-app/main/default/classes/InterfaceChildClass.cls)*
+
+        - ***Obs sobre interface:***
+        - **Não tem construtor**
+        - **Não tem acesso a assinaturas de Sharing**
+        - **Não implementa os métodos, apenas indica quais devem ser implementados**
+        - **Perceba que as classes que implementam a interface, fazem uso da palavra-chave `implements`**
+        - **Classes filhas podem ter seu construtor normalmente, porém, são Obrigados a implementar os métodos indicados na interface**
+        - **A regra de negócio é definido pela filha, a Interface apenas obriga a existência daquele método, especificamente com o aquele retorno e aqueles atributos. O que será feito nas regras de negocio, nao interessa pra Interface**
+        - **Como visto acima, uma mesma classe pode implementar mais de uma interface**
+        - **Como uma interface apenas indica qual método deve ser implementado, é possível que existam diversas regras de negocio diferentes, se utilizando de uma mesma interface**
+        - **O `override` é opcional, ou seja, reescrever aquele trecho de código é opcional.**
+
+    - ***Métodos sem { e }***: *Como indicamos os métodos de uma interface não tem corpo, já que quem vai implementar as regras de negócio, são as filhas.*
+
+    - ***Implements***: *O `implements` é a palavra reservada usada nas classes que implementam interfaces.*
+
+  - ***Virtual Class***: *Uma virtual Class é semelhante a uma classe comum, porém com suas diferenças. No caso, uma classe virtual, permite que seus métodos sejam redefinidos.Esse tipo de classe **pode ou não** ter um construtor, e também pode ter assinatura de compartilhamento. Para este exemplo, vamos usar um objeto "Garrafa" para poder exemplificar o uso das classes virtuais. No caso das classes virtuais, os métodos das classes virtuais **tem obrigatoriamente que ser definido o corpo e regra de negócio**.*
+    *Para este exemplo criamos 3 classes, a classe virtual e duas filhas:*
+      - ✨ **[VirtualClass.cls](../force-app/main/default/classes/VirtualClass.cls)**
+      - ✨ **[VirtualClassFirstChild.cls](../force-app/main/default/classes/VirtualClassFirstChild.cls)**
+      - ✨ **[VirtualClassSecondChild.cls](../force-app/main/default/classes/VirtualClassSecondChild.cls)**
+  
+    - ***Extends***: *Serve para indicar que essa classe estende de uma classe virtual, ou seja, essa classe possui métodos que vem de uma classe virtual;*
+
+    - ***Super***: *Serve para executar o construtor da classe virtual.*
+  
+    - ***Override***: *Serve para modificar uma classe que ja existe na classe virtual, ou seja, ele subscreve um método que já existe.*
+
+    - ***Protected***: *O Atributo é acessível por outras classes na mesma unidade de código e por classes que estendem a classe a qual ele pertence.*
+
+    - **OBS**:
+      - *Os métodos devem ter corpo.*
+      - *As classes filhas podem ou não utilizar esses métodos*
+      - *As classes filhas podem ou não subscrever esses métodos*
+      - *O método `super();` responsável por chamar o construtor da classe virtual pode ou não ser declarado*
+
+  - ***Abstract Class***: *No Apex, uma classe abstrata é uma classe que **não pode ser instanciada diretamente** e que **serve como modelo base para outras classes**. Ela é usada quando você quer definir uma **estrutura comum**, mas deixar a implementação de certos métodos para as subclasses. Ela é ideal quando você tem um comportamento genérico que será especializado por outras classes. Para nosso exemplo, vamos pensar no objeto "Pizza".*
+
+    - ***Métodos sem { e }***: *Assim como acontece nas interfaces, uma classe abstrata também pode determinar um "contrato" ou seja, métodos que sao definidos pela abstract mas que **devem** ser implementadas pelas classes que fizerem o extend da classe abstrata.*
+    - ***Métodos Internos***: *Classes abstratas também podem ter métodos internos, que, diferente das classes virtuais, **nao podem** ser subscritas.*
+
+        *Para este exemplo criamos 3 classes, a classe virtual e duas filhas:*
+        - ✨ **[AbstractClass.cls](../force-app/main/default/classes/AbstractClass.cls)**
+        - ✨ **[AbstractClassFirstChild.cls](../force-app/main/default/classes/AbstractClassFirstChild.cls)**
+
+    - **OBS**:
+      - *Os métodos podem ou não ter corpo.*
+      - *As classes filhas podem ou não utilizar esses métodos.*
+      - *As classes filhas não subscrever esses métodos.*
+      - *As classes abstratas podem ou não utilizar a assinatura de compartilhamento*
+      - *Essas classes não podem ser instanciadas, ou seja, não existe `new ` em uma classe abstrata.*
+      - *Nas abstracts o `override` também é obrigatório, porém no contexto de implementação dos métodos indicados no abstract. Ou seja, caso haja um "contrato", a sub classe é **obrigada a reescrever aquele trecho de código, logo, usando o `override`***
+      - *Caso a classe abstrata tenha um construtor, e esse construtor espere um atributo, o `super()` se torna **obrigatório**.*
+  
+  - ***Interface vs Abstract Class***
+    - *Como vimos, uma interface tem alguns pontos muito parecidos com as classes abstratas, porém cada uma tem suas particularidades e motivos para uso:*
+
+      - ***Interfaces***:
+        - *As interfaces são usadas para obter abstração;*
+        - *Projetado para oferecer suporte á solução dinâmica de métodos em tempo de execução;*
+        - *Ajuda a conseguir um acoplamento solto;*
+        - *Permite separar a definição de um método da hierarquia de herança;*
+
+      - ***Classe abstrata***:
+        - *As classes abstratas oferecem funcionalidades padrão para as subclasses;*
+        - *Fornece um modelo para futuras classes específicas;*
+        - *Ajuda a definir uma interface comum para suas subclasses;*
+        - *A classe abstrata permite a reutilização de código;*
+ 
+- ### Encapsulamento, Herança e Polimorfismo
+  *Iremos agora rever todos estes conceitos, isso mesmo, **rever**. Pois todos os temas que passamos anteriormente era a aplicação destes conceitos na pratica. Vamos ver:*
+
+  - ***Encapsulamento***: *Encapsulamento significa ocultar os detalhes internos de uma classe, expondo apenas o que for necessário através de métodos públicos (getters e setters). Isso protege os dados e melhora a segurança e manutenção do código. Ou seja, quando aprendemos sobre os **modificadores**, estávamos também aprendendo sobre o encapsulamento. Em resumo, o encapsulamento se resume no uso de **Public**, **Protected** e **Private**.*
+    *Nós vimos esse tema na prática no exemplo da Pizza onde deixamos um dos atributos **private**, e também no exemplo da garrafa que deixamos o atributo **protected**. Ou seja, quem tinha uma instância da classe, não conseguia chegar ao atributo.*
+
+  - ***Herança***: *Herança é o mecanismo que permite que uma classe herde comportamentos (métodos) e atributos (variáveis) de outra classe. Isso promove reutilização de código e extensibilidade, já que classes filhas podem:*
+    - *Herdar código da classe pai*
+    - *Adicionar novos comportamentos*
+    - *Sobrescrever comportamentos existentes*
+    *Ou seja, herança se trata no ato de estender uma classe e tem os seguintes detalhes:*
+      - ***extends**: palavra-chave usada para herdar de outra classe*
+      - ***virtual**: a classe ou método pai deve ser marcada como virtual para permitir herança/sobrescrita*
+      - ***override**: indica que o método está sendo sobrescrito na classe filha*  
+
+  - ***Polimorfismo***: *Polimorfismo significa "muitas formas". Em POO, é a capacidade de usar uma referência de classe base (pai) para apontar para objetos de classes derivadas (filhas) e executar o comportamento adequado dependendo da instância real. Vimos com mais detalhes o polimorfismo em ação no exemplo da Pizza, onde subscrevemos um método para que ele se encaixe na nossa necessidade.*
+  
