@@ -294,12 +294,23 @@
       - *As classes filhas podem ou não subscrever esses métodos*
       - *O método `super();` responsável por chamar o construtor da classe virtual pode ou não ser declarado*
 
-    *Para exemplificar o uso das virtual Classes, veremos u,*
-    ✨ **[MethodsReturnType.cls](../force-app/main/default/classes/MethodsReturnType.cls)**
+  - ***Abstract Class***: *No Apex, uma classe abstrata é uma classe que **não pode ser instanciada diretamente** e que **serve como modelo base para outras classes**. Ela é usada quando você quer definir uma **estrutura comum**, mas deixar a implementação de certos métodos para as subclasses. Ela é ideal quando você tem um comportamento genérico que será especializado por outras classes. Para nosso exemplo, vamos pensar no objeto "Pizza".*
 
-  - ***Abstract Class***
-    - ***Métodos sem { e }***
-    - ***Métodos Internos***
-    - ***Protected***
+    - ***Métodos sem { e }***: *Assim como acontece nas interfaces, uma classe abstrata também pode determinar um "contrato" ou seja, métodos que sao definidos pela abstract mas que **devem** ser implementadas pelas classes que fizerem o extend da classe abstrata.*
+    - ***Métodos Internos***: *Classes abstratas também podem ter métodos internos, que, diferente das classes virtuais, **nao podem** ser subscritas.*
 
+        *Para este exemplo criamos 3 classes, a classe virtual e duas filhas:*
+        - ✨ **[AbstractClass.cls](../force-app/main/default/classes/AbstractClass.cls)**
+        - ✨ **[AbstractClassFirstChild.cls](../force-app/main/default/classes/AbstractClassFirstChild.cls)**
+        - ✨ **[AbstractClassSecondChild.cls](../force-app/main/default/classes/AbstractClassSecondChild.cls)**
+
+    - **OBS**:
+      - *Os métodos podem ou não ter corpo.*
+      - *As classes filhas podem ou não utilizar esses métodos.*
+      - *As classes filhas não subscrever esses métodos.*
+      - *As classes abstratas podem ou não utilizar a assinatura de compartilhamento*
+      - *Essas classes não podem ser instanciadas, ou seja, não existe `new ` em uma classe abstrata.*
+      - *Nas abstracts o `override` também é obrigatório, porém no contexto de implementação dos métodos indicados no abstract*
+      - *Caso a classe abstrata tenha um construtor, e esse construtor espere um atributo, o `super()` se torna **obrigatório**.*
+  
   - ***Interface vs Abstract Class***
