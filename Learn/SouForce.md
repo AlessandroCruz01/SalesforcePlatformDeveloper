@@ -345,3 +345,91 @@
 
   - ***Polimorfismo***: *Polimorfismo significa "muitas formas". Em POO, é a capacidade de usar uma referência de classe base (pai) para apontar para objetos de classes derivadas (filhas) e executar o comportamento adequado dependendo da instância real. Vimos com mais detalhes o polimorfismo em ação no exemplo da Pizza, onde subscrevemos um método para que ele se encaixe na nossa necessidade.*
   
+## Capítulo 04 - SOQL
+- ### Entendendo o que é SOQL
+  - ***[SOQL]([https://](https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm))***
+  
+  *Salesforce Object Query Language - O SOQL é muito semelhante ao SQL com a principal diferença em que o **SOQL** está incorporado ao código Apex, ou seja, atrelado diretamente ao código para fazer chamadas no Bando de dados.*
+  - ***Limites do SOQL***: 
+    - **50.000 registros** retornados por consulta.
+    - **100** consultas SOQL por transação síncrona (limite mais comum).
+    - **200 consultas** SOQL por transação assíncrona (ex: batch Apex).
+    - **35 relacionamentos** por consulta (quando se faz join com objetos relacionados).
+    - **4 joins** por tipo de relacionamento (ex: 4 relacionamentos de tipo pai-filho).
+    - **2.000 registros** exibidos no Developer Console por padrão (pode alterar).
+    - **1 subquery por relacionamento filho** (cada subquery deve estar relacionada ao pai).
+    - Não pode usar LIMIT diretamente em subqueries.
+    - **100 mil caracteres** em uma string de consulta SOQL (o texto da consulta).
+    - **20 mil caracteres** em filtros WHERE (para consultas dinâmicas).
+    - SOQL não permite `SELECT *` – você deve listar os campos manualmente.
+    - Não faz junção entre objetos não relacionados (sem lookup/master-detail).
+
+    ![Limites do SOQL](https://i.postimg.cc/yN5BpBSy/Chat-GPT-Image-7-de-mai-de-2025-21-58-43.png)
+
+  - ***Sintaxe do SOQL dentro do Apex***:
+    ```java
+    public class SOQL {
+      public SOQL(){
+        [ SELECT Id, Name FROM Account ];
+      }
+    }
+    ```
+  - ***[Métodos básicos do SOQL](https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql_select.htm)***:
+    - **SELECT**: *Serve para buscar campos. - `SELECT fieldList [subquery][...]`* 
+    - **FROM**: *Indica o Objeto de onde os campos serão extraídos.*
+    - **WHERE**: *Filtra os registros com base nas condições.*
+    - **ORDER BY**: *Ordena os resultados.*
+    - **LIMIT**: *Limita o número de registros que devem ser retornados.*
+    - **OFFSET**: *Pula um número específico de registros ( Ideal para paginação )*
+    - **IN** / **NOT IN**: *Filtra valores dentro ou fora da lista.*
+    - **LIKE**: *Busca padrões em campos de texto.*
+    - **AND** / **OR**: *Combina muitas condições.*
+    - **NOT**: *Inverte uma condição lógica.*
+    - **GROUP BY**: *Agrupa os resultados por um campo ( Usados para funções agregadas ).*
+    - **HAVING**: *Filtra os grupos após o **`GROUP BY`**.*
+    - **FOR UPDATE**: *Serve para travar o registro enquanto sofre a atualização.*
+    - **FOR VIEW**: *Serve para **atualizar** objetos com informações sobre quando eles foram visualizados pela última vez (**LastViewedDate**).*
+    - **FOR REFERENCE**: *Serve para notificar o Salesforce quando um registro é referenciado a partir de uma interface personalizada, como em um aplicativo móvel ou de uma página personalizada.*
+    - **FORMAT()**: *This clause to apply localized formatting to standard and custom number, date, time, and currency fields.*
+    - **toLabel()**: *Translate SOQL query results into the language of the user who submits the query using the toLabel function.*
+  
+  - ***Funções de Datas***:
+    - **CALENDAR_MONTH()**: *Returns a number representing the calendar month of a date field.*
+    - **CALENDAR_QUARTER()**: *Returns a number representing the calendar quarter of a date field.*
+    - **CALENDAR_YEAR()**: *Returns a number representing the calendar year of a date field.*
+    - **DAY_IN_MONTH()**: *Returns a number representing the day in the month of a date field.*
+    - **DAY_IN_WEEK()**: *Returns a number representing the day of the week for a date field.*
+    - **DAY_IN_YEAR()**: *Returns a number representing the day in the year for a date field.*
+    - **DAY_ONLY()**: *Returns a date representing the date portion of a dateTime field.*
+    - **FISCAL_MONTH()**: *Returns a number representing the fiscal month of a date field. This differs from CALENDAR_MONTH() if your organization uses a fiscal year that does not match the Gregorian calendar. This function is not supported if your organization has custom fiscal years enabled.*
+    - **FISCAL_QUARTER()**: *Returns a number representing the fiscal quarter of a date field. This differs from CALENDAR_QUARTER() if your organization uses a fiscal year that does not match the Gregorian calendar. This function is not supported if your organization has custom fiscal years enabled.*
+    - **FISCAL_YEAR()**: *Returns a number representing the fiscal year of a date field. This differs from CALENDAR_YEAR() if your organization uses a fiscal year that does not match the Gregorian calendar. This function is not supported if your organization has custom fiscal years enabled.*
+    - **HOUR_IN_DAY()**: *Returns a number representing the hour in the day for a dateTime field.*
+    - **WEEK_IN_MONTH()**: *Returns a number representing the week in the month for a date field.*
+    - **WEEK_IN_YEAR()**: *Returns a number representing the week in the year for a date field.*
+
+  - ***Funções Agregadas (Aggregate Functions)***:
+    - **COUNT()**: *Retorna o número de registros.*
+    - **COUNT_DISTINCT()**: *Conta valores únicos.*
+    - **SUM()**: *Soma valores numéricos.*
+    - **AVG()**: *Calcula média.*
+    - **MIN()** / **MAX()**: *Encontra o maior valor e o menor.*
+    - **GROUP BY ROLLUP**: *Cláusula opcional em uma consulta SOQL para adicionar subtotais para dados agregados nos resultados da consulta. Essa ação permite que a consulta calcule subtotais para que você não precise manter essa lógica no seu código.*
+    - **GROUPING(fieldName)**: *função para determinar se uma linha é um subtotal ou campo é usado quando.*
+
+  - ***Consultas de Relacionamentos***:
+    - **Child-to-Parent (dot notation)**: `SELECT Account.Name FROM Contact`
+    - **Parent-to-Child (subquery)**: `SELECT Name, (SELECT LastName FROM Contacts) FROM Account`
+
+  - ***Consultas especiais para Knowledge__kav***:
+    - **UPDATE TRACKING**: *Serve para gerar relatórios sobre pesquisas e visualizações de artigos (**Knowledge__kav**). Os desenvolvedores podem usar o UPDATE TRACKING para rastrear as palavras-chave usadas nas pesquisas de artigos do Salesforce Knowledge.*
+    - **UPDATE VIEWSTAT**: *Você pode obter uma contagem de visualizações para cada artigo ao qual tem acesso online. Os desenvolvedores podem usar UPDATE VIEWSTAT para atualizar as estatísticas de visualização de um artigo.*
+
+  *Seguimos para os exemplos práticos do que vimos acima:* ✨ *[SOQL.cls](../force-app/main/default/classes/SOQL.cls)*
+
+
+- ### Entendendo o que é SOSL
+  - ***[SOSL](https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_sosl.htm)***
+
+- ### Entendendo o que é DML
+  - ***[DML]([https://](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_dml_section.htm))***
