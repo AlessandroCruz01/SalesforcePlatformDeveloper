@@ -430,6 +430,55 @@
 
 - ### Entendendo o que é SOSL
   - ***[SOSL](https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_sosl.htm)***
+  
+  *O Salesforce Object Search Language (SOSL) diferente do SOQL onde a busca é feita através de dados dos quais sabemos onde exatamente precisamos buscar o SOSL serve para os momentos em que **não sabemos exatamente onde o dado está**. Ou seja, eu sei o que quero, porém não sei onde está.*
+
+  - ***Limites do SOSL***:
+    - **Limite de registros retornados**: Máximo de 2.000 registros por consulta SOSL.
+    - **Número de consultas por transação**: Até 20 consultas SOSL por transação Apex.
+    - **Objetos pesquisados**: Máximo de 20 objetos diferentes por consulta.
+    - **Campos retornados**: Apenas campos indexados são pesquisáveis no texto (ex: Name, Email).
+    - **Tipos de campos**: Não é possível pesquisar em campos de tipo Long Text Area ou Rich Text Area.
+    - **Ordem dos resultados**: Os resultados não são ordenados de forma garantida.
+    - **Relacionamentos**: Não permite navegar em relacionamentos como o SOQL (Account.Name, por exemplo).
+    - **Tradução e stemming**: Funcionalidades de busca podem ser limitadas em idiomas diferentes do inglês.
+
+  - ***Sintaxe***:
+    - `FIND 'SearchQuery' [IN SearchGroup] [RETURNING ObjectsAndFields]`
+    - `FIND {Valor procurado} IN ALL FIELDS RETURNING Account(Id, Name, Type)` 
+      - A busca deve ter mais que um caractere;
+      - Suporta `Where` por exemplo: `FIND {Valor procurado} IN ALL FIELDS RETURNING Account(Id, Name, Type) WHERE Type = 'Customer - Channel'`
+
+  - ***Sintaxe do SOSL dentro do apex***:
+    ```java
+    public class SOSL {
+      public SOSL(){
+        List<List<SObject>> searchList = [FIND 'SFDC' IN ALL FIELDS RETURNING Account(Name), Contact(FirstName,LastName)];
+      }
+    }
+    ```
+
+  - ***OBS***:
+    - O SOSL sofre uma pequena diferença quando é usado dentro de um apex class e dentro do query editor:
+      - **Query Editor**: `FIND {SearchQuery} [IN SearchGroup] [RETURNING ObjectsAndFields]`
+      - **APEX**: `FIND {SearchQuery} [IN SearchGroup] [RETURNING ObjectsAndFields]`
+
+  - ***Funções SOSL***
+    - Existem caracteres **curinga** dentro do SOSL sendo eles:
+      - ? - corresponde a apenas um caractere no meio ou no fim do termo de pesquisa.
+      - * - corresponde a zero ou mais caracteres no meio ou no fim do termo de pesquisa.
+    - O SOSL não diferenciam maiúsculas e minúsculas.
+    - O escopo de campos a serem pesquisados é opcional, ou seja:
+      - A query: `FIND {*uni*} IN ALL FIELDS RETURNING Account(Id, Name), Contact(Id, Name), Lead` pode ser escrita:
+      - `FIND {*uni*} RETURNING Account(Id, Name), Contact(Id, Name), Lead` removendo o *"IN ALL FIELDS"*.
+    - O escopo de pesquisa padrão é **all fields**, porém temos os seguintes métodos:
+      - ***ALL FIELDS***: Todos os campos.
+      - ***NAME FIELDS***: Campos de nome.
+      - ***EMAIL FIELDS***: Campos de Email.
+      - ***PHONE FIELDS***: Campos de telefone.
+      - ***SIDEBAR FIELDS***: Campos de barra lateral.
+
+  - *Seguimos para os exemplos práticos do que vimos acima:* ✨ *[SOSL.cls](../force-app/main/default/classes/SOSL.cls)*
 
 - ### Entendendo o que é DML
   - ***[DML]([https://](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_dml_section.htm))***
