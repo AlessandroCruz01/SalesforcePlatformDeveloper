@@ -465,8 +465,8 @@
 
   - ***Funções SOSL***
     - Existem caracteres **curinga** dentro do SOSL sendo eles:
-      - ? - corresponde a apenas um caractere no meio ou no fim do termo de pesquisa.
-      - * - corresponde a zero ou mais caracteres no meio ou no fim do termo de pesquisa.
+      - [ ? ] - corresponde a apenas um caractere no meio ou no fim do termo de pesquisa.
+      - [ * ] - corresponde a zero ou mais caracteres no meio ou no fim do termo de pesquisa.
     - O SOSL não diferenciam maiúsculas e minúsculas.
     - O escopo de campos a serem pesquisados é opcional, ou seja:
       - A query: `FIND {*uni*} IN ALL FIELDS RETURNING Account(Id, Name), Contact(Id, Name), Lead` pode ser escrita:
