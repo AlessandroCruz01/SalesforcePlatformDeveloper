@@ -481,4 +481,4 @@
   - *Seguimos para os exemplos práticos do que vimos acima:* ✨ *[SOSL.cls](../force-app/main/default/classes/SOSL.cls)*
 
 - ### Entendendo o que é DML
-  - ***[DML]([https://](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_dml_section.htm))***
+  - ***[DML](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_dml_section.htm)***
