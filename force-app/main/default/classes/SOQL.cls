@@ -59,11 +59,11 @@ public with sharing class SOQL {
     }
 
     // Knowledge__kav
-    public void useUpdateTracking(){
-        Knowledge__kav kav = [ SELECT Id FROM Knowledge__kav LIMIT 1 UPDATE TRACKING ];
-    }
+    // public void useUpdateTracking(){
+    //     Knowledge__kav kav = [ SELECT Id FROM Knowledge__kav LIMIT 1 UPDATE TRACKING ];
+    // }
 
-    public void useUpdateViewStat(){
-        Knowledge__kav kav = [ SELECT Id FROM Knowledge__kav LIMIT 1 UPDATE VIEWSTAT ];
-    }
+    // public void useUpdateViewStat(){
+    //     Knowledge__kav kav = [ SELECT Id FROM Knowledge__kav LIMIT 1 UPDATE VIEWSTAT ];
+    // }
 }
