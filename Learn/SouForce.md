@@ -387,6 +387,7 @@
     - **NOT**: *Inverte uma condição lógica.*
     - **GROUP BY**: *Agrupa os resultados por um campo ( Usados para funções agregadas ).*
     - **HAVING**: *Filtra os grupos após o **`GROUP BY`**.*
+    - **ALL ROWS**: *Serve para buscar todos os registros mesmo os que foram deletados e estão na lixeira.*
     - **FOR UPDATE**: *Serve para travar o registro enquanto sofre a atualização.*
     - **FOR VIEW**: *Serve para **atualizar** objetos com informações sobre quando eles foram visualizados pela última vez (**LastViewedDate**).*
     - **FOR REFERENCE**: *Serve para notificar o Salesforce quando um registro é referenciado a partir de uma interface personalizada, como em um aplicativo móvel ou de uma página personalizada.*
@@ -482,3 +483,26 @@
 
 - ### Entendendo o que é DML
   - ***[DML](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_dml_section.htm)***
+  
+  *O Data Manipulation Language ( DML ), serve para de fato manipular os dados dentro do Salesforce, o SOQL e SOSL servem para **resgatar e exibir os dados**, já o DML serve para **manipular os dados resgatados**, formando um CRUD do registro.*
+
+   - ***Limites do DML***:
+     - **Total de transações async ou sync**: 150
+     - **Total de registros processados**: 10000
+  
+  - ***Transações DML***
+    - **`Insert`**: *Serve para **inserir** um ou mais sObjects*
+      - **Sintaxe**: `insert sObject` | `insert sObject[]`
+    - **`Update`**: *Serve para **atualizar** um ou mais sObjects existentes*
+      - **Sintaxe**: `update sObject` | `update sObject[]`
+    - **`Upsert`**: *Serve para **criar e atualizar** um ou mais sObjects usando um campo específico para verificar sua existência ou o campo de Id, caso não exista, um novo registro será criado.*
+      - **Sintaxe**: `upsert sObject​​[opt_field]` | `upsert sObject[]​​[opt_field]`
+    - **`Delete`**: *Serve para **excluir** um ou mais sObjects existentes*
+      - **Sintaxe**: `delete sObject` | `delete sObject[]`
+    - **`Undelete `**: *Serve para **resgatar** um ou mais sObjects existentes na lixeira*
+      - **Sintaxe**: `undelete sObject | ID` | `undelete sObject[] | ID[]`
+    - **`Merge `**: *Serve para **mesclar até 3 registros do mesmo tipo** em apenas um dos registros, excluindo os outros e repaginando quaisquer registros relacionados*
+      - **Sintaxe**: `merge sObject sObject` | `merge sObject sObject[]` | `merge sObject ID` | `merge sObject ID[]`
+        - **Detalhes do Merge**: O primeiro parâmetro é sempre o registro mestre ou seja, o registro o qual o outros devem ser mesclados. O segundo parâmetro representa um ou dois registros que devem ser mesclados com o mestre e, em seguida, excluídos. Podendo ser passado por sObject único, Id ou uma lista de dois elementos.
+
+  - *Seguimos para os exemplos práticos do que vimos acima:* ✨ *[DML.cls](../force-app/main/default/classes/DML.cls)*
