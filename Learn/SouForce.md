@@ -506,3 +506,25 @@
         - **Detalhes do Merge**: O primeiro parâmetro é sempre o registro mestre ou seja, o registro o qual o outros devem ser mesclados. O segundo parâmetro representa um ou dois registros que devem ser mesclados com o mestre e, em seguida, excluídos. Podendo ser passado por sObject único, Id ou uma lista de dois elementos.
 
   - *Seguimos para os exemplos práticos do que vimos acima:* ✨ *[DML.cls](../force-app/main/default/classes/DML.cls)*
+  
+## * Namespaces|Class globais
+  *Antes de irmos para o próximo capítulo, vamos dar uma pausa e verificar algumas classes e namespaces padrão. Essas classes globais e namespaces possuem seus próprios métodos e utilidades  sendo os principais: **Database**, **Schema**, **System** entre outros. Seguimos:*
+
+  - ### System Class
+    - ***[System](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_system.htm)***
+    - ***Os exemplos vão estar na classe: ✨ *[SystemClass.cls](../force-app/main/default/classes/SystemClass.cls)* ***
+
+    *A classe **System** é uma das mais utilizadas e contém métodos para operações do sistema, como escrever mensagens de depuração e agendar tarefas. Observe a documentação pois existem vários métodos nessa classe global. Porém citaremos as mais utilizadas no dia a dia.*
+
+    - **Debug - `System.debug`**: *Grava a mensagem especificada, em formato de string, no log de depuração de execução. O nível de log DEBUG é usado.*
+      **Parâmetros**:
+      - **`System.debug(msg);`**: ***msg** é um parâmetro do tipo String, por exemplo `System.debug('Hello World');`*
+      - **`System.debug(logLevel, msg)`**: ***logLevel** é um parâmetro ENUM do tipo  [LoggingLevel](https://help.salesforce.com/s/articleView?id=platform.code_setting_debug_log_levels.htm&type=5) . Segue documentação dos tipos de logLevel. Exemplo de uso: `System.debug(LoggingLevel.Error, 'Hello World');`*
+  
+    - **CurrentPageReference - `System.PageReference()`**: *Retorna uma referência à página atual. Usado com páginas do Visualforce.*
+      **Obs**:
+        - **O pageReference também é um namespace padrão que será visto mais adiante. Podemos ver mais sobre essa classe na documentação: [PageReference](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_system_pagereference.htm)**
+        - **Não tem necessidade de parâmetros.**
+    
+    - **Now / Today - `System.now()` | `System.today()`**: *Retorna o horário atual GMT e retorna a data atual*
+  
