@@ -549,3 +549,16 @@
       - **Database.rollback(Savepoint)**: *Restaura o banco de dados para o estado especificado pela variável savepoint. Todos os e-mails enviados desde o último savepoint também são revertidos e não enviados.*
 
       - **Database.query(queryString)**: *Cria uma consulta SOQL dinâmica em tempo de execução.*
+
+  - ### Schema Class
+    - ***[Schema](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_schema.htm)***
+    - **Os exemplos vão estar na classe: ✨ *[SchemaClass.cls](../force-app/main/default/classes/SchemaClass.cls)***
+
+    *A classe global Schema é usado para metadados de modelo de dados ( Objetos, Campos, atc ). Os principal motivo para se utilizar a classe Schema era para a criação de código genérico e dinâmico.*
+
+    - **GetGlobalDescribe - `Schema.getGlobalDescribe()`**: *Retorna um mapa de **todos os nomes de sObject** (keys) para tokens de sObject (values) para os objetos padrão e personalizados definidos na sua organização.*
+    - **DescribeDataCategoryGroups - `Schema.getGlobalDescribe(sObjectNames)`**: *Retorna uma lista dos grupos de categorias associados aos objetos especificados.*
+      - **Params**: *`List<String> sObjectNames`*
+    - **DescribeSObjects - `Schema.describeSObjects(sObjectTypes)`**: *Descreve metadados (lista de campos e propriedades de objeto) para o sObject ou matriz de sObjects especificado.*
+      - **Params**: *`List <String> sObjectTypes`*: *O argumento sObjectTypes é uma lista de nomes de tipos sObject que você deseja descrever.*
+    - **SObjectField - `Schema.SObjectField`**: *Um objeto Schema.sObjectField é retornado do resultado de descrição do campo usando os métodos getController e getSObjectField.*
