@@ -1,5 +1,22 @@
 # SouForce - Developer
 
+## Capítulo 00 - Ordem de execução do Salesforce
+  ![Ordem de execução](https://ryanwingate.com/salesforce/other-projects-investigations/order-of-execution-graphic-from-salesforceben/order-of-execution-from-salesforceben.png)
+
+  1. Pre-Validation:
+    *Pre-validation (Before): Eventos como Before Insert, Before Update, Before Delete, são executados antes que o registro seja efetivamente alterado na base de dados. Isso permite a implementação de lógica de negócio que pode impedir uma operação antes que ela seja realizada. 
+    Regras de validação: A Salesforce avalia as regras de validação antes de qualquer execução de código. Se uma regra de validação falhar, a operação é interrompida, e o usuário recebe uma mensagem de erro.*
+  2. Execution:
+    *Apex: A linguagem de programação Apex é usada para criar código customizado, como triggers, classes e funções. O código Apex pode ser executado dentro de eventos (antes ou depois) e também pode ser chamado diretamente.* 
+    *Triggers: Os triggers são código Apex que é executado em resposta a eventos específicos de um objeto, como inserção, atualização, deleção, etc. Eles podem ser usados para executar lógica complexa, como atualizar outros registros, enviar e-mails, etc.* 
+  3. Post-Validation:
+    *Post-validation (After): Eventos como After Insert, After Update, After Delete, são executados após a operação de salvar ser concluída. Eles são úteis para tarefas que não podem ser interrompidas se o salvar falhar, como atualização de registros relacionados ou execução de tarefas em segundo plano. 
+    Associação de campos: A Salesforce também pode executar lógica de validação no nível de campo individual.* 
+  4. After Commit:
+    *Depois do Commit: Este é o momento em que a transação é efetivamente concluída e a operação é escrita na base de dados. Algumas operações, como execução de processos em segundo plano, podem ser agendadas para serem executadas após o commit.* 
+
+  ![Segundo exemplo](https://pbs.twimg.com/media/FT-VZ1jagAAD2Hb.jpg)
+
 ## Capítulo 01 - Além do Código
 - ### Arquitetura Multi-Tenant
 *A arquitetura Multi-Tenant é o equivalente a um condomínio com vários inquilinos no mesmo prédio. Essa analogia se refere aos servidores, onde temos várias ORGs no mesmo servidor.*
@@ -506,3 +523,71 @@
         - **Detalhes do Merge**: O primeiro parâmetro é sempre o registro mestre ou seja, o registro o qual o outros devem ser mesclados. O segundo parâmetro representa um ou dois registros que devem ser mesclados com o mestre e, em seguida, excluídos. Podendo ser passado por sObject único, Id ou uma lista de dois elementos.
 
   - *Seguimos para os exemplos práticos do que vimos acima:* ✨ *[DML.cls](../force-app/main/default/classes/DML.cls)*
+  
+## * Namespaces|Class globais
+  *Antes de irmos para o próximo capítulo, vamos dar uma pausa e verificar algumas classes e namespaces padrão. Essas classes globais e namespaces possuem seus próprios métodos e utilidades  sendo os principais: **Database**, **Schema**, **System** entre outros. Seguimos:*
+
+  - ### System Class
+    - ***[System](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_system.htm)***
+    - ***Os exemplos vão estar na classe: ✨ *[SystemClass.cls](../force-app/main/default/classes/SystemClass.cls)* ***
+
+    *A classe **System** é uma das mais utilizadas e contém métodos para operações do sistema, como escrever mensagens de depuração e agendar tarefas. Observe a documentação pois existem vários métodos nessa classe global. Porém citaremos as mais utilizadas no dia a dia.*
+
+    - **Debug - `System.debug`**: *Grava a mensagem especificada, em formato de string, no log de depuração de execução. O nível de log DEBUG é usado.*
+      **Parâmetros**:
+      - **`System.debug(msg);`**: ***msg** é um parâmetro do tipo String, por exemplo `System.debug('Hello World');`*
+      - **`System.debug(logLevel, msg)`**: ***logLevel** é um parâmetro ENUM do tipo  [LoggingLevel](https://help.salesforce.com/s/articleView?id=platform.code_setting_debug_log_levels.htm&type=5) . Segue documentação dos tipos de logLevel. Exemplo de uso: `System.debug(LoggingLevel.Error, 'Hello World');`*
+  
+    - **CurrentPageReference - `System.PageReference()`**: *Retorna uma referência à página atual. Usado com páginas do Visualforce.*
+      **Obs**:
+        - **O pageReference também é um namespace padrão que será visto mais adiante. Podemos ver mais sobre essa classe na documentação: [PageReference](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_system_pagereference.htm)**
+        - **Não tem necessidade de parâmetros.**
+    
+    - **Now / Today - `System.now()` | `System.today()`**: *Retorna o horário atual GMT e retorna a data atual*
+
+  - ### Database Class
+      - ***[Database](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_database.htm)***
+      - **Os exemplos vão estar na classe: ✨ *[DatabaseClass.cls](../force-app/main/default/classes/DatabaseClass.cls)***
+
+      *Classe com métodos estáticos usado para manipular dados de forma mais controlada do que os **DML** diretos como o **insert** ou **update**. Com o Database conseguimos ter um controle sobre uma DML com o adendo de **savepoints**, **partial success**, etc.*
+
+      - **Database.insert(sObjects) | Database.update(sObjects) | Database.delete(sObjects)**: *Adiciona |Atualiza | Deleta um ou mais sObject, como uma conta ou contato individual, aos dados da sua organização.*
+          **Parâmetros**: 
+            - **sObjects - (List or Unique sObjects)** - *Pode ser adicionado um ou mais registros sObjects.*
+            - **allOrNone - (Boolean)** - *Boolean é um parâmetro opcional que serve para indicar se essa DML aceita um sucesso parcial, por padrão vem setado como **true** o que indica que se o método não for bem-sucedido, uma exceção será lançada. Caso seja marcado como **false** e um registro falhar, o restante da operação DML ainda poderá ser bem sucedida. **allOrNone e dmlOptions não podem ser declaradas no mesmo método.***
+            - **dmlOptions - (Database.DMLOptions)** - *O parâmetro opcional dmlOptions especifica dados adicionais para a transação, como informações de regras de atribuição ou comportamento de reversão quando ocorrem erros durante inserções de registros. **allOrNone e dmlOptions não podem ser declaradas no mesmo método.***
+            - **accessLevel - (System.AccessLevel)** - *O parâmetro accessLevel especifica se o método é executado no modo de sistema `AccessLevel.SYSTEM_MODE` ou no modo de usuário `AccessLevel.USER_MODE`. No modo de **Sistema**: As permissões de objeto e de campo do usuário atual são ignoradas, e as regras de compartilhamento de registros são controladas pelas **assinaturas de compartilhamento** da classe. No modo de usuário, as permissões de objeto, a segurança em nível de campo e as regras de compartilhamento do usuário atual são aplicadas. O modo de sistema é o padrão. **O parâmetro de accessLevel pode ser atribuído junto do dmlOptions***
+
+          **Retorno**:
+            - **Database.SaveResult** - Ao utilizar um método com o **Database**, é retornado um [SaveResult]([https://](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_database_saveresult.htm)) que também é uma classe global.
+      
+      - **Database.setSavepoint()**: *Retorna uma variável de ponto de salvamento que pode ser armazenada como uma variável local e, em seguida, usada com o **rollback** método para restaurar o banco de dados até esse ponto.*
+  
+      - **Database.rollback(Savepoint)**: *Restaura o banco de dados para o estado especificado pela variável savepoint. Todos os e-mails enviados desde o último savepoint também são revertidos e não enviados.*
+
+      - **Database.query(queryString)**: *Cria uma consulta SOQL dinâmica em tempo de execução.*
+
+  - ### Schema Class
+    - ***[Schema](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_schema.htm)***
+    - **Os exemplos vão estar na classe: ✨ *[SchemaClass.cls](../force-app/main/default/classes/SchemaClass.cls)***
+
+    *A classe global Schema é usado para metadados de modelo de dados ( Objetos, Campos, atc ). Os principal motivo para se utilizar a classe Schema era para a criação de código genérico e dinâmico.*
+
+    - **GetGlobalDescribe - `Schema.getGlobalDescribe()`**: *Retorna um mapa de **todos os nomes de sObject** (keys) para tokens de sObject (values) para os objetos padrão e personalizados definidos na sua organização.*
+    - **DescribeDataCategoryGroups - `Schema.getGlobalDescribe(sObjectNames)`**: *Retorna uma lista dos grupos de categorias associados aos objetos especificados.*
+      - **Params**: *`List<String> sObjectNames`*
+    - **DescribeSObjects - `Schema.describeSObjects(sObjectTypes)`**: *Descreve metadados (lista de campos e propriedades de objeto) para o sObject ou matriz de sObjects especificado.*
+      - **Params**: *`List <String> sObjectTypes`*: *O argumento sObjectTypes é uma lista de nomes de tipos sObject que você deseja descrever.*
+    - **SObjectField - `Schema.SObjectField`**: *Um objeto Schema.sObjectField é retornado do resultado de descrição do campo usando os métodos getController e getSObjectField.*
+
+  *Temporariamente vamos ficar apenas nestas três classes globais e vamos seguir no estudo do Apex. Porém citaremos os próximos que veremos a seguir:*
+    - **`Math`**: *Métodos matemáticos básicos.*
+    - **`JSON`**: *Serialização e desserialização de dados JSON.*
+    - **`Http`, `HttpRequest`, `HttpResponse`**: * Classes para chamadas externas (REST, SOAP)*
+    - **`Crypto`**: *Métodos de criptografia e hashing.*
+    - **`Messaging`**: *Envio de emails, notificações, etc.*
+    - **`Test`**: *Namespace específico para testes em Apex.*
+    - **`Limits`**: *Para ver consumo de recursos em tempo real.*
+    - **`UserInfo`**: *Pega informações sobre o usuário atual.*
+    - **`ApexPages`**: *Específico para Visualforce.*
+    - **`EventBus`**: *Para publicar eventos de plataforma.*
