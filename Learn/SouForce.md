@@ -527,4 +527,25 @@
         - **Não tem necessidade de parâmetros.**
     
     - **Now / Today - `System.now()` | `System.today()`**: *Retorna o horário atual GMT e retorna a data atual*
+
+  - ### Database Class
+      - ***[Database](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_database.htm)***
+      - **Os exemplos vão estar na classe: ✨ *[DatabaseClass.cls](../force-app/main/default/classes/DatabaseClass.cls)***
+
+      *Classe com métodos estáticos usado para manipular dados de forma mais controlada do que os **DML** diretos como o **insert** ou **update**. Com o Database conseguimos ter um controle sobre uma DML com o adendo de **savepoints**, **partial success**, etc.*
+
+      - **Database.insert(sObjects) | Database.update(sObjects) | Database.delete(sObjects)**: *Adiciona |Atualiza | Deleta um ou mais sObject, como uma conta ou contato individual, aos dados da sua organização.*
+          **Parâmetros**: 
+            - **sObjects - (List or Unique sObjects)** - *Pode ser adicionado um ou mais registros sObjects.*
+            - **allOrNone - (Boolean)** - *Boolean é um parâmetro opcional que serve para indicar se essa DML aceita um sucesso parcial, por padrão vem setado como **true** o que indica que se o método não for bem-sucedido, uma exceção será lançada. Caso seja marcado como **false** e um registro falhar, o restante da operação DML ainda poderá ser bem sucedida. **allOrNone e dmlOptions não podem ser declaradas no mesmo método.***
+            - **dmlOptions - (Database.DMLOptions)** - *O parâmetro opcional dmlOptions especifica dados adicionais para a transação, como informações de regras de atribuição ou comportamento de reversão quando ocorrem erros durante inserções de registros. **allOrNone e dmlOptions não podem ser declaradas no mesmo método.***
+            - **accessLevel - (System.AccessLevel)** - *O parâmetro accessLevel especifica se o método é executado no modo de sistema `AccessLevel.SYSTEM_MODE` ou no modo de usuário `AccessLevel.USER_MODE`. No modo de **Sistema**: As permissões de objeto e de campo do usuário atual são ignoradas, e as regras de compartilhamento de registros são controladas pelas **assinaturas de compartilhamento** da classe. No modo de usuário, as permissões de objeto, a segurança em nível de campo e as regras de compartilhamento do usuário atual são aplicadas. O modo de sistema é o padrão. **O parâmetro de accessLevel pode ser atribuído junto do dmlOptions***
+
+          **Retorno**:
+            - **Database.SaveResult** - Ao utilizar um método com o **Database**, é retornado um [SaveResult]([https://](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_database_saveresult.htm)) que também é uma classe global.
+      
+      - **Database.setSavepoint()**: *Retorna uma variável de ponto de salvamento que pode ser armazenada como uma variável local e, em seguida, usada com o **rollback** método para restaurar o banco de dados até esse ponto.*
   
+      - **Database.rollback(Savepoint)**: *Restaura o banco de dados para o estado especificado pela variável savepoint. Todos os e-mails enviados desde o último savepoint também são revertidos e não enviados.*
+
+      - **Database.query(queryString)**: *Cria uma consulta SOQL dinâmica em tempo de execução.*
