@@ -1,5 +1,22 @@
 # SouForce - Developer
 
+## Capítulo 00 - Ordem de execução do Salesforce
+  ![Ordem de execução](https://ryanwingate.com/salesforce/other-projects-investigations/order-of-execution-graphic-from-salesforceben/order-of-execution-from-salesforceben.png)
+
+  1. Pre-Validation:
+    *Pre-validation (Before): Eventos como Before Insert, Before Update, Before Delete, são executados antes que o registro seja efetivamente alterado na base de dados. Isso permite a implementação de lógica de negócio que pode impedir uma operação antes que ela seja realizada. 
+    Regras de validação: A Salesforce avalia as regras de validação antes de qualquer execução de código. Se uma regra de validação falhar, a operação é interrompida, e o usuário recebe uma mensagem de erro.*
+  2. Execution:
+    *Apex: A linguagem de programação Apex é usada para criar código customizado, como triggers, classes e funções. O código Apex pode ser executado dentro de eventos (antes ou depois) e também pode ser chamado diretamente.* 
+    *Triggers: Os triggers são código Apex que é executado em resposta a eventos específicos de um objeto, como inserção, atualização, deleção, etc. Eles podem ser usados para executar lógica complexa, como atualizar outros registros, enviar e-mails, etc.* 
+  3. Post-Validation:
+    *Post-validation (After): Eventos como After Insert, After Update, After Delete, são executados após a operação de salvar ser concluída. Eles são úteis para tarefas que não podem ser interrompidas se o salvar falhar, como atualização de registros relacionados ou execução de tarefas em segundo plano. 
+    Associação de campos: A Salesforce também pode executar lógica de validação no nível de campo individual.* 
+  4. After Commit:
+    *Depois do Commit: Este é o momento em que a transação é efetivamente concluída e a operação é escrita na base de dados. Algumas operações, como execução de processos em segundo plano, podem ser agendadas para serem executadas após o commit.* 
+
+  ![Segundo exemplo](https://pbs.twimg.com/media/FT-VZ1jagAAD2Hb.jpg)
+
 ## Capítulo 01 - Além do Código
 - ### Arquitetura Multi-Tenant
 *A arquitetura Multi-Tenant é o equivalente a um condomínio com vários inquilinos no mesmo prédio. Essa analogia se refere aos servidores, onde temos várias ORGs no mesmo servidor.*
