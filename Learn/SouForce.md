@@ -562,3 +562,15 @@
     - **DescribeSObjects - `Schema.describeSObjects(sObjectTypes)`**: *Descreve metadados (lista de campos e propriedades de objeto) para o sObject ou matriz de sObjects especificado.*
       - **Params**: *`List <String> sObjectTypes`*: *O argumento sObjectTypes é uma lista de nomes de tipos sObject que você deseja descrever.*
     - **SObjectField - `Schema.SObjectField`**: *Um objeto Schema.sObjectField é retornado do resultado de descrição do campo usando os métodos getController e getSObjectField.*
+
+  *Temporariamente vamos ficar apenas nestas três classes globais e vamos seguir no estudo do Apex. Porém citaremos os próximos que veremos a seguir:*
+    - **`Math`**: *Métodos matemáticos básicos.*
+    - **`JSON`**: *Serialização e desserialização de dados JSON.*
+    - **`Http`, `HttpRequest`, `HttpResponse`**: * Classes para chamadas externas (REST, SOAP)*
+    - **`Crypto`**: *Métodos de criptografia e hashing.*
+    - **`Messaging`**: *Envio de emails, notificações, etc.*
+    - **`Test`**: *Namespace específico para testes em Apex.*
+    - **`Limits`**: *Para ver consumo de recursos em tempo real.*
+    - **`UserInfo`**: *Pega informações sobre o usuário atual.*
+    - **`ApexPages`**: *Específico para Visualforce.*
+    - **`EventBus`**: *Para publicar eventos de plataforma.*
