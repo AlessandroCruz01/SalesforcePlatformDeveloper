@@ -591,3 +591,96 @@
     - **`UserInfo`**: *Pega informações sobre o usuário atual.*
     - **`ApexPages`**: *Específico para Visualforce.*
     - **`EventBus`**: *Para publicar eventos de plataforma.*
+
+## Capítulo 05 - Conceitos básicos do Apex
+  *Tendo passado por alguns pontos básicos do apex, vamos seguir para um aprofundamento em algumas palavras chave ou **keywords** importantes para o uso diário do apex. Também veremos o tratamento de erros e os disparos de erros personalizados.*
+
+  - ### `final`
+    - [Final]([https://](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_keywords_final.htm))
+    
+    *A Keyword **final** serve para declarar um atributo que receberá um valor **uma única vez**, ou seja, uma vez que a variável for definida o valor dela não poderá mais ser alterada, ou seja, é uma variável **imutável**. Algo muito parecido ao **`const`** do JavaScript.*
+
+    ```java
+    public with sharing class KeywordFinal {
+      private final String hello = 'Hello World';
+      public KeywordFinal() {
+        hello = 'Gera Erro'; //
+      }
+    }
+    ```
+  - ### `this`
+    - [This]([https://](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_keywords_this.htm))
+
+    *Existem duas maneiras de usar a keyword **this**:*
+
+      - *O this pode ser usado em uma notação ponto, sem parênteses, para representar a instância atual da classe em que aparece, em resumo, o **this** acaba apontando para a minha própria classe. Use o **this** neste cenário para acessar variáveis e métodos de instância. No exemplo abaixo a classe myTestThis declara uma variável de instância **s**. O construtor por sua vez preenche esse atributo utilizando o **this**:*
+        ```java
+        public class myTestThis {
+          string s;
+            {
+                this.s = 'TestString';
+            }
+        }
+        ```
+
+      - *Também é possível utilizar o **this** para fazer encadeamento de construtores, ou seja, em um construtor, chamar outro construtor. Neste exemplo o **this utilizar parênteses**. Quando se utiliza o **this** desta forma, ele **deve obrigatoriamente ser a primeira instrução no construtor**:*
+        ```java
+        public class testThis {
+          // First constructor for the class. It requires a string parameter.
+          public testThis(string s2) {
+          }
+
+          // Second constructor for the class. It does not require a parameter.
+          // This constructor calls the first constructor using the this keyword.
+          public testThis() {
+              this('None');
+          }
+        }
+        ```
+  - ### `transient`
+    - [Transient](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_keywords_transient.htm)
+
+    *O **Transient** serve para ocultar um valor, onde o valor declarado dessa forma nunca poderá sair da classe, só pode ser visto pela própria classe. Ou seja, por mais que eu pegue uma variável do tipo **transient** e por exemplo mandar fazer um `JSON.Serialize()` esse parâmetro não será apresentado, pois ele **jamais** vai sair da classe.*
+    ```java
+    public transient Integer currentTotal;  
+    ```
+  - ### `super`
+    - [Super](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_keywords_super.htm)
+
+    *O super já foi citado anteriormente quando tratamos de heranças, onde ficou claro que o super é usado dentro de uma classe filha como forma de executar o construtor da classe pai.*
+
+  - ### `instanceof`
+    - [InstanceOf](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_keywords_instanceof.htm)
+
+    *Se você precisar verificar em tempo de execução se um objeto é realmente uma instância de uma classe específica, use o **instanceof**. Essa keyword só pode ser usada para verificar se o tipo de destino na expressão à direita da keyword é uma alternativa viável para o tipo declarado da expressão à esquerda.*
+
+    ```java
+    if (Reports.get(0) instanceof CustomReport) {
+    // Can safely cast it back to a custom report object
+    CustomReport c = (CustomReport) Reports.get(0);
+      } else {
+      // Do something with the non-custom-report.
+    }
+    ```
+
+    *Outro exemplo é usando o **instanceOf** no contexto de classes:*
+
+    ```java
+    public class BaseClass {}
+    public class SubClass extends BaseClass {}
+
+    List<SubClass> subClasses = new List<SubClass>();
+    if(subClasses instanceof Iterable<BaseClass>) {
+        //condition is always true since an instance of SubClass is always an instance of BaseClass
+    }
+    ```
+
+    *Ou:*
+
+    ```java
+    Object o = null;
+    Boolean result = o instanceof Account;
+    System.assertEquals(false, result);
+    ```
+
+  - *Todos os exemplos demonstrados acima, estão disponíveis em:* ✨ *[KeywordsApex.cls](../force-app/main/default/classes/KeywordsApex.cls)*
