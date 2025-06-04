@@ -92,7 +92,7 @@
     - **Share**	Objeto de controle de compartilhamento manual.
     - **ChangeEvent**	Representação de evento de mudanças (CDC - Change Data Capture).
   
-- ### Todos os tipos de campos
+- ### Todos os tipos de campos (Admin)
   O Salesforce oferece uma variedade de tipos de campos com dados diferentes, vamos passar por todos eles para entender melhor cada um deles:
 
   ✨ *Campos automatizados:*
@@ -524,7 +524,7 @@
 
   - *Seguimos para os exemplos práticos do que vimos acima:* ✨ *[DML.cls](../force-app/main/default/classes/DML.cls)*
   
-## * Namespaces|Class globais
+## Capítulo Extra - Namespaces|Class globais
   *Antes de irmos para o próximo capítulo, vamos dar uma pausa e verificar algumas classes e namespaces padrão. Essas classes globais e namespaces possuem seus próprios métodos e utilidades  sendo os principais: **Database**, **Schema**, **System** entre outros. Seguimos:*
 
   - ### System Class
@@ -682,5 +682,30 @@
     Boolean result = o instanceof Account;
     System.assertEquals(false, result);
     ```
+  - ### Revisão
+    - *Todos os exemplos demonstrados acima, estão disponíveis em:* ✨ *[KeywordsApex.cls](../force-app/main/default/classes/KeywordsApex.cls)*
 
-  - *Todos os exemplos demonstrados acima, estão disponíveis em:* ✨ *[KeywordsApex.cls](../force-app/main/default/classes/KeywordsApex.cls)*
+  - ### Tipos de Dados no Apex
+    *Já passamos pelos tipos de dados e array no Readme. Nesse momento vamos apenas revisar cada tipo de dado do apex sem se aprofundar em cada um deles.*
+
+    - **Variáveis e tipos de dados no Apex:**
+      - *String*
+      - *Boolean*
+      - *Integer* - {32bits}
+      - *Long* - {64bits}
+      - *Decimal*
+      - *Double*
+      - *Blob*
+      - *Object*
+      - *Date*
+      - *Datetime*
+      - *Time*
+      - *Enum*
+      - *Id*
+      
+    - **Collections no Apex**
+      - *Array*
+      - *List*
+      - *Set*
+      - *Map*
+
