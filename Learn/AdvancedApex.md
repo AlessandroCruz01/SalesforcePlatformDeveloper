@@ -32,3 +32,21 @@
         - **`httpResponse`** - *Responsável por tratar as responses das requisições.*
     *Para usar os exemplos de uso de consumo de WebService através da api: https://docs.awesomeapi.com.br/api-de-moedas*.
     *Vamos seguir a regra de negócio para usar a api para buscar a cotação atual do dólar em relação ao real. Seguimos: [QuoteService.cls](../force-app/main/default/classes/QuoteService.cls)*
+
+- ### Classes Wrapper
+    *Algo muito interessante que devemos saber para as ocasiões de consumo de web Service, são as classes [Wrapper](https://www.apexhours.com/wrapper-class-in-salesforce/). Uma classe wrapper é uma classe com estrutura de dados ou um tipo de dado abstrato que contém diferentes objetos ou coleções de objetos como seus membros. Uma classe wrapper é um objeto personalizado definido por um programador, no qual ele define as propriedades da classe wrapper.*
+    *Por exemplo:*
+    ```java
+    public class AccountWrapperDemo {
+        public Account acc {get; set;}
+        public Contact cont {get; set;}
+        public Boolean isSelected {get; set;}
+    }
+    ```
+    *O uso da classe Wrapper ajuda os desenvolvedores a organizar os dados em questão de forma eficiente, desde que os dados estejam devidamente aninhados. Vamos ver para que serve a classe Wrapper no Salesforce.*
+    *Benefícios das classes Wrapper:*
+        - *Agrupam dados diferentes: permitem juntar vários tipos de dados em uma só estrutura (ex: objeto + booleano de seleção).*
+        - *Facilitam exibição em telas (Visualforce/LWC): ajudam a mostrar listas com checkboxes, botões etc.*
+        - *Permitem lógica personalizada: você pode incluir métodos e regras dentro da wrapper.*
+        - *Organizam melhor o código: deixam o código mais limpo e estruturado, facilitando a manutenção.*
+        - *Facilitam o controle do estado dos dados: úteis para manter informações temporárias durante interações do usuário (como itens marcados).*
