@@ -768,3 +768,6 @@
 
   - ### Apex Transactions
     - Uma [transação Apex](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_transaction.htm) transação Apex representa um conjunto de operações executadas como uma única unidade. Todas as operações DML em uma transação devem ser concluídas com sucesso. Se ocorrer um erro em uma operação, toda a transação será revertida e nenhum dado será confirmado no banco de dados. O limite de uma transação pode ser um gatilho, um método de classe, um bloco de código anônimo, uma página do Visualforce ou um método de serviço Web personalizado.
+
+## Próximos Capítulos:
+  ***[AdvancedApex](./AdvancedApex.md)***
