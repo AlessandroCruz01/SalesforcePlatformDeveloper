@@ -763,3 +763,5 @@
             - Execução de código assíncrono (como @future, Queueable, Batch Apex)
             - Publicações em plataforma externa (como streaming, events, etc)
 
+  - ### Trigger Handler Pattern
+    - O padrão de projeto [Trigger Handler Pattern](https://www.apexhours.com/trigger-handler-pattern-in-salesforce/) é usado no desenvolvimento do Salesforce para gerenciar e organizar triggers do Apex. O Salesforce **[Trigger Handler Framework](https://www.apexhours.com/trigger-framework-in-salesforce/)** é um framework leve para triggers do Apex . O padrão Trigger Handler é uma prática recomendada para gerenciar triggers do Apex na plataforma Salesforce. Esse padrão ajuda a garantir que o código do gatilho seja bem organizado, eficiente e sustentável.
