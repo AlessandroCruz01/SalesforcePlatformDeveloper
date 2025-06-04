@@ -708,4 +708,63 @@
       - *List*
       - *Set*
       - *Map*
+  
+## Capítulo 06 - Trabalhando com Apex
+  *Neste capítulo veremos como trabalhar com apex e seguindo as melhores praticas.*
 
+  - ### Triggers
+    - **[Triggers](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_triggers.htm)**: *As trigger ou em português "gatilhos" são ações personalizadas antes ou depois de alterações em registros do Salesforce, como inserções, atualizações ou exclusões.*
+      **Principais boas práticas da Trigger**
+        - ***Ter apenas uma única trigger por objeto.***
+        - ***Não pode ter regras de negócio dentro da trigger.***
+        - ***Dê nomes claros e padronizados***
+
+      - *Para exemplificar de forma simples o que é uma trigger, faremos a seguinte regra de negócio: Digamos que quando um novo contato for ser criado, devemos disparar um erro caso o número de telefone não pode estar nulo. Seguimos: [ContactTrigger.trigger](../force-app/main/default/triggers/ContactTrigger.trigger)*
+
+  - ### Ordem de Execução do Salesforce
+    - *Antes de seguirmos para o entendimento de contexto de execução, precisamos ter em mente bem definido a **ordem de execução** de registro no Salesforce. Ou seja, quando um registro sofre um processo DML ele passa por diversas automações sendo elas:*
+  
+      - **[Ordem de Exec Salesforce](https://www.salesforceben.com/learn-salesforce-order-of-execution/)**: *Resumidamente:*
+        - **(1) Carrega o registro atual na base**
+          - O Salesforce recupera o valor original do registro do banco de dados (antes de qualquer mudança)
+        - **(2) Aplica valores do novo registro**
+          - Os valores enviados pelo usuário (formulário, API etc.) sobrescrevem os valores antigos.
+        - **(3) Executa validações do sistema**
+          - Verifica regras de obrigatoriedade, formato de campo, tipos de dados, etc.
+        - **(4) Executa regras de validação customizadas**
+          - As regras de validação criadas por você no objeto são verificadas agora.
+        - **(5) Executa os Before Triggers**
+          - Triggers do tipo **before insert**, **before update** são executadas.
+        - **(6) Executa lógica de salvamento do sistema**
+          - O sistema verifica duplicações, relacionamentos obrigatórios e outros controles internos.
+        - **(7) Executa regras de atribuição (Assignment Rules)**
+          - Ex: atribuição automática de leads ou casos (caso esteja ativado)
+        - **(8) Executa regras de Auto-Response**
+          - Envia emails automáticos se configurado (Lead/Case).
+        - **(9) Executa regras de Workflow**
+          - Avalia as condições dos workflows e executa ações como: atualização de campo, e-mails, criação de tarefas.
+        - **(10) Atualiza o registro no banco de dados**
+          - Agora o registro é realmente salvo no banco. Se houver erro, tudo é revertido (rollback).
+        - **(11) Executa os After Triggers**
+          - Triggers **after insert**, **after update** são executadas, com o registro já salvo.
+        - **(12) Executa processos de automação**
+          - *Inclui*:
+            - *Process Builder*
+            - *Fluxos do Flow Builder*
+            - *Roll-up summary fields*
+            - *Cross-object workflow field updates*
+        - **(13) Executa regras de escalonamento (Escalation Rules)**
+          - Aplicado geralmente em casos (Cases), para subir automaticamente um caso se necessário.
+        - **(14) Executa Entitlement Rules**
+          - Se houver regras de tempo de resposta (SLA) configuradas.
+        - **(15) Executa Post-commit logic**
+          - *Após a confirmação no banco, executa:*
+            - *Envio de emails (por workflow ou trigger)*
+            - Execução de código assíncrono (como @future, Queueable, Batch Apex)
+            - Publicações em plataforma externa (como streaming, events, etc)
+
+  - ### Trigger Handler Pattern
+    - O padrão de projeto [Trigger Handler Pattern](https://www.apexhours.com/trigger-handler-pattern-in-salesforce/) é usado no desenvolvimento do Salesforce para gerenciar e organizar triggers do Apex. O Salesforce **[Trigger Handler Framework](https://www.apexhours.com/trigger-framework-in-salesforce/)** é um framework leve para triggers do Apex . O padrão Trigger Handler é uma prática recomendada para gerenciar triggers do Apex na plataforma Salesforce. Esse padrão ajuda a garantir que o código do gatilho seja bem organizado, eficiente e sustentável.
+
+  - ### Apex Transactions
+    - Uma [transação Apex](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_transaction.htm) transação Apex representa um conjunto de operações executadas como uma única unidade. Todas as operações DML em uma transação devem ser concluídas com sucesso. Se ocorrer um erro em uma operação, toda a transação será revertida e nenhum dado será confirmado no banco de dados. O limite de uma transação pode ser um gatilho, um método de classe, um bloco de código anônimo, uma página do Visualforce ou um método de serviço Web personalizado.
