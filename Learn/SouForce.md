@@ -708,4 +708,15 @@
       - *List*
       - *Set*
       - *Map*
+  
+## Capítulo 06 - Trabalhando com Apex
+  *Neste capítulo veremos como trabalhar com apex e seguindo as melhores praticas.*
 
+  - ### Triggers
+    - **[Triggers](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_triggers.htm)**: *As trigger ou em português "gatilhos" são ações personalizadas antes ou depois de alterações em registros do Salesforce, como inserções, atualizações ou exclusões.*
+      **Principais boas práticas da Trigger**
+        - ***Ter apenas uma única trigger por objeto.***
+        - ***Não pode ter regras de negócio dentro da trigger.***
+        - ***Dê nomes claros e padronizados***
+
+      - *Para exemplificar de forma simples o que é uma trigger, faremos a seguinte regra de negócio: Digamos que quando um novo contato for ser criado, devemos disparar um erro caso o número de telefone não pode estar nulo. Seguimos: [ContactTrigger.trigger](../force-app/main/default/triggers/ContactTrigger.trigger)*
