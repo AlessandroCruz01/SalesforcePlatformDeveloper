@@ -13,3 +13,14 @@
         - [AsyncCalculator.cls](../force-app/main/default/classes/AsyncCalculator.cls)
     *Para consumir essas classes seguiremos para:*
         - [MathCalcSOAP.cls](../force-app/main/default/classes/MathCalcSOAP.cls)
+
+- ### RestAPI
+    *O [RestAPI](https://www.ibm.com/br-pt/think/topics/rest-apis) é o *Representational State Transfer API* que segue os princípios de design do estilo arquitetônico REST. REST é a abreviação de transferência de estado representacional e é um conjunto de regras e diretrizes sobre como você deve construir uma API web.*
+    *Por padrão o Apex Rest API tem algumas Notations que fazem referência aos verbos do RestAPI e são usadas para declarar o tipo de método rest que está sendo disponibilizado para consumo externo:*
+        - **`@RestResource(urlMapping='/Endpoint')`** - *Declara o endpoint que irá consumir desta classe.*
+        - **`@HttpGet`** - *Busca Dados*
+        - **`@HttpPost`** - *Insere Dados*
+        - **`@HttpPut`** - *Altera Dados*
+        - **`@HttpDelete`** - *Deleta Dados*
+        - **`@HttpPatch`** - *Atualiza Dados*
+    *Como exemplo, digamos que é necessário uma API para buscar todas as contas que tenham telefone celular do Salesforce, perceba, nas classes RestAPI, o modificador de acesso deve ser **obrigatoriamente** `Global`. Seguimos: * 
