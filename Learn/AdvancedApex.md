@@ -24,3 +24,11 @@
         - **`@HttpDelete`** - *Deleta Dados*
         - **`@HttpPatch`** - *Atualiza Dados*
     *Como exemplo, digamos que é necessário uma API para buscar todas as contas que tenham telefone celular do Salesforce, perceba, nas classes RestAPI, o modificador de acesso deve ser **obrigatoriamente** `Global`. Seguimos: * 
+
+- ### Consumindo um Web Service
+    *Para consumir um web service dentro do Salesforce através do apex, são usados três classes principais*:
+        - **`http`** - *Responsável por fazer a requisição ao webService.*
+        - **`httpRequest`** - *Responsável por montar a request, montando o body, setando.*
+        - **`httpResponse`** - *Responsável por tratar as responses das requisições.*
+    *Para usar os exemplos de uso de consumo de WebService através da api: https://docs.awesomeapi.com.br/api-de-moedas*.
+    *Vamos seguir a regra de negócio para usar a api para buscar a cotação atual do dólar em relação ao real. Seguimos: [QuoteService.cls](../force-app/main/default/classes/QuoteService.cls)*
