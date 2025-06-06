@@ -119,11 +119,85 @@
         </targets>
         ```
 
-- ### Shadow DOM
+- ### DOM & Shadow DOM
   - **DOM**: *A DOM (Document Object Model) é uma interface de programação que representa a estrutura de um documento HTML ou XML como um objeto de árvore. Ele permite que os programadores manipulem e modifiquem essa estrutura, bem como o conteúdo e o estilo do documento, utilizando JavaScript ou outras linguagens.*
   - **Shadow DOM**: *Shadow DOM é um padrão que encapsula a estrutura interna do modelo de objeto de documento (DOM) de um componente web. O encapsulamento do DOM permite que os desenvolvedores compartilhem um componente e o protejam de manipulações arbitrárias por HTML, CSS e JavaScript. A estrutura interna do DOM é chamada de árvore de sombra. A árvore de sombra afeta a maneira como você trabalha com CSS, eventos e o DOM.*
 
-- ### Template If
+- ### JavaScript do LWC
+    - **Por que a Salesforce criou um “JavaScript LWC”?**
+        *Embora o LWC use o JavaScript Moderno (ES6+), ele roda dentro de uma **arquitetura controlada pela Salesforce** com algumas regras próprias:*
+            - **Segurança**: *Proteger os dados e a DOM com isolamento entre componentes.*
+            - **Performance**: *LWC usa o **Shadow DOM** como vimos acima, para encapsulamento e renderização mais rápida.*
+            - **Padronização**: *Para garantir que o código funcione em todos os navegadores suportados e siga as políticas de segurança do Salesforce.*
+            **🚫 Exemplo de limitação intencional**: ** Você não pode usar o `document.querySelector()` livremente para acessar o DOM global. Você só pode acessar sua própria DOM.
+    
+    - **Estrutura Básica do JavaScript em LWC:**
+        ```javascript
+        import { LightningElement, api, track, wire } from 'lwc';
+
+        export default class MeuComponente extends LightningElement {
+            // PROPRIEDADES
+            @api titulo; // pública
+            @track lista = []; // reativa (nem sempre necessário hoje)
+            
+            // MÉTODOS
+            connectedCallback() {
+                // executa quando o componente é inserido no DOM
+            }
+
+            handleClick() {
+                alert('Você clicou!');
+            }
+        }
+        ```
+    - **Detalhamento do JavaScript do LWC**
+      - **LWC e Web Components**
+        *Como é percebido na estrutura acima, o controlador do LWC é criado totalmente baseado em POO. Isso acontece porque o LWC é totalmente baseado em **[Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) (W3C)** e sua especificação oficial indica que **requer classes** para criar elementos customizados*:
+        ```javascript
+        class MeuComponente extends HTMLElement {
+            connectedCallback() {
+                this.innerHTML = '<p>Hello</p>';
+            }
+        }
+        customElements.define('meu-componente', MeuComponente);
+        ```
+        *Ou seja, o uso do paradigma POO **não é uma escolha filosófica da Salesforce, e sim técnica**. O LWC, sendo compatível e baseado com **Web Components nativos**, precisa obedecer **obrigatoriamente** esse padrão.*
+
+    - **Benefícios do uso da POO**
+        *Em sistemas complexos como o Salesforce:*
+            - *Um componente pode ter **estado**, **ciclo de vida**, **métodos públicos**, **eventos**, **acesso seguro a DOM**, **controle de acesso**, etc.*
+            - O paradigma de classes permite **encapsular** tudo isso de forma elegante, organizada e herdável.
+            - POO é mais explícita e estruturada em aplicações empresariais com componentes muito complexos, como as da Salesforce.
+
+        *Façamos um comparativo entre POO e Funcional, para exemplificar os modelos funcionais, usaremos a biblioteca ReactJs, onde tem o uso do paradigma funcional muito forte:*
+            - **Estado**: *POO: Propriedades na instância `this`* • *Func: `useState()` retorna tuplas*
+            - **Ciclo de vida**: *POO: Métodos como `connectedCallback()` * • *Func: `useEffect()` com deps*
+            - **Reutilização**: *POO: Herdar de `LightningElement`* • *Func: Criar custom hooks*
+            - **Encapsulamento da DOM**: *POO: Via `this.template.querySelector()`* • *Func: Refs e JSX*
+            - **Visibilidade**: *POO: `@api`, `@track`* • *Func: Props + lifting state*
+
+    - **Porque extender o `LightningElement`?**
+        *Basicamente, assim como no uso do ReactJs é necessário importar a biblioteca React para poder usar seus recursos, no LWC é necessário usar o extends na classe **LightningElement** que é a classe base criada pela própria Salesforce, que encapsula:*
+            - *Métodos de ciclo de vida. Exemplo: `connectedCallback`*
+            - *Manipulação de eventos. Exemplo: `dispatchEvent`*
+            - *Acesso ao template ( `this.template.querySelector` )*
+            - *Integração com segurança do **Locker Service**.*
+            - *Integração automática com o DOM do Salesforce.*
+          ⚠️ *Sem o `extends LightningElement` o componente não teria acesso a NADA. Seria só uma classe JavaScript comum.*
+          ```javascript
+            // 🔄 Aqui você importa o "DNA LWC"
+            import { LightningElement } from 'lwc';
+
+            // 🧬 Aqui você cria seu componente com esse DNA
+            export default class MeuComponente extends LightningElement {
+                // 👇 Você agora tem acesso aos recursos do LWC
+                connectedCallback() {
+                    console.log('Componente inserido no DOM');
+                }
+            }
+          ```
+
+- ### Html - Template If
     *Esta é a forma que o LWC tem para tratar de renderização condicional. Ou seja, se uma condição for **verdadeira** através do **`if:true`** renderiza algo, ou, se uma condição for **falsa** através do **`if:false`** renderiza outra.*
     *Vamos a um novo LWC chamado:* [templatesTrueFalse](../force-app/main/default/lwc/templatesTrueFalse/).
     *Lembrando que o código `if:true` ou `if:false` é usado no front ( HTML ), porém a condição vem do back, ou seja, do arquivo **.js***.
