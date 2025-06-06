@@ -66,3 +66,5 @@
         *Uma observação importante: **caso queira criar um CSS personalizado para este componente. É obrigatório que o arquivo.css tenha o mesmo nome da pasta, no exemplo acima, ficaria HelloWorldLWC.css*** 
 
 - ### Shadow DOM
+  - **DOM**: *A DOM (Document Object Model) é uma interface de programação que representa a estrutura de um documento HTML ou XML como um objeto de árvore. Ele permite que os programadores manipulem e modifiquem essa estrutura, bem como o conteúdo e o estilo do documento, utilizando JavaScript ou outras linguagens.*
+  - **Shadow DOM**: *Shadow DOM é um padrão que encapsula a estrutura interna do modelo de objeto de documento (DOM) de um componente web. O encapsulamento do DOM permite que os desenvolvedores compartilhem um componente e o protejam de manipulações arbitrárias por HTML, CSS e JavaScript. A estrutura interna do DOM é chamada de árvore de sombra. A árvore de sombra afeta a maneira como você trabalha com CSS, eventos e o DOM.*
