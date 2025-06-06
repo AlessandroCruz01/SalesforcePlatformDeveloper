@@ -64,3 +64,5 @@
         - others.js
     *Seguimos para o exemplo de estrutura padrão na pasta criada a partir do momento em que criamos o LWC: [HelloWordLWC](../force-app/main/default/lwc/helloWorldLWC/)*
         *Uma observação importante: **caso queira criar um CSS personalizado para este componente. É obrigatório que o arquivo.css tenha o mesmo nome da pasta, no exemplo acima, ficaria HelloWorldLWC.css*** 
+
+- ### Shadow DOM
