@@ -45,8 +45,24 @@
     ```
     *O uso da classe Wrapper ajuda os desenvolvedores a organizar os dados em questão de forma eficiente, desde que os dados estejam devidamente aninhados. Vamos ver para que serve a classe Wrapper no Salesforce.*
     *Benefícios das classes Wrapper:*
-        - *Agrupam dados diferentes: permitem juntar vários tipos de dados em uma só estrutura (ex: objeto + booleano de seleção).*
+        - *Agrupam dados diferentes: permitem juntar vários tipos de dados em uma só estrutura (ex: objeto + boolean de seleção).*
         - *Facilitam exibição em telas (Visualforce/LWC): ajudam a mostrar listas com checkboxes, botões etc.*
         - *Permitem lógica personalizada: você pode incluir métodos e regras dentro da wrapper.*
         - *Organizam melhor o código: deixam o código mais limpo e estruturado, facilitando a manutenção.*
         - *Facilitam o controle do estado dos dados: úteis para manter informações temporárias durante interações do usuário (como itens marcados).*
+
+## Capítulo 02 - LWC
+*O [LWC](https://developer.salesforce.com/docs/platform/lwc/overview) é um framework ou estrutura para a criação de interfaces de usuário modernas na web, aplicativos móveis e experiências digitais na plataforma Salesforce. Com o LWC, os desenvolvedores podem usar os padrões web do W3C para criar elementos HTML personalizados com JavaScript e HTML, aplicando conceitos fundamentais como modelos HTML e shadow DOM, enquanto trabalham perfeitamente com os dados do Salesforce. O LWC é compatível com versões anteriores dos componentes do Aura; eles podem coexistir e interoperar em uma página.*
+
+- ### Estrutura de um LWC 
+    *Quando criamos um novo LWC temos por padrão alguns arquivos criados montando a sua estrutura padrão. Sendo eles:*
+        - .js
+        - .html
+        - meta.xml
+      - *Tendo ainda os opcionais*:
+        - .css
+        - others.js
+    *Seguimos para o exemplo de estrutura padrão na pasta criada a partir do momento em que criamos o LWC: [HelloWordLWC](../force-app/main/default/lwc/helloWorldLWC/)*
+        *Uma observação importante: **caso queira criar um CSS personalizado para este componente. É obrigatório que o arquivo.css tenha o mesmo nome da pasta, no exemplo acima, ficaria HelloWorldLWC.css*** 
+
+- ### Shadow DOM
