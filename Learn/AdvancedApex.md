@@ -197,7 +197,8 @@
             }
           ```
 
-- ### Html - Template If
+- ### HTML do LWC
+  - **`if:true` & `if:false`:**
     *Esta é a forma que o LWC tem para tratar de renderização condicional. Ou seja, se uma condição for **verdadeira** através do **`if:true`** renderiza algo, ou, se uma condição for **falsa** através do **`if:false`** renderiza outra.*
     *Vamos a um novo LWC chamado:* [templatesTrueFalse](../force-app/main/default/lwc/templatesTrueFalse/).
     *Lembrando que o código `if:true` ou `if:false` é usado no front ( HTML ), porém a condição vem do back, ou seja, do arquivo **.js***.
