@@ -200,10 +200,10 @@
 - ### HTML do LWC
     - **Template `if:true` & `if:false`:**
         *Esta é a forma que o LWC tem para tratar de renderização condicional. Ou seja, se uma condição for **verdadeira** através do **`if:true`** renderiza algo, ou, se uma condição for **falsa** através do **`if:false`** renderiza outra.*
-        *Vamos a um novo LWC chamado:* [templatesTrueFalse](../force-app/main/default/lwc/templatesTrueFalse/).
         *Lembrando que o código `if:true` ou `if:false` é usado no front ( HTML ), porém a condição vem do back, ou seja, do arquivo **.js***.
+        *Vamos a um novo LWC chamado:* [templatesTrueFalse](../force-app/main/default/lwc/templatesTrueFalse/).
 
-    -**Template `for:each`:**
+    - **Template `for:each`:**
         *O for:each é uma das maneiras de iterar em cima de uma lista. Para renderizar uma lista de itens, use `for:each` diretiva ou a iterator diretiva para iterar sobre um array. Adicione a diretiva a uma <template>tag aninhada que contenha os elementos HTML que você deseja repetir.*
         *O template for:each nos dá acesso a dois atributos muito importantes:*
             - **`for:each`**: *Recebe a lista de itens que deve ser percorrido*
@@ -211,5 +211,12 @@
             - **`for:index`**: *Indica a posição do item que estamos iterando*
         *Vamos a um novo LWC chamado:* [forEachLwc](../force-app/main/default/lwc/forEachLwc/).
 
+    - **Template `iterator`:**
+        *O iterator é uma forma de trabalhar com listas um pouco mais complexo porém com mais poder de tratativa dos dados.*
+            - **`iterator:<Nome Customizado>`**: *Aposta para a lista de itens*
+            - **`value`**: *O valor do item na lista, Use esta propriedade para acessar os elementos dentro da lista.*
+            - **`index`**: *O índice do item na lista.*
+            - **`first`**: *Um valor boolean que indica se este item é o primeiro item na lista.*
+            - **`last`**: *Um valor boolean que indica se este item é o último item na lista.*
 
 
