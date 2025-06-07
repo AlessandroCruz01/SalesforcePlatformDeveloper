@@ -198,7 +198,18 @@
           ```
 
 - ### HTML do LWC
-  - **`if:true` & `if:false`:**
-    *Esta é a forma que o LWC tem para tratar de renderização condicional. Ou seja, se uma condição for **verdadeira** através do **`if:true`** renderiza algo, ou, se uma condição for **falsa** através do **`if:false`** renderiza outra.*
-    *Vamos a um novo LWC chamado:* [templatesTrueFalse](../force-app/main/default/lwc/templatesTrueFalse/).
-    *Lembrando que o código `if:true` ou `if:false` é usado no front ( HTML ), porém a condição vem do back, ou seja, do arquivo **.js***.
+    - **Template `if:true` & `if:false`:**
+        *Esta é a forma que o LWC tem para tratar de renderização condicional. Ou seja, se uma condição for **verdadeira** através do **`if:true`** renderiza algo, ou, se uma condição for **falsa** através do **`if:false`** renderiza outra.*
+        *Vamos a um novo LWC chamado:* [templatesTrueFalse](../force-app/main/default/lwc/templatesTrueFalse/).
+        *Lembrando que o código `if:true` ou `if:false` é usado no front ( HTML ), porém a condição vem do back, ou seja, do arquivo **.js***.
+
+    -**Template `for:each`:**
+        *O for:each é uma das maneiras de iterar em cima de uma lista. Para renderizar uma lista de itens, use `for:each` diretiva ou a iterator diretiva para iterar sobre um array. Adicione a diretiva a uma <template>tag aninhada que contenha os elementos HTML que você deseja repetir.*
+        *O template for:each nos dá acesso a dois atributos muito importantes:*
+            - **`for:each`**: *Recebe a lista de itens que deve ser percorrido*
+            - **`for:item`**: *Indica qual o item que estamos iterando*
+            - **`for:index`**: *Indica a posição do item que estamos iterando*
+        *Vamos a um novo LWC chamado:* [forEachLwc](../force-app/main/default/lwc/forEachLwc/).
+
+
+
