@@ -219,4 +219,20 @@
             - **`first`**: *Um valor boolean que indica se este item é o primeiro item na lista.*
             - **`last`**: *Um valor boolean que indica se este item é o último item na lista.*
 
+- ### Annotations do LWC ( Decorators )
+    *O modelo de programação do Lightning Web Components tem três **[decorators](https://developer.salesforce.com/docs/platform/lwc/guide/reference-decorators.html)** que adicionam funcionalidade a uma propriedade ou função. A capacidade de criar decorators faz parte do ECMAScript, mas esses três decorators são exclusivos do Lightning Web Components. Vamos conhecer cada um deles:*
 
+    - **`@api`**: *Os atributos definidos com este decorator, são capazes de receber dados externos ou, melhor dizendo, expor esse atributo de forma pública. Geralmente são definidos pelo componente pai. O que é semelhante ao modificador de acesso `Public` do Apex. Este decorator faz muito sentido no contexto de relacionamento entre componentes.*
+        *O **api** tem duas propriedades publica padrão que podem ser usadas em LWC **que são inseridas em paginas de registros do App Builder**, como em **Record Page**. Quando o LWC é inserido nessas páginas a Salesforce **automaticamente** injeta os valores em esses dois atributos:*
+            - `@api recordId`: ID do registro atual (ex: conta, contato, etc.)
+            - `@api objectApiName`: Nome do objeto (ex: Account, Contact)
+            - `@api name`: Nome do componente (usado em flexipages)
+    - **`@track`**: *Serve para tornar um atributo **reativo**, porém a partir do Spring '20, todos os campos em uma classe LWC são reativos. Se o valor de um campo mudar e o campo for usado em um modelo ou em um getter de uma propriedade usada em um modelo, o componente renderiza novamente e exibe o novo valor. Se um campo for atribuído a um objeto ou a uma matriz, o framework observa algumas alterações nos componentes internos do objeto ou da matriz, como quando você atribui um novo valor.*
+    - **`@wire`**: *O decorator @wire permite que componentes Lightning Web Components (LWC) se conectem de forma reativa a dados do Salesforce, seja por meio de adaptadores de dados (como UI API) ou por métodos Apex. Ele é usado para **buscar** ou **manipular** dados no backend (Salesforce) de forma automática. Quando os dados retornados pelo @wire mudam, o componente é re-renderizado automaticamente.Para isso, basta aplicar o @wire na classe JavaScript do componente, especificando o adaptador de dados ou o método Apex desejado. Porém para que o `@wire` funcione junto com o Apex, existe uma dependência de outro decorator, no caso o:*
+    - **`@AuraEnabled(cacheable=true)`**: *Basicamente o **[AuraEnabled](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/controllers_server_apex_auraenabled_annotation.htm)** permite que os componentes do Lightning acessem métodos e propriedades do Apex. O @AuraEnabled pode receber alguns atributos, sendo eles:*
+      - **`@AuraEnabled(cacheable=true)`**: *Servem para os métodos que retornam dados e **não fazem alterações no servidor**. Esse atributo permite armazenar em **cache** (cache client-side) os dados no [Lightning Data Service](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/data_service.htm). Um ponto de atenção muito importante para esses tipos de métodos: **O método deve obrigatoriamente `static` e NÃO pode alterar dados**.*
+      - **`@AuraEnabled(getter=true)`** / **`@AuraEnabled(setter=true)`**: *Usada em propriedades (**get** e **set**) que é desejado que seja exposta separadamente como leitura ou escrita.*
+        - `getter=true`: expõe a propriedade para leitura no componente.
+        - `setter=true`: expõe a propriedade para escrita.
+        *Útil principalmente para classes **wrapper** ou quando queremos ter um controle maior sobre o que é lido ou escrito em objetos complexos.*
+      - **`@AuraEnabled` (Sem atributos)**: *Serve para expor o método sem o uso de cache e com **acesso total**. Usado para métodos que **realizam ações** no servidor ( Inserts, Updates, Deletes ou Logicas dinâmicas ).*

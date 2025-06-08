@@ -1,0 +1,14 @@
+<template>
+    <h1>{recordId}</h1>
+    <h2>{hello}</h2>
+    <h2>{name}</h2>
+    <h2>{objectApiName}</h2>
+
+    <lightning-button variant="base" label="Clique Aqui" onclick={handleClick}></lightning-button>
+
+    <template if:true={record.data}>
+        <h1>{record.data.label}</h1>
+        <h2>{record.data.pluralLabel}</h2>
+        <h2>{record.data.iconName}</h2>
+    </template>
+</template>
