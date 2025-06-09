@@ -236,3 +236,79 @@
         - `setter=true`: expõe a propriedade para escrita.
         *Útil principalmente para classes **wrapper** ou quando queremos ter um controle maior sobre o que é lido ou escrito em objetos complexos.*
       - **`@AuraEnabled` (Sem atributos)**: *Serve para expor o método sem o uso de cache e com **acesso total**. Usado para métodos que **realizam ações** no servidor ( Inserts, Updates, Deletes ou Logicas dinâmicas ).*
+
+- ### Events
+    *Vamos focar agora no modo de conversa entre pai - filho, ou seja, vamos focar totalmente nos [events](https://www.apexhours.com/events-in-lightning-web-components-lwc/).*
+    *Eventos são usados ​​no LWC para comunicação entre componentes. Normalmente, existem três abordagens para comunicação entre os componentes usando eventos.*
+        *1 - Comunicação de eventos de pai para filho no componente web Lightning*
+        *2 - Comunicação de eventos personalizados no componente Web Lightning ( filho para pai  )*
+        *3 - Publicar modelo de assinante no Lightning Web Component ou  **[LMS - Lightning Message Service](https://www.apexhours.com/lightning-message-service-lms-messagechannel/)** ( dois componentes que não têm relação direta  )*
+
+    **1 - Comunicação de eventos de pai para filho no componente web Lightning**:
+        *Nos componentes LWC podemos ter essa relação de pai para o filho de duas formas:*
+          - *Métodos Públicos.*
+          - *Propriedades públicas.*
+        *Como vimos anteriormente, para tornar um método ou uma propriedade pública, precisamos fazer uso do decorator `@api`.*
+
+    - **Método Público**:
+        Podemos usar o `@api` em um método para permitir que o componente pai o chame diretamente usando a API do JavaScript. Por exemplo, digamos que temos um método público (que precisamos acessar diretamente a partir do componente pai) podemos definir o método dentro do componente filho da seguinte forma:
+
+            ```javascript
+            @api
+            changeMessage(strString){
+                this.Message = strString.toUpperCase();
+            }
+            ```
+        Tendo o método acima no componente filho, que precisa receber um parâmetro String, podemos chamá-lo da seguinte forma a partir do componente pai:
+
+            ```javascript
+            this.template.querySelector('c-child-component').changeMessage(event.target.value);
+            ```
+            
+        Perceba que o método `querySelector()` é uma API DOM padrão que retorna o primeiro elemento que corresponde ao seletor.
+        Tendo a parte teórica bem esclarecida vamos para o nosso projeto, vamos criar dois componentes LWC, um deles chamado basicamente como **childComp** e o outro como **fatherComp**, e vamos ver na prática como eles se interagem.
+
+    - **Propriedades Públicas**
+        *Podemos também definir um atributo público, onde, ele pode ser atribuído externamente, por exemplo, digamos que no componente **childComp** tenhamos um atributo chamado **itemName** para fazer a atribuição é necessário indicar o valor deste parâmetro no momento da declaração do componente, por exemplo: `<c-child-comp item-name="Milk"></c-child-comp>`, propriedades públicas são ótimas soluções para passar valores primitivos, objetos simples e matrizes.*
+    
+    **2- Comunicação de eventos de Filho para o Pai (Custom Events)**
+        *Os **eventos personalizados (Custom Events)** é usado para fazer a comunicação do componente filho para o componente pai. Com o LWC, podemos criar e despachar o evento personalizado.*
+        *1 - Criar e Despachar um evento*:
+            - **Criar um evento**: *Podemos usar o construtor **`customEvent()`** para criar um evento. No construtor, precisamos passar o **nome** do evento personalizado e os **detalhes** do evento: `new customEvent(eventName, props);`.*
+            - **Evento de despacho**: *Temos que despachar um evento com o método **`EventTarget.dispatchEvent(new customEvent(eventName, props));`.***
+        *2 - Lidar com um Evento*:
+            *Existem duas maneiras de ouvir um evento:*
+            - **Declarativo via HTML**: *Precisamos adicionar o prefixo **`on`**+**nome do evento** no nome do evento no Componente pai durante a chamada do componente filho para o ouvinte de eventos Declarativos: `<c-child-component oneventName={listenerHandler}></c-child-component >`. No caso do método declarativo, existem algumas convenções que devem ser seguidas:*
+              - *Sem letras maiúsculas*
+              - *Sem espaços*
+              - *Use sublinhado para separar palavras*
+                **Componente Pai** - [fatherComp](../force-app/main/default/lwc/fatherComp/)
+            - **JavaScript usando o método padrão `addEventListener`**: *Podemos anexar explicitamente um ouvinte de eventos usando o método `addEventListener` no componente pai como o exemplo a seguir: **`this.template.addEventListener('eventName', this.handleNotification.bind(this));`***
+        **Como funciona a propagação de Eventos:** *Quando um evento é disparado, ele é propagado para a DOM. A propagação de eventos normalmente envolve duas fases: O **event bubbling** (borbulhamento de eventos) e o **event capturing** (captura de eventos). A fase mais comum usada para manipular eventos é o borbulhamento de eventos. Nesse caso, o evento é disparado no nível de **filho** e propagado para a DOM. Já a captura de eventos se move de cima para baixo na DOM. Essa fase raramente é utilizada para manipulação de eventos.*
+        *No LWC temos duas sinalizações que determinam o comportamento do evento na fase de bolhas:*
+            - **1. bubbles (Bolhas)**: *Um valor boolean que indica se o evento aparece ou não na DOM. O padrão é **false**.*
+            - **2. composed (Composto)**: *Um valor boolean que indica se o evento pode atravessar o limite da sombra. O padrão é **false**.*
+            ![eventos componente](https://www.apexhours.com/wp-content/uploads/2022/02/image-3-768x611.png)
+
+    **3 - Comunicação entre componentes sem relação Publish Subscriber model**  
+        *Para comunicar duas sub arvores no DOM (e em alguns casos entre janelas de navegadores diferentes conectadas a mesma organização), é usado o **[Lightning Message Service (LMS)](https://trailhead.salesforce.com/pt-BR/content/learn/projects/communicate-between-lightning-web-components/communicate-between-unrelated-components)**. O LMS é um serviço de publicação de assinatura que facilita as comunicações entre componentes LWC, Aura e VisualForce.*
+        *O LMS é usado para comunicação entre componentes sem relação quando não é possível controlar dois componentes em um pai comum. O LMS é potente, eficaz e fácil de usar.*
+        *ma terceira unidade de negócios quer participar do projeto de manipulação de números. Ela precisa que Prior Count (Contador anterior) e Count (Contador) estejam juntos em seu próprio componente para poder exibi-los sempre que precisar. Vamos começar criando o canal de mensagens para que fique pronto para uso pelos componentes.*
+        **Criar um canal de mensagem (messageChannels)**
+            - 1. No Visual Studio Code, na pasta default (padrão), crie uma pasta chamada **messageChannels**.
+            - 2. Na pasta messageChannels, crie um arquivo chamado `Count_Updated.messageChannel-meta.xml`.
+            - 3. **[Count_Updated.messageChannel-meta.xml](../force-app/main/default/messageChannels/Count_Updated.messageChannel-meta.xml)**
+        **Criar um componente Publisher**
+            - 1. Crie um componente Web do Lightning chamado **remoteControl**.
+            - 2. Substitua o conteúdo de **remoteControl.js** pelo que é indicado na documentação.
+            *Perceba que existem algumas importações neste código, essas importações vem do **Lightning Message Service**, no caso o **`publish`** e **`MessageContext`**. Também é feito o import do canal que acabamos de criar, neste caso o **`Count_Updated__c`**. O payload de dados é enviado através do `publish`.*
+            - 3. [remoteControl](../force-app/main/default/lwc/remoteControl/)
+        **Criar um componente Subscriber**
+            - 1. Crie um componente Web do Lightning chamado `counts`.
+            - 2. Substitua o conteúdo de **counts.js** pelo que é indicado na documentação.
+            - 3. [counts](../force-app/main/default/lwc/counts/)
+            - *A referência a @wire(MessageContext) faz com que unsubscribe seja executado durante o ciclo de vida de destruição do componente.*
+        
+
+
+  
