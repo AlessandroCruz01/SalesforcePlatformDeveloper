@@ -308,7 +308,40 @@
             - 2. Substitua o conteúdo de **counts.js** pelo que é indicado na documentação.
             - 3. [counts](../force-app/main/default/lwc/counts/)
             - *A referência a @wire(MessageContext) faz com que unsubscribe seja executado durante o ciclo de vida de destruição do componente.*
-        
 
+- ### Ciclo de vida de um Componente
+    *Neste momento veremos o ciclo de vida de um componente, onde, resumidamente temos:*
+    - 1. **Constructor**
+    - 2. **connectedCallback**
+    - 3. **disconnectedCallback**
+    - 4. **errorCallback(error, stack)**
+    - 5. **rende**
+    - 6. **renderedCallback**:
 
-  
+    *Para melhor entendimento do Ciclo de vida de um LWC, vamos para a **[documentação oficial](https://developer.salesforce.com/docs/platform/lwc/guide/create-lifecycle-hooks.html)***
+
+    *Os componentes web do Lightning têm um ciclo de vida gerenciado pelo framework. O framework cria componentes, os insere no DOM, os renderiza e os remove do DOM. Ele também monitora os componentes em busca de alterações de propriedades.*
+
+    *Este diagrama mostra o fluxo do ciclo de vida do componente, desde a criação até a renderização.*
+    ![Ciclo de vida](https://a.sfdcstatic.com/developer-website/sfdocs/lwc/media/render.png)
+
+    *Este diagrama mostra o que acontece quando uma instância de componente é removida do DOM.*
+    ![Ciclo de vida removendo da DOM](https://a.sfdcstatic.com/developer-website/sfdocs/lwc/media/disconnect.png)
+
+    *Tendo a visão ampla sobre como funciona o ciclo de vida de um componente, vamos entender melhor cada ponto que foi citado acima:*
+
+    - **`constructor()`**: 
+        *Método que é acionado quando uma instância de componente é criada. Ou seja, quando o novo componente é criado, ele faz um extends de `LightningElement`. Essa classe por sua vez, tem seu próprio constructor que deve ser executado assim que uma nova instancia é criada.*
+        *Como citado acima, a classe de `LightningElement` tem seu próprio constructor, ou seja, caso estejamos criando um constructor dentro do componente, a primeira linha de código dentro deste, tem que ser obrigatoriamente um método `super()` para executar o constructor do `LightningElement` e evitar possíveis erros.*
+        ```javascript
+        import { LightningElement } from "lwc";
+        export default class Deprecated extends LightningElement {
+            constructor() {
+                super();
+            }
+        }
+        ```
+        *O construtor flui do pai para o filho, o que significa que ele dispara primeiro no pai. Você não pode acessar os elementos filhos porque eles ainda não existem. As propriedades também não são passadas ainda. As propriedades são atribuídas ao componente após a construção e antes do **connectedCallback**.*
+        *As ações dentro do constructor vão ser executadas antes do envio do componente para a DOM*
+    
+    - **`connectedCallback()`**
