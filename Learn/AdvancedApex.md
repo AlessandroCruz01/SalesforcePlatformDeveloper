@@ -344,4 +344,14 @@
         *O construtor flui do pai para o filho, o que significa que ele dispara primeiro no pai. Você não pode acessar os elementos filhos porque eles ainda não existem. As propriedades também não são passadas ainda. As propriedades são atribuídas ao componente após a construção e antes do **connectedCallback**.*
         *As ações dentro do constructor vão ser executadas antes do envio do componente para a DOM*
     
-    - **`connectedCallback()`**
+    - **`connectedCallback()`**: 
+        *Nesta etapa o componente **já esta na DOM** e podemos usar o método `connectedCallback()` para interagir com o ambiente de um componente.*
+        *Exemplos de uso:*
+            - *Estabeleça comunicação com o documento ou contêiner atual e coordene o comportamento com o ambiente.*
+            - *Executar tarefas de inicialização, como **buscar dados**, **configurar caches** ou **ouvir eventos**.*
+            - *Inscrever-se ou cancelar a inscrição de um canal de mensagem (Para os casos de eventos através do LMS como vimos anteriormente).*
+            - *Navegar para diferentes tipos de página, como registros e exibição de lista, usando o `lightning/navigation`.*
+            - *Trabalhar com componentes Web de terceiros.*
+        *O `connectedCallback()` é invocado com as propriedades iniciais passadas ao componente. É possível ser disparado **mais de uma vez**. Por exemplo, se você remover um elemento e depois inseri-lo em outra posição, como ao reordenar uma lista, o `connectedCallback()` será disparado várias vezes.*
+    - **`errorCallback(error, stack)`**:
+        *Nessa etapa este método pode ou não acontecer, basicamente ele captura erros que podem acontecer durante o ciclo de vida de um componente.*
