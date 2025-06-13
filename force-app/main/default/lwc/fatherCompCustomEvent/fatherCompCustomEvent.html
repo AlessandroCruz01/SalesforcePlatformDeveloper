@@ -1,0 +1,11 @@
+<template>
+    <div>
+        <h2>Value From Child :</h2>
+        <h1>{msg}</h1>
+    </div>
+    <div class="slds-m-around_medium">
+        <c-child-comp-custom-event onmycustomevent={handleCustomEvent}>
+        </c-child-comp-custom-event>
+
+    </div>
+</template>

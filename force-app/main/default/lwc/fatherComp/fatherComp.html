@@ -1,0 +1,18 @@
+<template>
+    <lightning-card title="Parent to Child Communication" icon-name="custom:custom63">
+
+        <lightning-layout>
+
+            <lightning-layout-item flexibility="auto" padding="around-small">
+                <lightning-input label="Enter the Message" onchange={handleChangeEvent}></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="auto" padding="around-small">
+                <h1>Componente Filho</h1>
+                <c-child-Comp item-name="Parametro passado pelo pai"></c-child-Comp>
+            </lightning-layout-item>
+
+        </lightning-layout>
+
+    </lightning-card>
+</template>

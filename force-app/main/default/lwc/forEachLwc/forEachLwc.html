@@ -1,0 +1,9 @@
+<template>
+    <template if:true={contacts}>
+        <ul>
+            <template for:each={contacts} for:item="row" for:index="index">
+                <li key={row.index}>{row.Name}</li>
+            </template>
+        </ul>
+    </template>
+</template>

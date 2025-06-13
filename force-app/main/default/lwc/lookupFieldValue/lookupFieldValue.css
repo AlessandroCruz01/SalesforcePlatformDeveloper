@@ -1,0 +1,10 @@
+.slds-combobox__input-entity-icon + .slds-input-has-icon_left {
+    padding-left: 2rem;
+}
+.min-to-fit-progress {
+    min-height: 40px;
+}
+
+.slds-combobox__input-value {
+    height: 2.25rem;
+}
