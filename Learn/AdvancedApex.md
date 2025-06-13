@@ -355,3 +355,11 @@
         *O `connectedCallback()` é invocado com as propriedades iniciais passadas ao componente. É possível ser disparado **mais de uma vez**. Por exemplo, se você remover um elemento e depois inseri-lo em outra posição, como ao reordenar uma lista, o `connectedCallback()` será disparado várias vezes.*
     - **`errorCallback(error, stack)`**:
         *Nessa etapa este método pode ou não acontecer, basicamente ele captura erros que podem acontecer durante o ciclo de vida de um componente.*
+    - **`render()`**:
+        *O método `render()` serve para atualizar a interface do usuário. Você pode chama-lo antes ou depois do `connectedCallback()`.*
+        *É muito raro definir o `render()` em um componente. O principal caso de uso é renderizar um modelo condicionalmente. É possível definir a lógica de negócio para decidir para qual modelo HTML usar*
+    - **`renderedCallback()`**:
+        *Usado para executar após a renderização de um componente. Este método flui do componente filho para o componente pai.*
+        *Devemos ter cuidado ao usar o `renderedCallback()` pois, caso a lógica existente dentro dele, alterar o HTML, entrará em um loop infinito.*
+    - **`disconnectedCallback()`**:
+        *É o ultimo método do ciclo de vida que é acionado quando o componente é removido ou ocultado da DOM.*

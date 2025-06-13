@@ -1,3 +1,11 @@
 <template>
-    
+    <template lwc:if={error}>
+        <h1>Error Occurred</h1>
+
+        <p>{error}</p>
+        <p>{stack}</p>
+    </template>
+    <template lwc:else>
+        <h1>Hello World</h1>
+    </template>
 </template>
