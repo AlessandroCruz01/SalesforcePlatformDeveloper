@@ -363,3 +363,30 @@
         *Devemos ter cuidado ao usar o `renderedCallback()` pois, caso a lógica existente dentro dele, alterar o HTML, entrará em um loop infinito.*
     - **`disconnectedCallback()`**:
         *É o ultimo método do ciclo de vida que é acionado quando o componente é removido ou ocultado da DOM.*
+
+- ### Platform Show Toast Event
+    *Toasts inform users about the success or failure of actions, warnings, or other transient messages.*
+    *Os [toasts](https://www.lightningdesignsystem.com/2e1ef8501/p/216f79-toast) servem para os feedbacks visuais para o UI.*
+    ```javascript
+        const toast = new ShowToastEvent({
+            title: 'Título do Toast',
+            message: 'Mensagem do Toast',
+            variant: this.variant,
+            mode: this.mode
+        })
+
+        this.dispatchEvent(toast);
+    ```
+    *Vamos passar por cada ponto do corpo da declaração do Toast:*
+        - **title**: *O título do toast, aparece no header do container.*
+        - **message**: *Uma string com a mensagem para o usuário.*
+        - **messageData**: *Valores de URL e rótulo que substituem os marcadores de posição {index} na sequência de caracteres da mensagem.*
+        - **variant**: *O tema e o ícone no toast. Os valores válidos são:*
+          - **info**: *(default) Uma caixa cinza com ícone de informação.*
+          - **success**: *Uma caixa verde com o ícone de marca de seleção.*
+          - **warning**: *Uma caixa amarela com o ícone de aviso.*
+          - **error**: *Uma caixa vermelha com ícone de erro.*
+        - **mode**: *Determina a persistência do toast. Os valores válidos são:*
+          - **dismissible**: *(default) Permanece visível até que o usuário clique no botão de fechar ou 3 segundos tenham decorrido. O que acontecer primeiro.*
+          - **pester**: *Permanece visível por 3 segundos*
+          - **sticky**: *Permanece visível até que o usuário clique no botão fechar.*
