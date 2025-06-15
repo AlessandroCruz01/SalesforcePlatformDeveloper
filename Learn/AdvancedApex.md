@@ -390,3 +390,27 @@
           - **dismissible**: *(default) Permanece visível até que o usuário clique no botão de fechar ou 3 segundos tenham decorrido. O que acontecer primeiro.*
           - **pester**: *Permanece visível por 3 segundos*
           - **sticky**: *Permanece visível até que o usuário clique no botão fechar.*
+
+- ### Detalhes do XML do LWC
+    *No LWC temos por padrão o arquivo **<Nome_do_Componente>.js-meta.xml** que basicamente serve como configs do componente. Ou seja, definimos se ele é exposto ou não e onde ele será exposto. Por exemplo, em um dos componentes que criamos temos o seguinte xml [platformShowToast.js-meta.xml](../force-app/main/default/lwc/platformShowToast/platformShowToast.js-meta.xml). Vejamos cada ponto deste arquivo:*
+    ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+        <apiVersion>63.0</apiVersion>
+        <isExposed>true</isExposed>
+        <targets>
+            <target>lightning__AppPage</target>
+            <target>lightning__RecordPage</target>
+            <target>lightning__HomePage</target>
+        </targets>
+    </LightningComponentBundle>
+    ```
+    - **isExposed**: *Basicamente serve para indicar se o componente está habilitado para estar visível dentro do Salesforce*
+    - **description**: *Serve para fazer uma descrição básica sobre o componente*
+    - **masterLabel**: *O nome do componente*
+    - **targets**: *Serve para especificar onde o componente está disponível. O `isExposed` sozinho não expõe o componente para os locais onde vamos utilizar.*
+      - **target**: *O target é o local onde o Componente vai estar visível. Existem vários targets para cenários distintos. Por isso é necessário sempre dar uma olhada na documentação oficial: [Targets](https://developer.salesforce.com/docs/platform/lwc/guide/reference-configuration-tags.html).*
+    *Existe também a possibilidade de adicionar um ícone SVG para nosso componente da seguinte forma:*
+        - *Pegue a imagem SVG e adicione dentro da pasta do componente nomeado com o mesmo nome do componente.svg*
+        - *Deploy para a SF*
+        - *Em seguida é só olhar no componente que verá o ícone salvo.*
