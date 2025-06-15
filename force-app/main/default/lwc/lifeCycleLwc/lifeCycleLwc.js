@@ -19,9 +19,9 @@ export default class LifeCycleLwc extends LightningElement {
         this.stack = stack;
     }
 
-    render(){ // Não é muito comum, mas pode ser usado para retornar um template diferente
-        console.log('Render called');
-    }
+    // render(){ // Não é muito comum, mas pode ser usado para retornar um template diferente
+    //     console.log('Render called');
+    // }
 
     renderedCallback(){ // Pouco usual, é chamado após o componente ser renderizado no DOM
         if(this.hasLoaded){
