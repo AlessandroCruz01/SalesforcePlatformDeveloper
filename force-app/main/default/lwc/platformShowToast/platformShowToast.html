@@ -6,25 +6,8 @@
   @last modified by  : alessandro.de.souza@accenture.com
 -->
 <template>
-    <lightning-combobox
-      name="variant"
-      label="variant"
-      value={variant}
-      placeholder="Select Variant"
-      options={variants}
-      onchange={handlerVariantChanged} 
-    ></lightning-combobox>
-    <lightning-combobox
-      name="mode"
-      label="mode"
-      value={mode}
-      placeholder="Select Mode"
-      options={modes}
-      onchange={handlerModeChanged} 
-    ></lightning-combobox>
-    <lightning-button 
-      variant="base"
-      label="Confirm Toast" 
-      onclick={handlerToastEvent} 
-    ></lightning-button>
+  <lightning-combobox name="variant" label="variant" value={variant} placeholder="Select Variant" options={variants}
+    onchange={handlerVariantChanged}></lightning-combobox>
+
+  <lightning-button variant="base" label={buttonLabel} onclick={handlerToastEvent}></lightning-button>
 </template>

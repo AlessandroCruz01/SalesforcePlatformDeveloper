@@ -414,3 +414,28 @@
         - *Pegue a imagem SVG e adicione dentro da pasta do componente nomeado com o mesmo nome do componente.svg*
         - *Deploy para a SF*
         - *Em seguida é só olhar no componente que verá o ícone salvo.*
+
+- ### Permitindo configurações no AppBuilder
+    *É possível passar valores de atributos através do AppBuilder diretamente para uma **property** definido dentro do XML.*
+    ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+        <apiVersion>63.0</apiVersion>
+        <isExposed>true</isExposed>
+        <description>Platform Show Toast Component</description>
+        <masterLabel>Platform Show Toast - SouForce</masterLabel>
+        <targets>
+            <target>lightning__AppPage</target>
+            <target>lightning__RecordPage</target>
+            <target>lightning__HomePage</target>
+        </targets>
+
+        <targetConfigs>
+            <targetConfig targets="lightning__AppPage, lightning__RecordPage, lightning__HomePage">
+                <property label="Modo do Toast" name="mode" default="dismissible" type="String"
+                    datasource="dismissible, pester, sticky" />
+                <property label="Rótulo do Botão" name="buttonLabel" default="Click" type="String" />
+            </targetConfig>
+        </targetConfigs>
+    </LightningComponentBundle>
+    ```

@@ -1,7 +1,12 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class PlatformShowToast extends LightningElement {
+
+    @api mode;
+    @api buttonLabel;
+    variant = 'info';
+
     variants = [
         {label: "Info", value: "info"},
         {label: "Error", value: "error"},
@@ -15,8 +20,7 @@ export default class PlatformShowToast extends LightningElement {
          {label: "Sticky", value: "sticky"},
     ]
     
-    variant = 'info';
-    mode = 'dismissable';
+
 
     handlerVariantChanged(event){
         this.variant = event.detail.value;

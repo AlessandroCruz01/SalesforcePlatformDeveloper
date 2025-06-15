@@ -9,4 +9,12 @@
         <target>lightning__RecordPage</target>
         <target>lightning__HomePage</target>
     </targets>
+
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage, lightning__RecordPage, lightning__HomePage">
+            <property label="Modo do Toast" name="mode" default="dismissible" type="String"
+                datasource="dismissible, pester, sticky" />
+            <property label="Rótulo do Botão" name="buttonLabel" default="Click" type="String" />
+        </targetConfig>
+    </targetConfigs>
 </LightningComponentBundle>
