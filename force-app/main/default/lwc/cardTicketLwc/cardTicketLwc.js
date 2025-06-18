@@ -1,27 +1,31 @@
-import { LightningElement, api, track, wire } from 'lwc';
-import getDado from '@salesforce/apex/lookupfieldController.getObjectDetails'
+import { LightningElement, api } from 'lwc';
 
 export default class CardTicketLwc extends LightningElement {
-    @api recordId;
-    @api objectApiName;
-    @api name;
+    @api vooIda;
+    @api vooVolta;
+    @api moeda;
 
-    @track hello;
+    reservaHandler(){
+       
+        let compEvent = new CustomEvent('ticketEventClick', {
+            detail: {
+                "IdVooIda": this.vooIda.Id,
+                "IdVooVolta": this.vooVolta.Id
+            }
+        })
 
-    @wire(getDado, {ObjectName: '$objectApiName'})
-    record;
-
-    
-    connectedCallback(){
-        console.log(this.record);
-        console.log(this.objectApiName)
-        console.log(this.name)
-        this.hello = 'Hello World';
-        console.log(this.hello); // O this é obrigatório!
-        console.log('Record ID:', this.recordId);
+        this.dispatchEvent(compEvent);
     }
 
-    handleClick(event){
-        this.hello = 'Hello World Updated';
+    get vooDeIdaDiferente(){
+        return this.vooIda.Data_Partida__c !== this.vooIda.Data_Chegada__c;
+    }
+
+    get vooDeVoltaDiferente(){
+        return this.vooVolta.Data_Partida__c !== this.vooVolta.Data_Chegada__c;
+    }
+
+    get valorTotal(){
+        return this.vooIda.Valor__c + this.vooVolta.Valor__c;
     }
 }
