@@ -1,0 +1,4 @@
+.rotate-scale-up:hover {
+    -webkit-animation: rotate-scale-up 0.65s linear both;
+    animation: rotate-scale-up 0.65s linear both;
+}

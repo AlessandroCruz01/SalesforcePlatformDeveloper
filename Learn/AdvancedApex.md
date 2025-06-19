@@ -439,3 +439,21 @@
         </targetConfigs>
     </LightningComponentBundle>
     ```
+
+- ### Platform Resource Loader (External Libraries)
+    *É possível importar tanto uma estilização CSS quanto um ScriptJS, verifiquemos a documentação: [lightning-platform-resource-loader](https://developer.salesforce.com/docs/component-library/bundle/lightning-platform-resource-loader/documentation)*
+    ```javascript
+    import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
+    Promise.all([
+        loadStyle(this, leaflet + '/leaflet.css') // Primeiro parâmetro sempre é this
+        loadScript(this, leaflet + '/leaflet.js')
+    ]).then(() => {
+        // Carregado com sucesso
+    })
+    ```
+    *Para os casos de import de css usa-se o **loadStyle** e para os casos de import de script usa-se o **loadScript**.*
+
+- ### Comunicação entre componentes irmãos (PubSub)
+    *Como indicamos anteriormente, existe o modo de comunicação entre componentes "irmãos", ou seja, que não tem relação, utilizando o MessageChannel, porém, existe um **workaround** (Solução alternativa) da própria Salesforce que é o **[PubSub](https://developer.salesforce.com/docs/platform/pub-sub-api/guide/intro.html)**. A API Pub/Sub fornece uma interface única para publicação e assinatura de eventos da plataforma, incluindo monitoramento de eventos em tempo real e captura de dados alterados*
+    *O pubsub funciona a partir da lib externa: [PubSub](../force-app/main/default/staticresources/pubsub.js)*
+    ![pubSub](https://i0.wp.com/www.pantherschools.com/wp-content/uploads/2020/05/image-25.png?fit=1024%2C578&ssl=1)

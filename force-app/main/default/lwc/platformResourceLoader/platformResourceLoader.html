@@ -1,0 +1,10 @@
+<template>
+    <template if:true={isLoaded}>
+        <p>Valor formatado: {formattedValue}</p>
+        <button class="rotate-scale-up">TEST ANIMATION</button>
+    </template>
+    <template if:false={isLoaded}>
+        <p>Carregando biblioteca...</p>
+        <p>Valor sem formatação: {valueToFormat}</p>
+    </template>
+</template>
