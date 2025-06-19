@@ -1,0 +1,52 @@
+<template>
+    <lightning-card>
+        <div class="slds-grid slds-grid_align-space">
+            <div class="slds-col slds-m-top_large">
+                <p>{vooIda.Companhia__c}</p>
+                <p>{vooVolta.Companhia__c}</p>
+            </div>
+
+            <div class="slds-col">
+                <!--* Voo Origem -->
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col">
+                        <p><strong>{vooIda.Hora_de_Partida__c}</strong></p>
+                        <p>{vooIda.Aeroporto_Partida__r.Sigla__c}</p>
+                    </div>
+                    <div class="slds-col">
+                        <div class="seta"></div>
+                    </div>
+                    <div class="slds-col">
+                        <p><strong>{vooIda.Hora_de_Chegada__c} <template if:true={vooDeIdaDiferente}> +1
+                                </template></strong></p>
+                        <p>{vooIda.Aeroporto_Chegada__r.Sigla__c}</p>
+                    </div>
+                </div>
+
+                <!--* Voo Volta -->
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col">
+                        <p><strong>{vooVolta.Hora_de_Partida__c}</strong></p>
+                        <p>{vooVolta.Aeroporto_Partida__r.Sigla__c}</p>
+                    </div>
+                    <div class="slds-col">
+                        <div class="seta"></div>
+                    </div>
+                    <div class="slds-col">
+                        <p><strong>{vooVolta.Hora_de_Chegada__c} <template if:true={vooDeVoltaDiferente}> +1 </template>
+                            </strong></p>
+                        <p>{vooVolta.Aeroporto_Chegada__r.Sigla__c}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-col slds-m-top_large">
+
+                <p><strong><lightning-formatted-number currency-code={moeda} currency-display-as="code"
+                            value={valorTotal}></lightning-formatted-number></strong></p>
+                <lightning-button variant="brand" label="Reservar" onclick={reservaHandler}></lightning-button>
+
+            </div>
+        </div>
+    </lightning-card>
+</template>

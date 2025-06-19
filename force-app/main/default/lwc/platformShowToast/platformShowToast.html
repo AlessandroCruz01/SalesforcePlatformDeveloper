@@ -1,0 +1,13 @@
+<!--
+  @description       : 
+  @author            : Alessandro Souza
+  @group             : Accenture
+  @last modified on  : 06-13-2025
+  @last modified by  : alessandro.de.souza@accenture.com
+-->
+<template>
+  <lightning-combobox name="variant" label="variant" value={variant} placeholder="Select Variant" options={variants}
+    onchange={handlerVariantChanged}></lightning-combobox>
+
+  <lightning-button variant="base" label={buttonLabel} onclick={handlerToastEvent}></lightning-button>
+</template>
