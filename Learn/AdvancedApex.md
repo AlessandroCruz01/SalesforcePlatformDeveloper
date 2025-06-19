@@ -439,3 +439,16 @@
         </targetConfigs>
     </LightningComponentBundle>
     ```
+
+- ### Platform Resource Loader (External Libraries)
+    *É possível importar tanto uma estilização CSS quanto um ScriptJS, verifiquemos a documentação: [lightning-platform-resource-loader](https://developer.salesforce.com/docs/component-library/bundle/lightning-platform-resource-loader/documentation)*
+    ```javascript
+    import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
+    Promise.all([
+        loadStyle(this, leaflet + '/leaflet.css') // Primeiro parâmetro sempre é this
+        loadScript(this, leaflet + '/leaflet.js')
+    ]).then(() => {
+        // Carregado com sucesso
+    })
+    ```
+    *Para os casos de import de css usa-se o **loadStyle** e para os casos de import de script usa-se o **loadScript**.*
