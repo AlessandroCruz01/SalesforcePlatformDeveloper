@@ -462,4 +462,38 @@
 *Neste capítulo, vamos explorar o [Apex Assíncrono](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_async_overview.htm), que é utilizado quando precisamos que determinados processos ou automações sejam executados fora do fluxo principal, ou seja, de forma assíncrona. Esse tipo de abordagem é essencial para lidar com operações complexas, demoradas ou que exigem maior capacidade de processamento sem comprometer a experiência do usuário ou exceder limites de execução síncrona.*
 
 - ### `@Future`:
-    Um método [future](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_invoking_future_methods.htm) é executado em segundo plano, de forma assíncrona. Você pode chamar um método future para executar operações de longa duração, como chamadas para serviços Web externos ou qualquer operação que você queira executar em sua própria thread, em seu próprio ritmo. Você também pode usar métodos future para isolar operações DML em diferentes tipos de sObject para evitar o erro de DML misto. Cada método future é enfileirado e executado quando os recursos do sistema ficam disponíveis. Dessa forma, a execução do seu código não precisa aguardar a conclusão de uma operação de longa duração. Uma vantagem de usar métodos future é que alguns limites do governador são maiores, como os limites de consulta SOQL e os limites de tamanho de heap.
+    *Um método [future](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_invoking_future_methods.htm) é executado em segundo plano, de forma assíncrona. Você pode chamar um método future para executar operações de longa duração, como chamadas para serviços Web externos ou qualquer operação que você queira executar em sua própria thread, em seu próprio ritmo. Você também pode usar métodos future para isolar operações DML em diferentes tipos de sObject para evitar o erro de DML misto. Cada método future é enfileirado e executado quando os recursos do sistema ficam disponíveis. Dessa forma, a execução do seu código não precisa aguardar a conclusão de uma operação de longa duração. Uma vantagem de usar métodos future é que alguns limites do governador são maiores, como os limites de consulta SOQL e os limites de tamanho de heap.*
+    ```java
+        global class FutureClass
+        {
+            @future
+            public static void myFutureMethod()
+            {   
+                // Perform some operations
+            }
+        }
+    ```
+    *O decorator `@future(callout=false)` tem o parâmetro opcional **callout** serve para indicar a permissão para chamadas externas. Ou seja, caso seja desejável fazer uma chamada API utilizando o @future, o callout precisa ser indicado como true. Por default o callout é assinalado como **false**.*
+    *Apesar de ser uma ótima forma de usar contexto assíncrono, o @future tem algumas limitações:*
+        - *Máximo de 50 chamadas @future por transação*
+        - *Não pode chamar outro método assíncrono (@future, queueable, batch, schedulable)*
+        - *Aceita apenas tipos primitivos como parâmetros:*
+          - *Ex: `String`, `Integer`, `Boolean`, `Date`, `Id`, e listas desses tipos*
+        - *Não aceita objetos SObject ou custom types como parâmetro*
+        - *Roda com permissões de sistema (ignora sharing rules)*
+        - *Único tipo de assíncrono que permite callout=true*
+        - *Sem controle de encadeamento (não dá para fazer fila como no Queueable)*
+        - *Como o @future roda de forma assíncrona, não existe a possibilidade de usar o **return** em um método assíncrono.*
+    *Vamos usar o exemplo de @future em um contexto de chamada de API, no caso, consumindo da api pública, VIA CEP:* [Future.cls](../force-app/main/default/classes/Future.cls)
+
+- ### `Queueable`:
+    O [Queueable](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_queueing_jobs.htm) é a evolução do **@future**, com a interface Queueable é permitido adicionar tarefas à fila e monitorá-las. Usar a interface é uma maneira aprimorada de executar seu código Apex assíncrono em comparação com o uso de métodos futuros.
+    ```java
+        public class AsyncExecutionExample implements Queueable {
+            public void execute(QueueableContext context) {
+                Account a = new Account(Name='Acme',Phone='(415) 555-1212');
+                insert a;        
+            }
+        }
+    ```
+    [QueueableInterface](../force-app/main/default/classes/QueueableInterface.cls)

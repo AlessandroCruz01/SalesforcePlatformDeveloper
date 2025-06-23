@@ -33,9 +33,7 @@ public with sharing class AccountTriggerHandler extends TriggerHandler {
             }
         }
 
-        if(!System.isBatch() && !System.isFuture()) {
-            (new TravelAccountHelper()).createOpportunities(travelAccounts);
-        }
+        System.enqueueJob(new QueueableInterface(Trigger.new));
 
     }
 }
