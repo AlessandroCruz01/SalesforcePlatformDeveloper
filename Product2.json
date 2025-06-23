@@ -1,0 +1,40 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref1"
+            },
+            "Name": "Orlando Holiday Package",
+            "IsActive": true,
+            "ProductCode": "1"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref2"
+            },
+            "Name": "San Francisco Holiday Package",
+            "IsActive": true,
+            "ProductCode": "2"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref3"
+            },
+            "Name": "Las Vegas Holiday Package",
+            "IsActive": false,
+            "ProductCode": "3"
+        },
+        {
+            "attributes": {
+                "type": "Product2",
+                "referenceId": "Product2Ref4"
+            },
+            "Name": "Texas Holiday Package",
+            "IsActive": true,
+            "ProductCode": "4"
+        }
+    ]
+}
