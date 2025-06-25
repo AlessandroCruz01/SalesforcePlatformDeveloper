@@ -457,3 +457,101 @@
     *Como indicamos anteriormente, existe o modo de comunicação entre componentes "irmãos", ou seja, que não tem relação, utilizando o MessageChannel, porém, existe um **workaround** (Solução alternativa) da própria Salesforce que é o **[PubSub](https://developer.salesforce.com/docs/platform/pub-sub-api/guide/intro.html)**. A API Pub/Sub fornece uma interface única para publicação e assinatura de eventos da plataforma, incluindo monitoramento de eventos em tempo real e captura de dados alterados*
     *O pubsub funciona a partir da lib externa: [PubSub](../force-app/main/default/staticresources/pubsub.js)*
     ![pubSub](https://i0.wp.com/www.pantherschools.com/wp-content/uploads/2020/05/image-25.png?fit=1024%2C578&ssl=1)
+
+## Capítulo 03 - Apex Assíncrono
+*Neste capítulo, vamos explorar o [Apex Assíncrono](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_async_overview.htm), que é utilizado quando precisamos que determinados processos ou automações sejam executados fora do fluxo principal, ou seja, de forma assíncrona. Esse tipo de abordagem é essencial para lidar com operações complexas, demoradas ou que exigem maior capacidade de processamento sem comprometer a experiência do usuário ou exceder limites de execução síncrona.*
+
+- ### `@Future`:
+    *Um método [future](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_invoking_future_methods.htm) é executado em segundo plano, de forma assíncrona. Você pode chamar um método future para executar operações de longa duração, como chamadas para serviços Web externos ou qualquer operação que você queira executar em sua própria thread, em seu próprio ritmo. Você também pode usar métodos future para isolar operações DML em diferentes tipos de sObject para evitar o erro de DML misto. Cada método future é enfileirado e executado quando os recursos do sistema ficam disponíveis. Dessa forma, a execução do seu código não precisa aguardar a conclusão de uma operação de longa duração. Uma vantagem de usar métodos future é que alguns limites do governador são maiores, como os limites de consulta SOQL e os limites de tamanho de heap.*
+    ```java
+        global class FutureClass
+        {
+            @future
+            public static void myFutureMethod()
+            {   
+                // Perform some operations
+            }
+        }
+    ```
+    *O decorator `@future(callout=false)` tem o parâmetro opcional **callout** serve para indicar a permissão para chamadas externas. Ou seja, caso seja desejável fazer uma chamada API utilizando o @future, o callout precisa ser indicado como true. Por default o callout é assinalado como **false**.*
+    *Apesar de ser uma ótima forma de usar contexto assíncrono, o @future tem algumas limitações:*
+        - *Máximo de 50 chamadas @future por transação*
+        - *Não pode chamar outro método assíncrono (@future, queueable, batch, schedulable)*
+        - *Aceita apenas tipos primitivos como parâmetros:*
+          - *Ex: `String`, `Integer`, `Boolean`, `Date`, `Id`, e listas desses tipos*
+        - *Não aceita objetos SObject ou custom types como parâmetro*
+        - *Roda com permissões de sistema (ignora sharing rules)*
+        - *Único tipo de assíncrono que permite callout=true*
+        - *Sem controle de encadeamento (não dá para fazer fila como no Queueable)*
+        - *Como o @future roda de forma assíncrona, não existe a possibilidade de usar o **return** em um método assíncrono.*
+    *Vamos usar o exemplo de @future em um contexto de chamada de API, no caso, consumindo da api pública, VIA CEP:* [Future.cls](../force-app/main/default/classes/Future.cls)
+
+- ### `Queueable`:
+    O [Queueable](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_queueing_jobs.htm) é a evolução do **@future**, com a interface Queueable é permitido adicionar tarefas à fila e monitorá-las. Usar a interface é uma maneira aprimorada de executar seu código Apex assíncrono em comparação com o uso de métodos futuros.
+    ```java
+        public class AsyncExecutionExample implements Queueable {
+            public void execute(QueueableContext context) {
+                Account a = new Account(Name='Acme',Phone='(415) 555-1212');
+                insert a;        
+            }
+        }
+    ```
+    [QueueableInterface](../force-app/main/default/classes/QueueableInterface.cls)
+
+- ### `Scheduled`:
+    O apex [Scheduled](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_scheduler.htm) é um "agendador", um Apex utilizado para permitir uma execução em um horário específico. Ideal para tarefas de manutenções diárias ou semanais utilizando o Batch Apex.
+    Para habilitar o agendamento, basta usar o implements com a interface **Schedulable**.
+    ```java
+        global class ScheduledMerge implements Schedulable {
+            global void execute(SchedulableContext SC) {
+                MergeNumbers M = new MergeNumbers(); 
+            }
+        }
+    ```
+    Em seguida fazer o agendamento a partir da UI ou usando o script usando o **[CronTriggerExpression](https://crontab.cronhub.io/)**:
+    ```java
+        ScheduledMerge m = new ScheduledMerge();
+        String sch = '20 30 8 10 2 ?';
+        String jobID = System.schedule('Merge Job', sch, m);    
+    ```
+- ### `Batch`:
+    As batches ou lotes, servem para os casos em que precisamos tratar uma grande quantidade de registros. O uso de [Batch ](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_batch_interface.htm) resolve os problemas que temos na execução comum, por exemplo, limites de queries ou o limite de 200 mil registros que é o limite da SOQL, usamos as batches para processar esses registros em forma de lotes.
+    ```java
+        public (Database.QueryLocator | Iterable<sObject>) start(Database.BatchableContext bc) {}
+    ```
+    Algo muito interessante das batches é que cada **lote roda isoladamente**, ou seja,  em uma execução de 30 lotes com 200 registros (**podendo ir até 2mil**), caso haja uma falha, aquele lote de 200 é dado rollback em todo o lote e continua os seguintes.
+    ```java
+        public class SearchAndReplace implements Database.Batchable<sObject>{
+
+            public final String Query;
+            public final String Entity;
+            public final String Field;
+            public final String Value;
+
+            public SearchAndReplace(String q, String e, String f, String v){
+
+                Query=q; Entity=e; Field=f;Value=v;
+            }
+
+            public Database.QueryLocator start(Database.BatchableContext bc){
+                return Database.getQueryLocator(query);
+            }
+
+            public void execute(Database.BatchableContext bc, List<sObject> scope){
+                for(sobject s : scope){
+                s.put(Field,Value); 
+                }
+                update scope;
+                }
+
+            public void finish(Database.BatchableContext bc){
+            }
+        }
+    ```
+    Após o método criado é necessário rodar o seguinte script para execução da batch:
+    ```java
+        ID batchprocessid = Database.executeBatch(reassign);
+
+        AsyncApexJob aaj = [SELECT Id, Status, JobItemsProcessed, TotalJobItems, NumberOfErrors 
+                        FROM AsyncApexJob WHERE ID =: batchprocessid ];
+    ```
