@@ -514,3 +514,44 @@
         String sch = '20 30 8 10 2 ?';
         String jobID = System.schedule('Merge Job', sch, m);    
     ```
+- ### `Batch`:
+    As batches ou lotes, servem para os casos em que precisamos tratar uma grande quantidade de registros. O uso de [Batch ](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_batch_interface.htm) resolve os problemas que temos na execução comum, por exemplo, limites de queries ou o limite de 200 mil registros que é o limite da SOQL, usamos as batches para processar esses registros em forma de lotes.
+    ```java
+        public (Database.QueryLocator | Iterable<sObject>) start(Database.BatchableContext bc) {}
+    ```
+    Algo muito interessante das batches é que cada **lote roda isoladamente**, ou seja,  em uma execução de 30 lotes com 200 registros (**podendo ir até 2mil**), caso haja uma falha, aquele lote de 200 é dado rollback em todo o lote e continua os seguintes.
+    ```java
+        public class SearchAndReplace implements Database.Batchable<sObject>{
+
+            public final String Query;
+            public final String Entity;
+            public final String Field;
+            public final String Value;
+
+            public SearchAndReplace(String q, String e, String f, String v){
+
+                Query=q; Entity=e; Field=f;Value=v;
+            }
+
+            public Database.QueryLocator start(Database.BatchableContext bc){
+                return Database.getQueryLocator(query);
+            }
+
+            public void execute(Database.BatchableContext bc, List<sObject> scope){
+                for(sobject s : scope){
+                s.put(Field,Value); 
+                }
+                update scope;
+                }
+
+            public void finish(Database.BatchableContext bc){
+            }
+        }
+    ```
+    Após o método criado é necessário rodar o seguinte script para execução da batch:
+    ```java
+        ID batchprocessid = Database.executeBatch(reassign);
+
+        AsyncApexJob aaj = [SELECT Id, Status, JobItemsProcessed, TotalJobItems, NumberOfErrors 
+                        FROM AsyncApexJob WHERE ID =: batchprocessid ];
+    ```
