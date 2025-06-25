@@ -497,3 +497,20 @@
         }
     ```
     [QueueableInterface](../force-app/main/default/classes/QueueableInterface.cls)
+
+- ### `Scheduled`:
+    O apex [Scheduled](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_scheduler.htm) é um "agendador", um Apex utilizado para permitir uma execução em um horário específico. Ideal para tarefas de manutenções diárias ou semanais utilizando o Batch Apex.
+    Para habilitar o agendamento, basta usar o implements com a interface **Schedulable**.
+    ```java
+        global class ScheduledMerge implements Schedulable {
+            global void execute(SchedulableContext SC) {
+                MergeNumbers M = new MergeNumbers(); 
+            }
+        }
+    ```
+    Em seguida fazer o agendamento a partir da UI ou usando o script usando o **[CronTriggerExpression](https://crontab.cronhub.io/)**:
+    ```java
+        ScheduledMerge m = new ScheduledMerge();
+        String sch = '20 30 8 10 2 ?';
+        String jobID = System.schedule('Merge Job', sch, m);    
+    ```
