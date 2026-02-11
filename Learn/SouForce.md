@@ -1,7 +1,7 @@
 # SouForce - Developer
 
 ## Capítulo 00 - Ordem de execução do Salesforce
-  ![Ordem de execução](https://ryanwingate.com/salesforce/other-projects-investigations/order-of-execution-graphic-from-salesforceben/order-of-execution-from-salesforceben.png)
+  ![Ordem de execução](https://miro.medium.com/1*ShDBi2P1PlCezhNPlGviLg.png)
 
   1. Pre-Validation:
     *Pre-validation (Before): Eventos como Before Insert, Before Update, Before Delete, são executados antes que o registro seja efetivamente alterado na base de dados. Isso permite a implementação de lógica de negócio que pode impedir uma operação antes que ela seja realizada. 
